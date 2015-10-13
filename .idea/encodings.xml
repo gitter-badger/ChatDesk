@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/Appareil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/Contact.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/Conversation.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/ConversationDTO.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/FacadeModele.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/GestionnaireAppareils.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/GestionnaireContacts.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/GestionnaireConversation.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/Message.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/Utilisateur.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/Balises.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/BalisesCommClient.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/BalisesCommServeur.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/CommandesClient.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/CommandesServeur.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/ConvertissableXml.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/EnveloppeContact.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/EnveloppeMessage.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireBalisesCommServeur.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireConnexion.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireSocket.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/ResultatsConnexion.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/XMLReader.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/XMLReaderServeur.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/XMLWriter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/Encryptage.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/EncryptageType.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/Formatage.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/ManipulationFichiers.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/Observable.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/Observateur.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/Bulle.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FenetreConnexion.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmChatDesk.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlBulles.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversation.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversations.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/ScrollPanel.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tests" charset="UTF-8" />
+  </component>
+</project>

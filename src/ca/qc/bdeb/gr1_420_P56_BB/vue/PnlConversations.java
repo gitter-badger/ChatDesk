@@ -1,0 +1,200 @@
+package ca.qc.bdeb.gr1_420_P56_BB.vue;
+
+
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ConversationDTO;
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+/**
+ * Panneau qui affiche toutes les conversations que l'utilisateur à. Le dernier message recu/envoyé
+ * pour chaque conversation et la date de reception/envoie du dernier message pour chaque conversation
+ */
+class PnlConversations extends JPanel {
+
+    private static final int LONGUEUR_SELON_FENETRE_PRINCIPALE = 7;
+    private static final double POURCENTAGE_LONGUEUR_LBL_NOM = 0.6;
+    private static final double POURCENTAGE_HAUTEUR_LBL_NOM = 0.2;
+    private static final double POURCENTAGE_LONGUEUR_LBL_DERNIER_MSG = 0.6;
+    private static final double POURCENTAGE_HAUTEUR_LBL_DERNIER_MSG = 0.15;
+    private static final double POURCENTAGE_LONGUEUR_LBL_DATE = 0.2;
+    private static final double POURCENTAGE_HAUTEUR_LBL_DATE = 0.13;
+    private static final double POURCENTAGE_COUTOUR_VIDE = 0.15;
+
+    private static final int CLICK_COUNT = 1;
+
+    private final FrmChatDesk fenetrePrincipale;
+
+    private FacadeModele facadeModele;
+
+    private int grandeurPnlConversationX;
+
+    private int grandeurPnlConversationY;
+
+    private Dimension dimLblNom;
+
+    private Dimension dimLblDernierMessage;
+
+    private Dimension dimLblDate;
+
+    private int borderVideSize;
+
+    private int conversationCount;
+
+    /**
+     * Constructeur qui crée et initialise le panneau des conversations
+     *
+     * @param fenetrePrincipale La fenetre principale
+     * @param facadeModele      Le gestionnaire de conversation
+     */
+    public PnlConversations(FrmChatDesk fenetrePrincipale, FacadeModele facadeModele) {
+        this.facadeModele = facadeModele;
+        this.fenetrePrincipale = fenetrePrincipale;
+        this.setDoubleBuffered(true);
+    }
+
+    /**
+     * Initialise le panneau
+     */
+    public void initialiserPanel() {
+        this.setLayout(null);
+        initialiserGrandeursComposants();
+        mettreAJour();
+    }
+
+    /**
+     * Initialise les grandeurs des composants selon la grandeur de la fenêtre du programme
+     */
+    private void initialiserGrandeursComposants() {
+        grandeurPnlConversationX = this.getWidth();
+        grandeurPnlConversationY = fenetrePrincipale.getHeight() / LONGUEUR_SELON_FENETRE_PRINCIPALE;
+
+        dimLblNom = new Dimension((int)(grandeurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_NOM),
+                (int)(grandeurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_NOM));
+
+        dimLblDernierMessage = new Dimension((int)(grandeurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DERNIER_MSG),
+                (int)(grandeurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DERNIER_MSG));
+
+
+        dimLblDate = new Dimension((int)(grandeurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DATE),
+                (int)(grandeurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DATE));
+
+        borderVideSize = (int)(grandeurPnlConversationY * POURCENTAGE_COUTOUR_VIDE);
+    }
+
+    /**
+     * Ajoute une conversation au panneau
+     *
+     * @param conversationDTO La conversation à ajouter
+     */
+    private void ajouterConversation(ConversationDTO conversationDTO) {
+        JPanel pnlConversation = new JPanel();
+        initialiserPanneauConversation(pnlConversation, conversationDTO);
+        initialiserPanneauConversationNom(pnlConversation, conversationDTO);
+        initialiserPanneauConversationDernierMessage(pnlConversation, conversationDTO);
+        initialiserPanneauConversationDate(pnlConversation, conversationDTO);
+
+        this.add(pnlConversation);
+    }
+
+    /**
+     * Initialise le panneau d'une conversation
+     *
+     * @param pnlConversation Le panneau à initialiser
+     * @param conversationDTO Une conversation
+     */
+    private void initialiserPanneauConversation(JPanel pnlConversation, ConversationDTO conversationDTO) {
+        pnlConversation.setLayout(null);
+        pnlConversation.setLocation(0, grandeurPnlConversationY * conversationCount);
+        pnlConversation.setSize(grandeurPnlConversationX, grandeurPnlConversationY);
+        pnlConversation.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                if (mouseEvent.getClickCount() == CLICK_COUNT) {
+                    fenetrePrincipale.ouvrirConversation(conversationDTO);
+                }
+            }
+        });
+    }
+
+    /**
+     * Initialise le nom de la personne avec qui la conversation a lieu
+     *
+     * @param pnlConversation Le panneau d'une conversation
+     * @param conversationDTO Une conversation
+     */
+    private void initialiserPanneauConversationNom(JPanel pnlConversation, ConversationDTO conversationDTO) {
+        JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getNumeroTelephone()).getNom());
+        nom.setFont(new Font(nom.getFont().getFontName(), Font.BOLD, (int) dimLblNom.getHeight()));
+        nom.setSize(dimLblNom);
+        nom.setLocation(borderVideSize, (int)(pnlConversation.getHeight() / 2 - (dimLblNom.getHeight() +
+                dimLblDernierMessage.getHeight()) / 2));
+        pnlConversation.add(nom);
+    }
+
+    /**
+     * Initialise le dernier message recu ou envoyé de la conversation
+     *
+     * @param pnlConversation Le panneau d'une conversation
+     * @param conversationDTO Une conversation
+     */
+    private void initialiserPanneauConversationDernierMessage(JPanel pnlConversation, ConversationDTO conversationDTO) {
+        String texteDernierMessage = "";
+        if (conversationDTO.getLastMessage() != null) {
+            if (conversationDTO.getLastMessage().isEnvoyer()) {
+                /*Affiché dans le cas où le dernier message est envoyé par l'utilisateur*/
+                String ENVOYEUR = "Vous : ";
+                texteDernierMessage = ENVOYEUR + conversationDTO.getLastMessage().getText();
+            } else {
+                texteDernierMessage = conversationDTO.getLastMessage().getText();
+            }
+        }
+
+        JLabel dernierMessage = new JLabel(texteDernierMessage);
+        dernierMessage.setFont(new Font(dernierMessage.getFont().getFontName(), Font.PLAIN,
+                (int) dimLblDernierMessage.getHeight()));
+        dernierMessage.setSize(dimLblDernierMessage);
+        dernierMessage.setLocation(borderVideSize, (int) (pnlConversation.getHeight() / 2 -
+                (dimLblNom.getHeight() + dimLblDernierMessage.getHeight()) / 2 + dimLblNom.getHeight()));
+        pnlConversation.add(dernierMessage);
+    }
+
+    /**
+     * Initialiser la date du dernier message recu/envoyé
+     *
+     * @param pnlConversation Le panneau d'une conversation
+     * @param conversationDTO Une conversation
+     */
+    private void initialiserPanneauConversationDate(JPanel pnlConversation, ConversationDTO conversationDTO) {
+        JLabel dateMsg = new JLabel(Formatage.formatageDate(conversationDTO.getLastMessage().getDate()));
+        dateMsg.setFont(new Font(dateMsg.getFont().getFontName(), Font.PLAIN, (int) dimLblDate.getHeight()));
+        dateMsg.setSize(dimLblDate);
+        dateMsg.setLocation(pnlConversation.getWidth() - dateMsg.getWidth() - borderVideSize,
+                pnlConversation.getHeight() / 2 - dateMsg.getHeight() / 2);
+        pnlConversation.add(dateMsg);
+    }
+
+    /**
+     * Mettre à jour les conversations
+     */
+    public void mettreAJour() {
+        this.removeAll();
+        conversationCount = 0;
+        for (ConversationDTO conversationDTO : facadeModele.getConversations()) {
+            ajouterConversation(conversationDTO);
+            conversationCount++;
+        }
+
+        this.setPreferredSize(new Dimension(this.getWidth(), grandeurPnlConversationY * conversationCount));
+        this.repaint();
+    }
+
+
+    public FacadeModele getFacadeModele() {
+        return facadeModele;
+    }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serveur>
+    <requete>login</requete>
+    <nom_utilisateur>Alexandre</nom_utilisateur>
+    <mot_de_passe>1234</mot_de_passe>
+</serveur>
