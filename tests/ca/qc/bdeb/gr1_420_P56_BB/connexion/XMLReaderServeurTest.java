@@ -1,8 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.*;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.BalisesCommServeur;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.XMLReaderServeur;
 import junit.framework.TestCase;
 
 import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireFichierDepuisChemin;
@@ -17,11 +14,11 @@ public class XMLReaderServeurTest extends TestCase {
     private final String PATH_FICHIER_TEST_COMMANDE_MESSAGES = "resources\\fichiersTest\\testCommandeXmlServeurCommandeMessages.xml";
 
     public void testLireContenu() throws Exception {
-        GestionnaireBalisesCommServeur gestUser = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, "Alexandre");
-        GestionnaireBalisesCommServeur gestPass = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, "1234");
+        EnveloppeBalisesCommServeur gestUser = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, "Alexandre");
+        EnveloppeBalisesCommServeur gestPass = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, "1234");
 
         xmlReaderServeur = new XMLReaderServeur(lireFichierDepuisChemin(PATH_FICHIER_TEST_PREMIERE_CONNEXION));
-        GestionnaireBalisesCommServeur[] tabGest = xmlReaderServeur.lireContenu();
+        EnveloppeBalisesCommServeur[] tabGest = xmlReaderServeur.lireContenu();
 
         assertTrue(tabGest.length == 3);
         assertEquals(gestUser, tabGest[1]);

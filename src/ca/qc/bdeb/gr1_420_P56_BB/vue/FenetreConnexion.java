@@ -37,6 +37,8 @@ public class FenetreConnexion extends JFrame {
     public static final int HAUTEUR_STRING = 45;
     public static final double RATIO_LONGEUR_CHAINE = 0.1;
     public static final double RATIO_MOITIE_ECRAN = 0.5;
+    public static final double RATIO_HAUTEUR_LAYOUT_BOUTON = 0.01;
+    public static final int COL_LAYOUT_GRID = 2;
     private Utilisateur utilisateur;
     private FacadeModele facadeModele;
 
@@ -98,7 +100,7 @@ public class FenetreConnexion extends JFrame {
     private void initialiserBoutons() {
         pnlBoutonsActions = new JPanel();
         pnlBoutonsActions.setSize(this.getWidth(), (int) (this.getHeight() * RATIO_80_ECRAN));
-        pnlBoutonsActions.setLayout(new GridLayout(0, 2, (int) (this.getHeight() * 0.01), (int) (this.getHeight() * RATIO_MOITIE_ECRAN)));
+        pnlBoutonsActions.setLayout(new GridLayout(0, COL_LAYOUT_GRID, (int) (this.getHeight() * RATIO_HAUTEUR_LAYOUT_BOUTON), (int) (this.getHeight() * RATIO_MOITIE_ECRAN)));
         btnConnexion = new JButton(TEXTE_BOUTON_CONNEXION);
         btnInscription = new JButton(TEXT_BOUTON_INSCRIPTION);
         btnInscription.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT), HAUTEUR_BOUTON));

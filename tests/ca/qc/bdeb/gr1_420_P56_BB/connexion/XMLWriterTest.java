@@ -1,17 +1,10 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.*;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.CommandesClient;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeContact;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeMessage;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.XMLWriter;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
 import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.Date;
 
-import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage.encrypter;
 import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireFichierDepuisChemin;
 
 /**
@@ -55,13 +48,13 @@ public class XMLWriterTest extends TestCase {
 
     @Test
     public void testConstruireXMLServerLogin(){
-        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurNom
-                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, "BeautifulUsername");
-        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurPass
-                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, "StrongPassword");
+        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurNom
+                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, "BeautifulUsername");
+        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurPass
+                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, "StrongPassword");
 
-        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, gestionnaireBalisesCommServeurNom,
-                gestionnaireBalisesCommServeurPass);
+        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, enveloppeBalisesCommServeurNom,
+                enveloppeBalisesCommServeurPass);
 
         String resultatAtt = lireFichierDepuisChemin(PATH_FICHIER_TEST_LOGIN_SERVEUR);
         assertEquals(resultatAtt, comm);

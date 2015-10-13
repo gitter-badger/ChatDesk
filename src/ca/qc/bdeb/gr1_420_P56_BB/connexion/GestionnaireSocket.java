@@ -153,15 +153,15 @@ class GestionnaireSocket implements Runnable {
         XMLWriter xmlWriter = new XMLWriter();
         boolean connecte = false;
 
-        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurNom
-                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, user);
-        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurPass
-                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, pass);
-        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurIsTelephone
-                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_IS_TELEPHONE, Boolean.toString(IS_TELEPHONE));
+        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurNom
+                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, user);
+        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurPass
+                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, pass);
+        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurIsTelephone
+                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_IS_TELEPHONE, Boolean.toString(IS_TELEPHONE));
 
-        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, gestionnaireBalisesCommServeurNom,
-                gestionnaireBalisesCommServeurPass, gestionnaireBalisesCommServeurIsTelephone);
+        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, enveloppeBalisesCommServeurNom,
+                enveloppeBalisesCommServeurPass, enveloppeBalisesCommServeurIsTelephone);
         envoyerMessage(encrypter(comm, EncryptageType.ENCRYPTAGE_SERVER));
 
         try {
@@ -198,7 +198,7 @@ class GestionnaireSocket implements Runnable {
                 inputLine = in.readLine();
                 contenu += inputLine;
             }
-        } catch (SocketException e) {
+        } catch (SocketException e ) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

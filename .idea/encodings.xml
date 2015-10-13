@@ -17,9 +17,9 @@
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/CommandesClient.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/CommandesServeur.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/ConvertissableXml.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/EnveloppeBalisesCommServeur.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/EnveloppeContact.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/EnveloppeMessage.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireBalisesCommServeur.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireConnexion.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireSocket.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/ResultatsConnexion.java" charset="UTF-8" />

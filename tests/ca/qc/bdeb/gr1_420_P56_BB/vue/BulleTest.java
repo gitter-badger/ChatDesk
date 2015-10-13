@@ -28,10 +28,6 @@ public class BulleTest {
 
     }
 
-    @After
-    public void tearDown() throws Exception {
-
-    }
 
     @Test
     public void testCalculerDimensionBulle() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {

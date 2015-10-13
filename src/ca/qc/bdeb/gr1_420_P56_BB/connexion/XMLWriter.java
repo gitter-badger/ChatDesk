@@ -74,10 +74,10 @@ class XMLWriter {
      * @param tabContacts Le tableau de contacts à convertir en XML
      */
     private void construireEnveloppesContacts(Element rootElement, EnveloppeContact[] tabContacts) {
-        for (int i = 0; i < tabContacts.length; i++) {
+        for (EnveloppeContact tabContact : tabContacts) {
             Element contact = creerElement(BalisesCommClient.BALISE_CONTACTS);
-            Element nom = creerElement(BalisesCommClient.BALISE_NOM, tabContacts[i].getNom());
-            Element numero = creerElement(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabContacts[i].getNumeroTelephone()));
+            Element nom = creerElement(BalisesCommClient.BALISE_NOM, tabContact.getNom());
+            Element numero = creerElement(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabContact.getNumeroTelephone()));
 
             contact.appendChild(nom);
             contact.appendChild(numero);
@@ -91,11 +91,11 @@ class XMLWriter {
      * @param tabEnveloppes Le tableau de messages à convertir en XML
      */
     private void construireEnveloppesMessages(Element rootElement, EnveloppeMessage[] tabEnveloppes) {
-        for (int i = 0; i < tabEnveloppes.length; i++) {
+        for (EnveloppeMessage tabEnveloppe : tabEnveloppes) {
             Element enveloppe = creerElement(BalisesCommClient.BALISE_ENVELOPPES);
-            Element numero = creerElement(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabEnveloppes[i].getNumeroTelephone()));
-            Element message = creerElement(BalisesCommClient.BALISE_MESSAGE, tabEnveloppes[i].getMessage());
-            Element date = creerElement(BalisesCommClient.BALISE_DATE, Long.toString(tabEnveloppes[i].getDate().getTime()));
+            Element numero = creerElement(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabEnveloppe.getNumeroTelephone()));
+            Element message = creerElement(BalisesCommClient.BALISE_MESSAGE, tabEnveloppe.getMessage());
+            Element date = creerElement(BalisesCommClient.BALISE_DATE, Long.toString(tabEnveloppe.getDate().getTime()));
 
             enveloppe.appendChild(numero);
             enveloppe.appendChild(message);
@@ -110,13 +110,13 @@ class XMLWriter {
      * @param gestionnairesBalisesServeur tableau de gestionnairesBalisesServeur qui contiennent une balise et son contenu
      * @return Le xml en format String
      */
-    public String construireXmlServeur(CommandesServeur commandesServeur, GestionnaireBalisesCommServeur... gestionnairesBalisesServeur) {
+    public String construireXmlServeur(CommandesServeur commandesServeur, EnveloppeBalisesCommServeur... gestionnairesBalisesServeur) {
         Element rootElement = construireDoc(BalisesCommServeur.BALISE_SERVEUR);
 
         Element elementCommande = creerElement(BalisesCommServeur.BALISE_REQUETE, commandesServeur.getRequete());
         rootElement.appendChild(elementCommande);
 
-        for (GestionnaireBalisesCommServeur gestionnaireBalisesServeur : gestionnairesBalisesServeur) {
+        for (EnveloppeBalisesCommServeur gestionnaireBalisesServeur : gestionnairesBalisesServeur) {
             Element element = creerElement(gestionnaireBalisesServeur.getBalises(), gestionnaireBalisesServeur.getContenu());
             rootElement.appendChild(element);
         }

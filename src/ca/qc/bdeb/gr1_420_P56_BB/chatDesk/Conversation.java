@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Une conversation basée sur un contact du téléphone ou un numéro de téléphone
  * Contient plusieurs message envoyer ou recu
  */
-public class Conversation {
+class Conversation {
 
     /**
      * Liste des messages d'une conversation

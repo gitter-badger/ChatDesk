@@ -37,12 +37,12 @@ class XMLReaderServeur {
     }
 
     /**
-     * Lis le contenu et le retourne dans un tableau de GestionnaireBalisesCommServeur
+     * Lis le contenu et le retourne dans un tableau de EnveloppeBalisesCommServeur
      *
      * @return Un tableau de toutes les balises et leurs contenus
      */
-    GestionnaireBalisesCommServeur[] lireContenu() {
-        ArrayList<GestionnaireBalisesCommServeur> listeGest = new ArrayList<>();
+    EnveloppeBalisesCommServeur[] lireContenu() {
+        ArrayList<EnveloppeBalisesCommServeur> listeGest = new ArrayList<>();
 
         NodeList nList = getNodesParBalise(BalisesCommServeur.BALISE_SERVEUR);
         nList = nList.item(0).getChildNodes();
@@ -53,12 +53,12 @@ class XMLReaderServeur {
                 String nodeName = node.getNodeName();
                 BalisesCommServeur balisesServeur = BalisesCommServeur.getBaliseParString(nodeName);
                 String contenu = node.getTextContent();
-                GestionnaireBalisesCommServeur gestionnaireBalisesCommServeur = new GestionnaireBalisesCommServeur(balisesServeur, contenu);
-                listeGest.add(gestionnaireBalisesCommServeur);
+                EnveloppeBalisesCommServeur enveloppeBalisesCommServeur = new EnveloppeBalisesCommServeur(balisesServeur, contenu);
+                listeGest.add(enveloppeBalisesCommServeur);
             }
         }
 
-        return listeGest.toArray(new GestionnaireBalisesCommServeur[listeGest.size()]);
+        return listeGest.toArray(new EnveloppeBalisesCommServeur[listeGest.size()]);
     }
 
     /**

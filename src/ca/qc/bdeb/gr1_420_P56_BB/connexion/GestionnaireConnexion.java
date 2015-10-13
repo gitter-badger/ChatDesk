@@ -30,11 +30,11 @@ public class GestionnaireConnexion {
     /**
      * Gère la réception d'une communication du serveur en l'envoyant à la bonne méthode dépendamment de la commande
      *
-     * @param messageRecu
+     * @param messageRecu le message reçu du serveur en version xml encrypter selon la méthode du serveur
      */
     synchronized void reception(String messageRecu) {
-        String messageServeurDecrypter = decrypter(messageRecu, EncryptageType.ENCRYPTAGE_SERVER);
-        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageServeurDecrypter);
+        String messageServeurDecrypte = decrypter(messageRecu, EncryptageType.ENCRYPTAGE_SERVER);
+        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageServeurDecrypte);
 
         switch (xmlReaderServeur.lireCommande()) {
             case REQUETE_NOUVEAU_COMPTE:
@@ -44,11 +44,11 @@ public class GestionnaireConnexion {
                 //Pas encore implémenté
                 break;
             case REQUETE_LIENS:
-                GestionnaireBalisesCommServeur[] tabAppareils = xmlReaderServeur.lireContenu();
+                EnveloppeBalisesCommServeur[] tabAppareils = xmlReaderServeur.lireContenu();
                 lireAppareils(tabAppareils);
                 break;
             case REQUETE_MESSAGES:
-                GestionnaireBalisesCommServeur[] tabMessages = xmlReaderServeur.lireContenu();
+                EnveloppeBalisesCommServeur[] tabMessages = xmlReaderServeur.lireContenu();
                 for (int i = 1; i < tabMessages.length; i++) {
                     lireFichierXmlClient(tabMessages[i].getContenu());
                 }
@@ -61,15 +61,14 @@ public class GestionnaireConnexion {
      *
      * @param tabCommAppareils
      */
-    private void lireAppareils(GestionnaireBalisesCommServeur[] tabCommAppareils) {
+    private void lireAppareils(EnveloppeBalisesCommServeur[] tabCommAppareils) {
         //Soustrait 1 au length parce qu'une ligne est occupée par la balise de commande
         Appareil[] tabAppareils = new Appareil[(tabCommAppareils.length - 1) / NOMBRE_CHAMPS_APPAREIL];
 
-        int i = 1, j = 0;
-        while (i < tabCommAppareils.length) {
+
+        for (int i = 1, j = 0; i < tabCommAppareils.length; i += NOMBRE_CHAMPS_APPAREIL, j++) {
             tabAppareils[j] = lireAppareil(tabCommAppareils[i], tabCommAppareils[i + 1]);
-            i += NOMBRE_CHAMPS_APPAREIL;
-            j++;
+
         }
 
         facadeModele.setAppareils(tabAppareils);
@@ -84,13 +83,13 @@ public class GestionnaireConnexion {
     }
 
     /**
-     * Lis un appareil depuis plusieurs GestionnaireBalisesCommServeur
+     * Lis un appareil depuis plusieurs EnveloppeBalisesCommServeur
      *
-     * @param champId Le champ contenant l'id
+     * @param champId  Le champ contenant l'id
      * @param champNom Le champ contenant le nom
      * @return Un nouvel appareil doté des champs passés en paramètre
      */
-    private Appareil lireAppareil(GestionnaireBalisesCommServeur champId, GestionnaireBalisesCommServeur champNom) {
+    private Appareil lireAppareil(EnveloppeBalisesCommServeur champId, EnveloppeBalisesCommServeur champNom) {
         int id = Integer.parseInt(champId.getContenu());
         String nom = champNom.getContenu();
         return new Appareil(nom, id);
@@ -98,12 +97,13 @@ public class GestionnaireConnexion {
 
     /**
      * Envoi au serveur une demande de connexion avec un autre client, appelé un lien
+     *
      * @param idAppareil L'id de l'appareil auquel se connecter
      */
     public void initierLien(int idAppareil) {
         XMLWriter xmlWriter = new XMLWriter();
         String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIEN,
-                new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_ID_APPAREIL, Integer.toString(idAppareil)));
+                new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_ID_APPAREIL, Integer.toString(idAppareil)));
         this.gestionnaireSocket.envoyerMessage(encrypter(comm, EncryptageType.ENCRYPTAGE_SERVER));
     }
 
@@ -118,6 +118,7 @@ public class GestionnaireConnexion {
 
     /**
      * Gère la lecture de la connexion addressée au client
+     *
      * @param communication Le xml de la connextion addressée au xlient
      */
     private void lireFichierXmlClient(String communication) {
@@ -137,22 +138,22 @@ public class GestionnaireConnexion {
 
     /**
      * Envoie une enveloppe au serveur
+     *
      * @param enveloppe Une classe implémentant l'interface convertissableXml
      */
     public void envoyerEnveloppe(ConvertissableXml enveloppe) {
         String xmlClientMessage = encrypter(enveloppe.convertirEnXml(), EncryptageType.ENCRYPTAGE_MESSAGE);
         String xmlServer = encrypter(new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_MESSAGES,
-                        new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_MESSAGE, xmlClientMessage)),
+                        new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MESSAGE, xmlClientMessage)),
                 EncryptageType.ENCRYPTAGE_SERVER);
 
         gestionnaireSocket.envoyerMessage(xmlServer);
-
-        XMLReader xmlReader = new XMLReader(enveloppe.convertirEnXml());
     }
 
     /**
      * Envoi une demande de connexion au serveur
-     * @param nom Le nom d'utilisateur
+     *
+     * @param nom  Le nom d'utilisateur
      * @param pass Le mot de passe
      * @return Une des valeurs de l'énum ResultatsConnexion : Valide, Invalide ou Impossible
      */

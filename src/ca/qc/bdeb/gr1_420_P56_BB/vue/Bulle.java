@@ -9,7 +9,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 
 /**
- * Une bulle d'un message reçu ou envoyé.
+ * Une bulle d'un message reï¿½u ou envoyï¿½.
  */
 public class Bulle {
 
@@ -24,7 +24,7 @@ public class Bulle {
     private static final int GRANDEUR_BORDURE_VIDE = 8;
 
     /**
-     * La bulle dessiné
+     * La bulle dessinï¿½
      */
     private BufferedImage bulle;
 
@@ -90,7 +90,7 @@ public class Bulle {
     /**
      * Dessine la bulle
      *
-     * @param envoyee Si le message est envoyé ou reçu
+     * @param envoyee Si le message est envoyï¿½ ou reï¿½u
      */
     private void paintBulle(boolean envoyee) {
         Graphics2D g = bulle.createGraphics();
@@ -106,12 +106,12 @@ public class Bulle {
     }
 
     /**
-     * Definit le contour de la bulle selon si elle est envoyé ou reçu
+     * Definit le contour de la bulle selon si elle est envoyï¿½ ou reï¿½u
      *
      * @param g       le graphics de la bulle
      * @param width   la largeur de la bulle
      * @param height  la hauteur de la bulle
-     * @param envoyee si le message de la bulle est envoyé
+     * @param envoyee si le message de la bulle est envoyï¿½
      * @return Le general path de la bulle (contour)
      */
     private GeneralPath definirContourBulleEnvoye(Graphics2D g, int width, int height, boolean envoyee) {
@@ -126,12 +126,12 @@ public class Bulle {
     }
 
     /**
-     * Définit le contour de la bulle lorsqu'une bulle est reçu
+     * Dï¿½finit le contour de la bulle lorsqu'une bulle est reï¿½u
      *
      * @param g      le graphics de la bulle
      * @param width  la largeur de la bulle
      * @param height la hauteur de la bulle
-     * @from http://stackoverflow.com/questions/25821238/draw-beautiful-speech-bubbles-in-swing (Pris tel quel)
+     * @see http://stackoverflow.com/questions/25821238/draw-beautiful-speech-bubbles-in-swing (Pris tel quel)
      */
     private void definirContourBulleRecu(Graphics2D g, int width, int height, GeneralPath path) {
         g.setPaint(COULEUR_BULLE_RECU);
@@ -152,12 +152,12 @@ public class Bulle {
     }
 
     /**
-     * Définit le contour de la bulle lorsqu'une bulle est envoyé
+     * Dï¿½finit le contour de la bulle lorsqu'une bulle est envoyï¿½
      *
      * @param g      le graphics de la bulle
      * @param width  la largeur de la bulle
      * @param height la hauteur de la bulle
-     * @from http://stackoverflow.com/questions/25821238/draw-beautiful-speech-bubbles-in-swing (modifié)
+     * @from http://stackoverflow.com/questions/25821238/draw-beautiful-speech-bubbles-in-swing (modifiï¿½)
      */
     private void definirContourBulleEnvoye(Graphics2D g, int width, int height, GeneralPath path) {
         g.setPaint(COULEUR_BULLE_ENVOYE);
