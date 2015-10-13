@@ -10,36 +10,57 @@ import java.awt.*;
  * La fen�tre de connexion pour se connecter.
  */
 public class FenetreConnexion extends JFrame {
+    /**
+     * Message lorsque les informations entrées sont invalides
+     */
     private static final String MESSAGE_CONNECTION_INVALIDE = "Informations invalides";
+    // Message lorsque le serveur est indisponible
     private static final String MESSAGE_CONNECTION_IMPOSSIBLE = "Connection au serveur impossible";
+    //Chemin
     private static final String CHEMIN_ICONE = "resources\\images\\Mobile-Smartphone-icon.png";
+    //Texte sur le bouton connexion
     private static final String TEXTE_BOUTON_CONNEXION = "CONNEXION";
+    //Texte sur le bouton de l'inscription
     private static final String TEXT_BOUTON_INSCRIPTION = "INSCRIPTION";
+    // Texte sur le champ usager
     private static final String TEXT_CHAMP_USAGER = "NOM USAGER";
+    // Texte du champ mot de passe
     private static final String TEXT_CHAMP_MOTDEPASSE = "MOT DE PASSE";
+    // Dimensions de l'icone au sommet de la fenêtre
     private static final Dimension DIMENSION_ICON = new Dimension(100, 100);
-    private static final Color COULEUR_TEXTE = new Color(108, 149, 234);
-
+    //Nom de la police que le text utlise sur toute la fenêtre
     private static final String NOM_POLICE = "raleway";
+    //Grandeur du font du texte sur toute la fenêtre
     private static final int GRANDEUR_TEXTE = 16;
+    //Ratio représentant 80 % de l'écran
     private static final double RATIO_80_ECRAN = 0.8;
-
+    //Paramèmetre du font sur toute la fenêtre (pour les deux variables ci-dessous)
     private static final Font FONT_TEXTE_TRUE_TYPE = new Font(NOM_POLICE, Font.TRUETYPE_FONT, GRANDEUR_TEXTE);
     private static final Font FONT_TEXTE_PLAIN = new Font(NOM_POLICE, Font.PLAIN, GRANDEUR_TEXTE);
 
-    private static final double POURCENTAGE_ECRAN_LOCATION_FENETRE = 0.25;
+    //Pourcentage de l'écran que la fenêtre prend
     private static final double POURCENTAGE_ECRAN_GRANDEUR_FENETRE = 0.4;
-
+    //Pourcentage de la fenêtre que certains composants occupe
     private static final double POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT = 0.4;
+    //Hauteur de chaque bouton
     private static final int HAUTEUR_BOUTON = 40;
+    //Hauteur du champ de texte que l'utilisateur remplis
     private static final int HAUTEUR_CHAMP = 20;
+    // Chiffre utiliser pour désigner la moitié de l'écran dans certains calculs
     private static final int MOITIE_ECRAN = 2;
+    //Hauteur du Texte à côter des champs
     public static final int HAUTEUR_STRING = 45;
+    //Longueur de la chaine
     public static final double RATIO_LONGEUR_CHAINE = 0.1;
+    //Autre façon de représenter la moitié de l'écran dans certains calculs
     public static final double RATIO_MOITIE_ECRAN = 0.5;
+    //Ratio d'hauteur de certain bouton sur l'écran
     public static final double RATIO_HAUTEUR_LAYOUT_BOUTON = 0.01;
+    //Nombre de colones dans le grid layout de la fenêtre
     public static final int COL_LAYOUT_GRID = 2;
+    //Utilsateur pour que les champs puissent être remplis à l'avance
     private Utilisateur utilisateur;
+    //Pour établir la connexion avec le serveur
     private FacadeModele facadeModele;
 
     private JButton btnConnexion;
@@ -51,6 +72,11 @@ public class FenetreConnexion extends JFrame {
     private JLabel lblIcone;
     private ImageIcon iconeImage;
 
+    /**
+     * Contructeur... Je sais pas quoi dire de plus
+     * @param utilisateur l'utilisateur si on veut remplir les champs à l'avance(cette méthode doit encore être
+     *                    implémenté)
+     */
     public FenetreConnexion(Utilisateur utilisateur) {
         this.facadeModele = new FacadeModele();
         initialiserIcone();
@@ -62,18 +88,27 @@ public class FenetreConnexion extends JFrame {
         parametrerFenetre();
     }
 
+    /**
+     * Paramétrage de la fenêtre au complet
+     */
     private void parametrerFenetre() {
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Ajout des multiples éléments après leur initialisation et leur paramétrage
+     */
     private void ajouterElements() {
         this.add(lblIcone);
         this.add(pnlInformationEntres);
         this.add(pnlBoutonsActions);
     }
 
+    /**
+     * creation de l'icone
+     */
     private void initialiserIcone() {
         lblIcone = new JLabel();
         iconeImage = new ImageIcon(CHEMIN_ICONE);
@@ -108,9 +143,7 @@ public class FenetreConnexion extends JFrame {
         connectionServeur();
         btnConnexion.setBorderPainted(false);
         btnConnexion.setFont(FONT_TEXTE_PLAIN);
-        btnConnexion.setBackground(COULEUR_TEXTE);
         btnConnexion.setOpaque(false);
-        btnInscription.setBackground(COULEUR_TEXTE);
         btnInscription.setOpaque(false);
         btnInscription.setBorderPainted(false);
         btnInscription.setFont(FONT_TEXTE_PLAIN);
@@ -173,7 +206,7 @@ public class FenetreConnexion extends JFrame {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2.setRenderingHints(qualityHints);
-        g2.setColor(COULEUR_TEXTE);
+
         g2.setFont(FONT_TEXTE_TRUE_TYPE);
         g2.setColor(Color.BLACK);
         g2.drawString(TEXT_CHAMP_USAGER, (int) (this.getWidth() * RATIO_LONGEUR_CHAINE),

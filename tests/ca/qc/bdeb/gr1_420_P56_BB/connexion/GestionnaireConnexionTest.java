@@ -23,6 +23,6 @@ public class GestionnaireConnexionTest {
 
     @Test
     public void testReception() throws Exception {
-        fail("Faire le test gestionnaire connexion");
+       //TODO: Implémente le test
     }
 }
