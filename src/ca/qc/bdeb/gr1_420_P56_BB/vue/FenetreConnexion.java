@@ -22,6 +22,7 @@ public class FenetreConnexion extends JFrame {
 
     private static final String NOM_POLICE = "raleway";
     private static final int GRANDEUR_TEXTE = 16;
+    private static final double RATIO_80_ECRAN = 0.8;
 
     private static final Font FONT_TEXTE_TRUE_TYPE = new Font(NOM_POLICE, Font.TRUETYPE_FONT, GRANDEUR_TEXTE);
     private static final Font FONT_TEXTE_PLAIN = new Font(NOM_POLICE, Font.PLAIN, GRANDEUR_TEXTE);
@@ -32,7 +33,10 @@ public class FenetreConnexion extends JFrame {
     private static final double POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT = 0.4;
     private static final int HAUTEUR_BOUTON = 40;
     private static final int HAUTEUR_CHAMP = 20;
-
+    private static final int MOITIE_ECRAN = 2;
+    public static final int HAUTEUR_STRING = 45;
+    public static final double RATIO_LONGEUR_CHAINE = 0.1;
+    public static final double RATIO_MOITIE_ECRAN = 0.5;
     private Utilisateur utilisateur;
     private FacadeModele facadeModele;
 
@@ -82,7 +86,7 @@ public class FenetreConnexion extends JFrame {
      */
     private void initialiserLayout() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLayout(new FlowLayout(FlowLayout.CENTER, (int) (this.getHeight() / 2), (int) (this.getHeight() / 2)));
+        this.setLayout(new FlowLayout(FlowLayout.CENTER, (int) (this.getHeight() / MOITIE_ECRAN), (int) (this.getHeight() / MOITIE_ECRAN)));
         this.setSize((int) (dimension.width * POURCENTAGE_ECRAN_GRANDEUR_FENETRE),
                 (int) (dimension.getHeight() * POURCENTAGE_ECRAN_GRANDEUR_FENETRE));
         this.setLocationRelativeTo(null);
@@ -93,8 +97,8 @@ public class FenetreConnexion extends JFrame {
      */
     private void initialiserBoutons() {
         pnlBoutonsActions = new JPanel();
-        pnlBoutonsActions.setSize(this.getWidth(), (int) (this.getHeight() * 0.8));
-        pnlBoutonsActions.setLayout(new GridLayout(0, 2, (int) (this.getHeight() * 0.01), (int) (this.getHeight() * 0.5)));
+        pnlBoutonsActions.setSize(this.getWidth(), (int) (this.getHeight() * RATIO_80_ECRAN));
+        pnlBoutonsActions.setLayout(new GridLayout(0, 2, (int) (this.getHeight() * 0.01), (int) (this.getHeight() * RATIO_MOITIE_ECRAN)));
         btnConnexion = new JButton(TEXTE_BOUTON_CONNEXION);
         btnInscription = new JButton(TEXT_BOUTON_INSCRIPTION);
         btnInscription.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT), HAUTEUR_BOUTON));
@@ -142,8 +146,8 @@ public class FenetreConnexion extends JFrame {
     private void initialiserChamps() {
         pnlInformationEntres = new JPanel();
 
-        pnlInformationEntres.setPreferredSize(new Dimension(this.getWidth(), (int) (this.getHeight() * 0.5)));
-        pnlInformationEntres.setLayout(new FlowLayout(FlowLayout.CENTER, (int) (this.getWidth() * 0.5),
+        pnlInformationEntres.setPreferredSize(new Dimension(this.getWidth(), (int) (this.getHeight() * RATIO_MOITIE_ECRAN)));
+        pnlInformationEntres.setLayout(new FlowLayout(FlowLayout.CENTER, (int) (this.getWidth() * RATIO_MOITIE_ECRAN),
                 (int) (this.getHeight() * 0.15)));
         champDeNomUsager = new JTextArea();
         champDeMotDePasse = new JTextArea();
@@ -170,9 +174,9 @@ public class FenetreConnexion extends JFrame {
         g2.setColor(COULEUR_TEXTE);
         g2.setFont(FONT_TEXTE_TRUE_TYPE);
         g2.setColor(Color.BLACK);
-        g2.drawString(TEXT_CHAMP_USAGER, (int) (this.getWidth() * 0.1),
-                champDeNomUsager.getY() + lblIcone.getHeight() + 45);
-        g2.drawString(TEXT_CHAMP_MOTDEPASSE, (int) (this.getWidth() * 0.1),
-                champDeMotDePasse.getY() + lblIcone.getHeight() + 45);
+        g2.drawString(TEXT_CHAMP_USAGER, (int) (this.getWidth() * RATIO_LONGEUR_CHAINE),
+                champDeNomUsager.getY() + lblIcone.getHeight() + HAUTEUR_STRING);
+        g2.drawString(TEXT_CHAMP_MOTDEPASSE, (int) (this.getWidth() * RATIO_LONGEUR_CHAINE),
+                champDeMotDePasse.getY() + lblIcone.getHeight() + HAUTEUR_STRING);
     }
 }

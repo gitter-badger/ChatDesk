@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 /**
- * La bar d'option/menu en haut de la fenêtre principale du programme.
+ * La bar d'option/menu en haut de la fenï¿½tre principale du programme.
  */
 class OptionBar extends JPanel {
 
@@ -19,7 +19,7 @@ class OptionBar extends JPanel {
     private static final ImageIcon IMAGE_PROFILE = new ImageIcon("resources/images/profile.png");
 
     private static final int CLICK_COUNT = 2;
-    private static Color BACKGROUND_COLOR = new Color(102, 153, 255);
+    private static Color BACKGROUND_COLOR = new Color(0, 142, 198);
 
 
     private JLabel fermer;
@@ -40,7 +40,7 @@ class OptionBar extends JPanel {
     /**
      * Construit la bar d'option de l'application
      *
-     * @param fenetrePrincipale La fenêtre principale du programme
+     * @param fenetrePrincipale La fenï¿½tre principale du programme
      */
     public OptionBar(FrmChatDesk fenetrePrincipale) {
         this.fenetrePrincipale = fenetrePrincipale;
@@ -162,7 +162,7 @@ class OptionBar extends JPanel {
     }
 
     /**
-     * Permet de changer la grandeur de l'écran de pleine écran à écran normal et vise versa
+     * Permet de changer la grandeur de l'ï¿½cran de pleine ï¿½cran ï¿½ ï¿½cran normal et vise versa
      */
     private void changerScreenSize() {
         if (!isFullScreen) {
@@ -183,7 +183,7 @@ class OptionBar extends JPanel {
     }
 
     /**
-     * Change l'emplacement de la fenêtre selon le mouvement de la souris
+     * Change l'emplacement de la fenï¿½tre selon le mouvement de la souris
      *
      * @param e Le mouse event
      */
