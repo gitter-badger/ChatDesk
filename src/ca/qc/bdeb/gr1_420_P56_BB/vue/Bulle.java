@@ -12,13 +12,21 @@ import java.awt.image.BufferedImage;
  * Une bulle d'un message re�u ou envoy�.
  */
 class Bulle {
-
+    /* Couleur des bulles reçus */
     private static final Color COULEUR_BULLE_RECU = new Color(51, 153, 102);
+    /* Couleur des bulles envoyés */
     private static final Color COULEUR_BULLE_ENVOYE = new Color(80, 150, 180);
+    /* Couleur vide */
     private static final Color COULEUR_VIDE = new Color(0, 0, 0, 0);
 
+    //Nom de la police dans la fenetetre
     private static final String NOM_POLICE = "Helvetica";
+    /* Grandeur du texte */
     private static final int GRANDEUR_TEXTE = 20;
+    /**
+     * Font
+     */
+
     private static final Font FONT_TEXTE = new Font(NOM_POLICE, Font.PLAIN, GRANDEUR_TEXTE);
 
     private static final int GRANDEUR_BORDURE_VIDE = 8;

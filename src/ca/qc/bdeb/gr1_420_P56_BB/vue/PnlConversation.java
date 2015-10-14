@@ -15,41 +15,41 @@ import java.util.Date;
  * Panneau qui contient la conversation courante d'un utilisateur.
  */
 class PnlConversation extends JPanel {
-    //bouton pour envoyer sur une image
+    /* bouton pour envoyer sur une image */
     private static final ImageIcon IMAGE_SEND_BUTTON = new ImageIcon("resources/images/send_button.png");
-    //nom de la police dans le panel
+    /* nom de la police dans le panel */
     private static final String NOM_POLICE = "Segoe UI Black";
-    //Taille du texte
+    /* Taille du texte */
     private static final int GRANDEUR_TEXTE = 18;
-    //Font dans le panel
+    /* Font dans le panel */
     private final Font font = new Font(NOM_POLICE, Font.BOLD, GRANDEUR_TEXTE);
-    //Variable pour exprimer l'abscence de numéro de téléphone
+    /* Variable pour exprimer l'abscence de numéro de téléphone */
     private final int AUCUN_NUMERO_TELEPHONE = -1;
 
-    //panneau contentant l'information de la conversation
+    /* panneau contentant l'information de la conversation */
     private final JPanel pnlInfoConvo;
-    //panneau pour l'envoie
+    /* panneau pour l'envoie */
     private final JPanel pnlEnvoie;
 
-    //panneau contenant les bulles
+    /* panneau contenant les bulles */
     private final PnlBulles pnlBulles;private JTextArea champAjoutMessage;
 
-    //bouton pour envoyer un message
+    /* bouton pour envoyer un message */
     private JButton btnEnvoyer;
 
-    //Texte vide... jvoix pas quoi dire de plus
+    /* Texte vide... jvoix pas quoi dire de plus */
     private final String TEXTE_VIDE = "";
 
-    //Permet la communication
+    /* Permet la communication */
     private final FacadeModele facadeModele;
 
-    //Nom du contact
+    /* Nom du contact */
     private final JLabel nom;
 
-    //numéro de téléphone dans la liste de conversation
+    /* numéro de téléphone dans la liste de conversation */
     private long numeroTelephone;
 
-    //Le scrolling dans les fenetre
+    /* Le scrolling dans les fenetre */
     private ScrollPanel scrollPanelConversation;
 
     public PnlConversation(FacadeModele facadeModele) {
@@ -82,6 +82,9 @@ class PnlConversation extends JPanel {
         this.repaint();
     }
 
+    /**
+     *  Initialise les champs de conversation
+     */
     private void initialiserPnlInfoConvo() {
         pnlInfoConvo.setLocation(0, 0);
         int PNL_INFO_CONVO_HAUTEUR = 60;
@@ -91,6 +94,9 @@ class PnlConversation extends JPanel {
         pnlInfoConvo.add(nom);
     }
 
+    /**
+     *  initialiser les panneaux d'envoie
+     */
     private void initialiserPnlEnvoie() {
         pnlEnvoie.removeAll();
         int PNL_ENVOIE_HAUTEUR = 140;
@@ -105,6 +111,9 @@ class PnlConversation extends JPanel {
         pnlEnvoie.add(champAjoutMessage);
     }
 
+    /**
+     *
+     */
     private void initialiserChampAjoutMessage() {
         champAjoutMessage = new JTextArea();
         champAjoutMessage.setSize(pnlEnvoie.getWidth(), pnlEnvoie.getHeight());
@@ -117,6 +126,9 @@ class PnlConversation extends JPanel {
                         GRANDEUR_CONTOUR_CHAMP_AJOUT_MESSAGE)));
     }
 
+    /**
+     * initialise le bouton envoyer
+     */
     private void initialiserBtnEnvoyer() {
         btnEnvoyer = new JButton();
         double POURCENTAGE_LONGUEUR_IMG_ENVOYER = 0.08;
@@ -140,6 +152,9 @@ class PnlConversation extends JPanel {
         btnEnvoyer.setEnabled(false);
     }
 
+    /**
+     * initialise le panneau avec des bulles
+     */
     private void initialiserPnlBulles() {
         pnlBulles.setLocation(0, pnlInfoConvo.getHeight());
         scrollPanelConversation = new ScrollPanel(pnlBulles, this.getWidth(), this.getHeight() -
