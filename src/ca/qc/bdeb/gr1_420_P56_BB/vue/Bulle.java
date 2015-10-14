@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 /**
  * Une bulle d'un message re�u ou envoy�.
  */
-public class Bulle {
+class Bulle {
 
     private static final Color COULEUR_BULLE_RECU = new Color(51, 153, 102);
     private static final Color COULEUR_BULLE_ENVOYE = new Color(80, 150, 180);
