@@ -40,14 +40,11 @@ class OptionBar extends JPanel {
      * Nombre de cliques avant d'être considéré comme un double clique
      */
     private static final int CLICK_COUNT = 2;
-<<<<<<< HEAD
-    private static final Color BACKGROUND_COLOR = new Color(0, 142, 198);
-=======
+
     /**
      * Couleur de fond d'écran
      */
-    private static Color BACKGROUND_COLOR = new Color(0, 142, 198);
->>>>>>> 22e2b5dd98a95c314ef1adfc1505e2552c55e61c
+    private static final Color BACKGROUND_COLOR = new Color(0, 142, 198);
 
     /**
      * JLabel agissant comme bouton de fermeture

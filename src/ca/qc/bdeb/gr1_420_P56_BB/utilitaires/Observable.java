@@ -1,8 +1,6 @@
 package ca.qc.bdeb.gr1_420_P56_BB.utilitaires;
 
 /**
- * Created by Alexandre on 2015-09-04.
- *
  * Un élément qui est observé
  */
 public interface Observable {

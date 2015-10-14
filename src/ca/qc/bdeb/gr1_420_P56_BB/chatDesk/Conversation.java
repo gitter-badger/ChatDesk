@@ -3,8 +3,6 @@ package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 import java.util.ArrayList;
 
 /**
- * Created by Alexandre on 2015-09-04.
- * <p>
  * Une conversation basée sur un contact du téléphone ou un numéro de téléphone
  * Contient plusieurs message envoyer ou recu
  */

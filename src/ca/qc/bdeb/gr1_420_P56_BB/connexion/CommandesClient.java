@@ -2,7 +2,6 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 /**
  * Commandes à mettre dans la balise BalisesCommClient.BALISE_COMMANDE
- * Created by 1372883 on 2015-09-15.
  */
 enum CommandesClient implements Balises {
 

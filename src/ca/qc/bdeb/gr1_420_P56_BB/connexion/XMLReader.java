@@ -13,18 +13,33 @@ import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireXml
 
 /**
  * Lis un document en format XML
- * Created by Louis-Simon Mc Nicoll on 2015-09-15.
  */
 class XMLReader {
+
+    /**
+     * Message si le numéro de téléphone est invalide
+     */
     private static final String MESSAGE_ERREUR_TELEPHONE = "Numéro de téléphone invalide";
+
+    /**
+     * Message si le numéro de téléphone ou la date est invalide
+     */
     private static final String MESSAGE_ERREUR_TELEPHONE_OU_DATE = "Numéro de téléphone ou date invalide";
 
+    /**
+     * Le document xml
+     */
     private final Document document;
 
     public XMLReader(String contenu) {
         document = lireXmlDepuisContenu(contenu);
     }
 
+    /**
+     * Lecture de la commande
+     *
+     * @return La commande client
+     */
     public CommandesClient lireCommande() {
         String commandeTexte;
 

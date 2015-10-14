@@ -10,85 +10,165 @@ import java.awt.*;
  * La fen�tre de connexion pour se connecter.
  */
 public class FenetreConnexion extends JFrame {
+
     /**
      * Message lorsque les informations entrées sont invalides
      */
     private static final String MESSAGE_CONNECTION_INVALIDE = "Informations invalides";
-    /* Message lorsque le serveur est indisponible */
+
+    /**
+     * Message lorsque le serveur est indisponible
+     */
     private static final String MESSAGE_CONNECTION_IMPOSSIBLE = "Connection au serveur impossible";
-    /* Chemin */
+
+    /**
+     * Chemin de l'icone principale de la fenêtre
+     */
     private static final String CHEMIN_ICONE = "resources\\images\\Mobile-Smartphone-icon.png";
-    /* Texte sur le bouton connexion */
+
+    /**
+     * Texte sur le bouton connexion
+     */
     private static final String TEXTE_BOUTON_CONNEXION = "CONNEXION";
-    /* Texte sur le bouton de l'inscription */
+
+    /**
+     * Texte sur le bouton de l'inscription
+     */
     private static final String TEXT_BOUTON_INSCRIPTION = "INSCRIPTION";
-    /* Texte sur le champ usager */
+
+    /**
+     * Texte sur le champ usager
+     */
     private static final String TEXT_CHAMP_USAGER = "NOM USAGER";
-    /* Texte du champ mot de passe */
+
+    /**
+     * Texte du champ mot de passe
+     */
     private static final String TEXT_CHAMP_MOTDEPASSE = "MOT DE PASSE";
-    /* Dimensions de l'icone au sommet de la fenêtre */
+
+    /**
+     * Dimensions de l'icone au sommet de la fenêtre
+     */
     private static final Dimension DIMENSION_ICON = new Dimension(100, 100);
-    /* Nom de la police que le text utlise sur toute la fenêtre */
+
+    /**
+     * Nom de la police que le text utlise sur toute la fenêtre
+     */
     private static final String NOM_POLICE = "raleway";
-    /* Grandeur du font du texte sur toute la fenêtre */
+
+    /**
+     * Grandeur du font du texte sur toute la fenêtre
+     */
     private static final int GRANDEUR_TEXTE = 16;
-    /* Ratio représentant 80 % de l'écran */
+
+    /**
+     * Ratio représentant 80 % de l'écran
+     */
     private static final double RATIO_80_ECRAN = 0.8;
-    /* Paramèmetre du font sur toute la fenêtre (pour les deux variables ci-dessous) */
+
+    /**
+     * Paramèmetre du font sur toute la fenêtre (pour les deux variables ci-dessous)
+     */
     private static final Font FONT_TEXTE_TRUE_TYPE = new Font(NOM_POLICE, Font.TRUETYPE_FONT, GRANDEUR_TEXTE);
+
+    /**
+     * Le font du text qui est plain
+     */
     private static final Font FONT_TEXTE_PLAIN = new Font(NOM_POLICE, Font.PLAIN, GRANDEUR_TEXTE);
 
-    /* Pourcentage de l'écran que la fenêtre prend */
-    private static final double POURCENTAGE_ECRAN_GRANDEUR_FENETRE = 0.4;
-    /* Pourcentage de la fenêtre que certains composants occupe */
-    private static final double POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT = 0.4;
-    /* Hauteur de chaque bouton */
-    private static final int HAUTEUR_BOUTON = 40;
-    /* Hauteur du champ de texte que l'utilisateur remplis */
-    private static final int HAUTEUR_CHAMP = 20;
-    /* Chiffre utiliser pour désigner la moitié de l'écran dans certains calculs */
-    private static final int MOITIE_ECRAN = 2;
-    /* Hauteur du Texte à côter des champs */
-    private static final int HAUTEUR_STRING = 45;
-    /* Longueur de la chaine */
-    private static final double RATIO_LONGEUR_CHAINE = 0.1;
-    /* Autre façon de représenter la moitié de l'écran dans certains calculs */
-    private static final double RATIO_MOITIE_ECRAN = 0.5;
-    /* Ratio d'hauteur de certain bouton sur l'écran */
-    private static final double RATIO_HAUTEUR_LAYOUT_BOUTON = 0.01;
-    /* Nombre de colones dans le grid layout de la fenêtre */
-    private static final int COL_LAYOUT_GRID = 2;
-    /* Utilsateur pour que les champs puissent être remplis à l'avance */
-    private Utilisateur utilisateur;
-    /* Pour établir la connexion avec le serveur */
-    private final FacadeModele facadeModele;
     /**
-     * bouton pour se connecter
+     * Pourcentage de l'écran que la fenêtre prend
+     */
+    private static final double POURCENTAGE_ECRAN_GRANDEUR_FENETRE = 0.4;
+
+    /**
+     * Pourcentage de la fenêtre que certains composants occupe
+     */
+    private static final double POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT = 0.4;
+
+    /**
+     * Hauteur de chaque bouton
+     */
+    private static final int HAUTEUR_BOUTON = 40;
+
+    /**
+     * Hauteur du champ de texte que l'utilisateur remplis
+     */
+    private static final int HAUTEUR_CHAMP = 20;
+
+    /**
+     * Chiffre utiliser pour désigner la moitié de l'écran dans certains calculs
+     */
+    private static final int MOITIE_ECRAN = 2;
+
+    /**
+     * Hauteur du Texte à côter des champs
+     */
+    private static final int HAUTEUR_STRING = 45;
+
+    /**
+     * Longueur de la chaine
+     */
+    private static final double RATIO_LONGEUR_CHAINE = 0.1;
+
+    /**
+     * Autre façon de représenter la moitié de l'écran dans certains calculs
+     */
+    private static final double RATIO_MOITIE_ECRAN = 0.5;
+
+    /**
+     * Ratio d'hauteur de certain bouton sur l'écran
+     */
+    private static final double RATIO_HAUTEUR_LAYOUT_BOUTON = 0.01;
+
+    /**
+     * Nombre de colones dans le grid layout de la fenêtre
+     */
+    private static final int COL_LAYOUT_GRID = 2;
+
+    /**
+     * Utilsateur pour que les champs puissent être remplis à l'avance
+     */
+    private Utilisateur utilisateur;
+
+    /**
+     * La facade du modèle
+     */
+    private final FacadeModele facadeModele;
+
+    /**
+     * Bouton pour se connecter
      */
     private JButton btnConnexion;
+
     /**
-     * panneau pour les informations d'utilisateur
+     * Panneau pour les informations d'utilisateur
      */
     private JPanel pnlInformationEntres;
+
     /**
-     * panneau pour les boutons
+     * Panneau pour les boutons
      */
     private JPanel pnlBoutonsActions;
+
     /**
-     * champ d'entrée pour le nom d'usager
+     * Champ d'entrée pour le nom d'usager
      */
     private JTextArea champDeNomUsager;
+
     /**
-     * champ d'entrée pour le mot de passe utilisateur
+     * Champ d'entrée pour le mot de passe utilisateur
      */
     private JTextArea champDeMotDePasse;
+
     /**
-     * Icone
+     * Icone principale de la fenêtre
      */
     private JLabel lblIcone;
 
     /**
      * Contructeur... Je sais pas quoi dire de plus
+     *
      * @param utilisateur l'utilisateur si on veut remplir les champs à l'avance(cette méthode doit encore être
      *                    implémenté)
      */
@@ -122,7 +202,7 @@ public class FenetreConnexion extends JFrame {
     }
 
     /**
-     * creation de l'icone
+     * Création de l'icone
      */
     private void initialiserIcone() {
         lblIcone = new JLabel();

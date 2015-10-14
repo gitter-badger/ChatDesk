@@ -9,8 +9,6 @@ import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage.*;
 
 /**
  * Gère la connexion entre l'Android et l'ordinateur
- * <p>
- * Created by Alexandre on 2015-09-02.
  */
 public class GestionnaireConnexion {
 
@@ -19,7 +17,14 @@ public class GestionnaireConnexion {
      */
     private static final int NOMBRE_CHAMPS_APPAREIL = 2;
 
+    /**
+     * La facade du modele pour accèder au modèle
+     */
     private final FacadeModele facadeModele;
+
+    /**
+     * Le gestionnaire de socket.
+     */
     private final GestionnaireSocket gestionnaireSocket;
 
     public GestionnaireConnexion(FacadeModele facadeModele) {

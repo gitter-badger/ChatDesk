@@ -2,7 +2,6 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 /**
  * Commandes à mettre dans la balise BalisesCommServeur.BALISE_REQUETE
- * Created by Louis-Simon on 04/10/2015.
  */
 enum CommandesServeur {
 

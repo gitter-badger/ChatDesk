@@ -19,64 +19,84 @@ import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage.encrypter;
  */
 class GestionnaireSocket implements Runnable {
 
-    /*
-      Le port auquel se connecté sur le serveur
-    */
-    private final static int PORT = 8080;/*
-      Host names auquel se connecté si le serveur est distant
+    /**
+     * Le port auquel se connecté sur le serveur
+     */
+    private final static int PORT = 8080;
+
+    /**
+     * Host names auquel se connecté si le serveur est distant
      */
     private final static String HOST_NAME = "chatdesk.ddns.net";
+
     /**
      * Temps d'attente maximal lors d'une lecture obligatoire
      */
     private static final int TEMPS_ATTENTE_LECTURE = 500;
+
     /**
      * Temps d'attente infini
      */
     private static final int TEMPS_REPONSE_INFINI = 0;
+
     /**
      * Temps d'attente maximal lors de la connexion initale du socket
      */
     private static final int TEMPS_CONNEXION_SOCKET = 1500;
+
     /**
      * Indique si ce programme est un téléphone, dans notre cas évidemment non
      */
     private static final boolean IS_TELEPHONE = false;
+
     /**
      * La position de la confirmation du login dans le tableau de contenu
      */
     private static final int POSITION_CONFIRMATION = 1;
+
     /**
      * La position du début des données dans le tableau de contenu
      */
     private static final int POSITION_DEBUT_DONNEES = 1;
+
     /**
      * La première ligne du string
      */
     private static final int NOMBRE_LIGNES_INITIAL = 1;
+
     /**
      * Balises ouvrante contenant le nombre de lignes
      */
     private final String DEBUT_BALISE_LIGNES = "<lines>";
+
     /**
      * Balises fermante contenant le nombre de lignes
      */
     private final String FIN_BALISE_LIGNES = "</lines>";
 
+    /**
+     * Le socket de la communication avec le serveur
+     */
     private Socket socket;
+
     /**
      * Détermine si le socket devrait écouter en lecture, sa mise à false entrainerait la fin de la connexion
      */
     private boolean actif;
 
+    /**
+     * Le gestionnaire de connexion. Ge
+     */
     private final GestionnaireConnexion gestionnaireConnexion;
 
     /**
-     * Host name à utilisé pour se connecter localement
+     * Pour l'envoie de données au serveur
      */
-    private final String HOST_NAME_LOCAL = "127.0.0.1";
-
     private PrintWriter out;
+
+    /**
+     * Pour la réception de données du serveur
+     */
     private BufferedReader in;
 
     public GestionnaireSocket(GestionnaireConnexion gestionnaireConnexion) {
@@ -151,7 +171,6 @@ class GestionnaireSocket implements Runnable {
      */
     private boolean connecter(String user, String pass) {
         XMLWriter xmlWriter = new XMLWriter();
-        boolean connecte = false;
 
         EnveloppeBalisesCommServeur enveloppeBalisesCommServeurNom
                 = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, user);
@@ -164,6 +183,16 @@ class GestionnaireSocket implements Runnable {
                 enveloppeBalisesCommServeurPass, enveloppeBalisesCommServeurIsTelephone);
         envoyerMessage(encrypter(comm, EncryptageType.ENCRYPTAGE_SERVER));
 
+        return receptionReponseConnexion();
+    }
+
+    /**
+     * Attend la réponse du serveur à la demande de connexion
+     *
+     * @return Si la demande a fonctionné
+     */
+    private boolean receptionReponseConnexion() {
+        boolean connecte = false;
         try {
             this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
             String contenu = readAllLines();

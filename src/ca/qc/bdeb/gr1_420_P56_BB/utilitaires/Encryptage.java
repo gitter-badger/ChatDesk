@@ -20,19 +20,44 @@ import java.util.Random;
  */
 public class Encryptage {
 
+    /**
+     * Le type d'algorithme
+     */
     private static final String ALGO = "AES";
 
+    /**
+     * Le nombre de valeurs dans la clée
+     */
     private static final int NBR_VALEURS_CLEE = 16;
 
+    /**
+     * Le temps en milliseconde d'une heure
+     */
     private static final int HEURE_MILLI = 3600000;
 
+    /**
+     * Caractère ascii de la lettre 'A'
+     */
     private static final int ASCII_PREMIERE_LETTRE = 65;
+
+    /**
+     * Caractère ascii de la lettre 'Z'
+     */
     private static final int ASCII_DERNIERE_LETTRE = 90;
 
+    /**
+     * L'ancienne date en milliseconde pour changer la clé à chaque heure
+     */
     private static long seedAncienneDateMilli = 0;
 
+    /**
+     * L'ancienne clée d'encryptage et de décryptage
+     */
     private static Key ancienneClee;
 
+    /**
+     * La nouvelle clée d'encryptage et de décryptage
+     */
     private static Key nouvelleClee;
 
     /**
@@ -61,7 +86,7 @@ public class Encryptage {
      * Décrypter le message passé en paramètre. Si la nouvelle clé ne fonctionne pas, utilisation de l'ancienne clé.
      *
      * @param messageEncrypter Le message à décrypter
-     * @param encryptageType La méthode d'encryptage (serveur vs client)
+     * @param encryptageType   La méthode d'encryptage (serveur vs client)
      * @return Le messsage décrypté
      */
     public static String decrypter(String messageEncrypter, EncryptageType encryptageType) {

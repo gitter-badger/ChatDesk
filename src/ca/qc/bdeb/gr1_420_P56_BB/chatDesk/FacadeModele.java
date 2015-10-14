@@ -9,7 +9,7 @@ import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observateur;
 import java.util.ArrayList;
 
 /**
- * Created by 1372883 on 2015-09-16.
+ * La facade du modèle pour la communication avec tous ce qui n'est pas interface.
  */
 public class FacadeModele {
 

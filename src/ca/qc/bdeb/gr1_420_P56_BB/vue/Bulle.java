@@ -12,23 +12,40 @@ import java.awt.image.BufferedImage;
  * Une bulle d'un message re�u ou envoy�.
  */
 class Bulle {
-    /* Couleur des bulles reçus */
+
+    /**
+     * Couleur des bulles reçus
+     */
     private static final Color COULEUR_BULLE_RECU = new Color(51, 153, 102);
-    /* Couleur des bulles envoyés */
+
+    /**
+     * Couleur des bulles envoyés
+     */
     private static final Color COULEUR_BULLE_ENVOYE = new Color(80, 150, 180);
-    /* Couleur vide */
+
+    /**
+     * Couleur vide
+     */
     private static final Color COULEUR_VIDE = new Color(0, 0, 0, 0);
 
-    //Nom de la police dans la fenetetre
-    private static final String NOM_POLICE = "Helvetica";
-    /* Grandeur du texte */
-    private static final int GRANDEUR_TEXTE = 20;
     /**
-     * Font
+     * Nom de la police dans la fenêtre
      */
+    private static final String NOM_POLICE = "Helvetica";
 
+    /**
+     * Grandeur du texte
+     */
+    private static final int GRANDEUR_TEXTE = 20;
+
+    /**
+     * Font du texte du message
+     */
     private static final Font FONT_TEXTE = new Font(NOM_POLICE, Font.PLAIN, GRANDEUR_TEXTE);
 
+    /**
+     * Grandeur de la bordure de vide du jTextArea
+     */
     private static final int GRANDEUR_BORDURE_VIDE = 8;
 
     /**
@@ -45,11 +62,15 @@ class Bulle {
      * Le texte de la bulle
      */
     private JTextArea messageArea;
+
     /**
      * dimension totale
      */
-    Dimension dimTotal;
+    private Dimension dimTotal;
 
+    /**
+     * Le message de la bulle
+     */
     private final String message;
 
     public Bulle(Message message, int maxWidth) {
@@ -141,7 +162,9 @@ class Bulle {
      * @param g      le graphics de la bulle
      * @param width  la largeur de la bulle
      * @param height la hauteur de la bulle
-     * @see http://stackoverflow.com/questions/25821238/draw-beautiful-speech-bubbles-in-swing (Pris tel quel)
+     * @see <a href="http://stackoverflow.com/questions/25821238/draw-beautiful-speech-bubbles-in-swing">
+     *     http://stackoverflow.com/questions/25821238/draw-beautiful-speech-bubbles-in-swing</a> (Pris tel quel)
+     * @author user3767784
      */
     private void definirContourBulleRecu(Graphics2D g, int width, int height, GeneralPath path) {
         g.setPaint(COULEUR_BULLE_RECU);
@@ -167,7 +190,9 @@ class Bulle {
      * @param g      le graphics de la bulle
      * @param width  la largeur de la bulle
      * @param height la hauteur de la bulle
-     * @from http://stackoverflow.com/questions/25821238/draw-beautiful-speech-bubbles-in-swing (modifi�)
+     *  @see <a href="http://stackoverflow.com/questions/25821238/draw-beautiful-speech-bubbles-in-swing">
+     *     http://stackoverflow.com/questions/25821238/draw-beautiful-speech-bubbles-in-swing</a> (modifi�)
+     * @author user3767784
      */
     private void definirContourBulleEnvoye(Graphics2D g, int width, int height, GeneralPath path) {
         g.setPaint(COULEUR_BULLE_ENVOYE);

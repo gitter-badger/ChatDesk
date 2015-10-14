@@ -16,33 +16,94 @@ import java.awt.event.MouseEvent;
  */
 class PnlConversations extends JPanel {
 
+    /**
+     * Ratio du panneau selon la fenêtre principale
+     */
     private static final int LONGUEUR_SELON_FENETRE_PRINCIPALE = 7;
+
+    /**
+     * Ratio de la longueur du label du nom selon la longueur du panneau d'une conversation
+     */
     private static final double POURCENTAGE_LONGUEUR_LBL_NOM = 0.6;
+
+    /**
+     * Ratio de la hauteur du label du nom selon la hauteur du panneau d'une conversation
+     */
     private static final double POURCENTAGE_HAUTEUR_LBL_NOM = 0.2;
+
+    /**
+     * Ratio de la longueur du label du dernier message selon la longueur du panneau d'une conversation
+     */
     private static final double POURCENTAGE_LONGUEUR_LBL_DERNIER_MSG = 0.6;
+
+    /**
+     * Ratio de la hauteur du label du dernier message selon la hauteur du panneau d'une conversation
+     */
     private static final double POURCENTAGE_HAUTEUR_LBL_DERNIER_MSG = 0.15;
+
+    /**
+     * Ratio de la longueur de label de la date selon la longueur du panneau d'une conversation
+     */
     private static final double POURCENTAGE_LONGUEUR_LBL_DATE = 0.2;
+
+    /**
+     * Ratio de la hauteur du label de la date selon la hauteur du panneau d'une conversation
+     */
     private static final double POURCENTAGE_HAUTEUR_LBL_DATE = 0.13;
+
+    /**
+     * Ratio du contour vide autour du panneau d'une conversation
+     */
     private static final double POURCENTAGE_COUTOUR_VIDE = 0.15;
 
+    /**
+     * Nombre de click maximum pour ouvrir une conversation
+     */
     private static final int CLICK_COUNT = 1;
 
+    /**
+     * La fenêtre principale du programme
+     */
     private final FrmChatDesk fenetrePrincipale;
 
+    /**
+     * La facade du modèle pour accèder au modèle
+     */
     private final FacadeModele facadeModele;
 
-    private int grandeurPnlConversationX;
+    /**
+     * La longueur du panneau d'une conversation
+     */
+    private int longueurPnlConversationX;
 
-    private int grandeurPnlConversationY;
+    /**
+     * La hauteur du panneau d'une conversation
+     */
+    private int hauteurPnlConversationY;
 
+    /**
+     * La dimension du label du nom du contact
+     */
     private Dimension dimLblNom;
 
+    /**
+     * La dimension du label du dernier message qu'il soit reçu ou envoyé
+     */
     private Dimension dimLblDernierMessage;
 
+    /**
+     * La dimension du lable de la date
+     */
     private Dimension dimLblDate;
 
+    /**
+     * Grandeur du contour d'une conversation qui est vide
+     */
     private int borderVideSize;
 
+    /**
+     * Le nombre de conversation qui sont affiché sur le panneau qui contient toutes les conversations
+     */
     private int conversationCount;
 
     /**
@@ -70,20 +131,20 @@ class PnlConversations extends JPanel {
      * Initialise les grandeurs des composants selon la grandeur de la fen�tre du programme
      */
     private void initialiserGrandeursComposants() {
-        grandeurPnlConversationX = this.getWidth();
-        grandeurPnlConversationY = fenetrePrincipale.getHeight() / LONGUEUR_SELON_FENETRE_PRINCIPALE;
+        longueurPnlConversationX = this.getWidth();
+        hauteurPnlConversationY = fenetrePrincipale.getHeight() / LONGUEUR_SELON_FENETRE_PRINCIPALE;
 
-        dimLblNom = new Dimension((int)(grandeurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_NOM),
-                (int)(grandeurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_NOM));
+        dimLblNom = new Dimension((int)(longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_NOM),
+                (int)(hauteurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_NOM));
 
-        dimLblDernierMessage = new Dimension((int)(grandeurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DERNIER_MSG),
-                (int)(grandeurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DERNIER_MSG));
+        dimLblDernierMessage = new Dimension((int)(longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DERNIER_MSG),
+                (int)(hauteurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DERNIER_MSG));
 
 
-        dimLblDate = new Dimension((int)(grandeurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DATE),
-                (int)(grandeurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DATE));
+        dimLblDate = new Dimension((int)(longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DATE),
+                (int)(hauteurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DATE));
 
-        borderVideSize = (int)(grandeurPnlConversationY * POURCENTAGE_COUTOUR_VIDE);
+        borderVideSize = (int)(hauteurPnlConversationY * POURCENTAGE_COUTOUR_VIDE);
     }
 
     /**
@@ -109,8 +170,8 @@ class PnlConversations extends JPanel {
      */
     private void initialiserPanneauConversation(JPanel pnlConversation, ConversationDTO conversationDTO) {
         pnlConversation.setLayout(null);
-        pnlConversation.setLocation(0, grandeurPnlConversationY * conversationCount);
-        pnlConversation.setSize(grandeurPnlConversationX, grandeurPnlConversationY);
+        pnlConversation.setLocation(0, hauteurPnlConversationY * conversationCount);
+        pnlConversation.setSize(longueurPnlConversationX, hauteurPnlConversationY);
         pnlConversation.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
@@ -189,7 +250,7 @@ class PnlConversations extends JPanel {
             conversationCount++;
         }
 
-        this.setPreferredSize(new Dimension(this.getWidth(), grandeurPnlConversationY * conversationCount));
+        this.setPreferredSize(new Dimension(this.getWidth(), hauteurPnlConversationY * conversationCount));
         this.repaint();
     }
 

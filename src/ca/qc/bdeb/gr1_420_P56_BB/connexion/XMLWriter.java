@@ -14,15 +14,37 @@ import java.io.Writer;
 
 /**
  * Créer un nouveau fichier XML et y écris les informations demandés
- * Created by Louis-Simon Mc Nicoll on 2015-09-16.
  */
 class XMLWriter {
+
+    /**
+     * Valeur si on doit indenter.
+     */
+    private static boolean INDENTE = true;
+
+    /**
+     * Taille de l'indentation
+     */
+    private static int TAILLE_INDENTATION = 4;
+
+    /**
+     * Longueur de caratère maximum par ligne
+     */
+    private static int LONGUEUR_MAX_LIGNE_XML = 65;
+
+    /**
+     * Valeur vide
+     */
     private static final int VIDE = 0;
 
+    /**
+     * Le document xml
+     */
     private Document doc;
 
     /**
      * N'envoie qu'une commande
+     *
      * @param commande
      * @return Le xml en format String
      */
@@ -32,6 +54,7 @@ class XMLWriter {
 
     /**
      * Envoie une commande et une liste de contacts
+     *
      * @return Le xml en format String
      */
     public String construireXmlCommunication(EnveloppeContact[] tabContacts) {
@@ -40,6 +63,7 @@ class XMLWriter {
 
     /**
      * Envoie une commande et une liste de messages
+     *
      * @return Le xml en format String
      */
     public String construireXmlCommunication(EnveloppeMessage[] tabEnveloppes) {
@@ -48,6 +72,7 @@ class XMLWriter {
 
     /**
      * Envoie une commande, une liste de contacts et une liste de messages
+     *
      * @param commande
      * @return Le xml en format String
      */
@@ -65,6 +90,7 @@ class XMLWriter {
 
     /**
      * Construit la liste des balises contacts
+     *
      * @param rootElement Le parent de ces balises
      * @param tabContacts Le tableau de contacts à convertir en XML
      */
@@ -82,7 +108,8 @@ class XMLWriter {
 
     /**
      * Construit la liste des balises messages
-     * @param rootElement Le parent de ces balises
+     *
+     * @param rootElement   Le parent de ces balises
      * @param tabEnveloppes Le tableau de messages à convertir en XML
      */
     private void construireEnveloppesMessages(Element rootElement, EnveloppeMessage[] tabEnveloppes) {
@@ -101,6 +128,7 @@ class XMLWriter {
 
     /**
      * Construit un XML à l'addresse du serveur
+     *
      * @param commandesServeur
      * @param gestionnairesBalisesServeur tableau de gestionnairesBalisesServeur qui contiennent une balise et son contenu
      * @return Le xml en format String
@@ -121,6 +149,7 @@ class XMLWriter {
 
     /**
      * Construit un nouveau document
+     *
      * @param rootBalise La balise racine
      * @return Le nouveau document
      */
@@ -143,6 +172,7 @@ class XMLWriter {
 
     /**
      * Converti le document XML en un string XML
+     *
      * @return Le XML en format String
      */
     private String convertirDocToString() {
@@ -152,11 +182,9 @@ class XMLWriter {
         doc.normalizeDocument();
         OutputFormat format = new OutputFormat(doc);
 
-        int LONGUEUR_MAX_LIGNE_XML = 65;
         format.setLineWidth(LONGUEUR_MAX_LIGNE_XML);
-        boolean INDENTE = true;
+
         format.setIndenting(INDENTE);
-        int TAILLE_INDENTATION = 4;
         format.setIndent(TAILLE_INDENTATION);
 
         XMLSerializer serializer = new XMLSerializer(out, format);
@@ -176,7 +204,8 @@ class XMLWriter {
 
     /**
      * Créer un élément en lui ajoutant un contenu
-     * @param balise La balise de l'élément
+     *
+     * @param balise  La balise de l'élément
      * @param contenu Le contenu
      * @return L'élément
      */

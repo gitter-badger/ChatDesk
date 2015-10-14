@@ -2,7 +2,6 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 /**
  * Balises utilisées pour les communications avec le client
- * Created by Alexandre on 2015-09-16.
  */
 enum BalisesCommClient implements Balises {
 

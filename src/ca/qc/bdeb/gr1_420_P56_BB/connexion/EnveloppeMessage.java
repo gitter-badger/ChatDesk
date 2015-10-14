@@ -4,7 +4,6 @@ import java.util.Date;
 
 /**
  * Contient les informations d'un messsage et permet de le convertir en XML
- * Created by Louis-Simon on 2015-09-07.
  */
 public class EnveloppeMessage implements ConvertissableXml {
 

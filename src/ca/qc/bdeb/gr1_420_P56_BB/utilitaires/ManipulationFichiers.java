@@ -14,6 +14,12 @@ import java.io.*;
  */
 public class ManipulationFichiers {
 
+    /**
+     * Lire le fichier selon un path de fichier
+     *
+     * @param packagePath Le path du fichier
+     * @return Le fichier en string
+     */
     public static String lireFichierDepuisChemin(String packagePath) {
         String contenu = "";
 
@@ -34,6 +40,12 @@ public class ManipulationFichiers {
         return contenu;
     }
 
+    /**
+     * Convertir un string xml en document xml
+     *
+     * @param contenu Le contenu string xml à convertir
+     * @return Un document du string xml
+     */
     public static Document lireXmlDepuisContenu(String contenu) {
         Document document = null;
 

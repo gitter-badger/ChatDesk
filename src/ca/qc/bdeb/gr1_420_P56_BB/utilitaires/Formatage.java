@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by Alexandre on 2015-09-09.
+ * Toutes les méthodes de formatage.
  */
 public class Formatage {
 

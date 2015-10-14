@@ -28,16 +28,19 @@ class FrmChatDesk extends JFrame implements Observateur {
      * La bar d'option/menu en haut de la fen�tre
      */
     private OptionBar optionBar;
+
     /**
-     *
+     * Le séparateur du panneau d'une conversation et des conversations.
      */
     private JSeparator separateurVertical;
+
     /**
-     *
+     * La facade du modèle
      */
     private final FacadeModele facadeModele;
+
     /**
-     *
+     * Le scroll panel du panneau des conversations
      */
     private ScrollPanel scrollPanelConversations;
 

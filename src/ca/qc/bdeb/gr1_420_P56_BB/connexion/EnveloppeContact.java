@@ -2,7 +2,6 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 /**
  * Contient les informations d'un contact et permet de le convertir en XML
- * Created by Alexandre on 2015-09-22.
  */
 public class EnveloppeContact implements ConvertissableXml {
     /**

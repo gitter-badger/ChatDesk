@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireXmlDepuisContenu;
 
 /**
- * List un document en format XML provenant du serveur
- * Created by Louis-Simon Mc Nicoll on 2015-09-15.
+ * Lis un document en format XML provenant du serveur
  */
 class XMLReaderServeur {
 
+    /**
+     * Le document xml
+     */
     private final Document document;
 
     public XMLReaderServeur(String contenu) {

@@ -1,8 +1,6 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
 /**
- * Created by Louis-Simon on 10/10/2015.
- *
  * Un appareil auquel il est possible de se connecter
  */
 public class Appareil {

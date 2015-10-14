@@ -3,7 +3,7 @@ package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 import java.util.ArrayList;
 
 /**
- * Created by 1372883 on 2015-09-16.
+ * Gère les contacts
  */
 class GestionnaireContacts {
 

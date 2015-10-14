@@ -7,8 +7,6 @@ import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observateur;
 import java.util.ArrayList;
 
 /**
- * Created by Alexandre on 2015-09-02.
- * <p>
  * Gère les conversations
  */
 public class GestionnaireConversation implements Observable {

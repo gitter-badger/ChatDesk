@@ -3,8 +3,6 @@ package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 import java.util.Date;
 
 /**
- * Created by Alexandre on 2015-09-04.
- * <p>
  * Un text (sms)
  */
 public class Message {

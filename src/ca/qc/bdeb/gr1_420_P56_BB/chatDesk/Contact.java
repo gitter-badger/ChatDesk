@@ -2,8 +2,6 @@ package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
 
 /**
- * Created by Alexandre on 2015-09-06.
- *
  * Un contact
  */
 public class Contact{
