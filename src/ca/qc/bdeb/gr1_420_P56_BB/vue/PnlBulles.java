@@ -13,10 +13,22 @@ import java.awt.image.BufferedImage;
  */
 class PnlBulles extends JPanel {
 
+    /**
+     * Head room des bulles
+     */
     private static final int HAUTEUR_EN_HAUT_EN_BAS_BULLE = 10;
+    /**
+     * Longueur maximale d'une bukle en pourcentage du panel
+     */
     private static final double LONGUEUR_MAX_BULLE = 0.7;
 
+    /**
+     * Le DTO de la conversation active du panel
+     */
     private ConversationDTO conversationDTO;
+    /**
+     * La hauteur totale du panel
+     */
     private int hauteurTotale;
 
     public PnlBulles() {

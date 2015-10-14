@@ -11,30 +11,93 @@ import java.awt.event.MouseMotionAdapter;
  */
 class OptionBar extends JPanel {
 
+    /**
+     * Image du bouton de fermeture
+     */
     private static final ImageIcon IMAGE_FERMER = new ImageIcon("resources/images/fermer.png");
+    /**
+     * Image du bouton d'agrandisement
+     */
     private static final ImageIcon IMAGE_AGRANDIR = new ImageIcon("resources/images/agrandir.png");
+    /**
+     * Image du bouton de diminution
+     */
     private static final ImageIcon IMAGE_DIMINUER = new ImageIcon("resources/images/diminuer.png");
+    /**
+     * Image du bouton de minimisation
+     */
     private static final ImageIcon IMAGE_MINIMISER = new ImageIcon("resources/images/minimiser.png");
+    /**
+     * Image du bouton d'options
+     */
     private static final ImageIcon IMAGE_OPTIONS = new ImageIcon("resources/images/options.png");
+    /**
+     * Image du bouton de profile
+     */
     private static final ImageIcon IMAGE_PROFILE = new ImageIcon("resources/images/profile.png");
 
+    /**
+     * Nombre de cliques avant d'être considéré comme un double clique
+     */
     private static final int CLICK_COUNT = 2;
+<<<<<<< HEAD
     private static final Color BACKGROUND_COLOR = new Color(0, 142, 198);
+=======
+    /**
+     * Couleur de fond d'écran
+     */
+    private static Color BACKGROUND_COLOR = new Color(0, 142, 198);
+>>>>>>> 22e2b5dd98a95c314ef1adfc1505e2552c55e61c
 
-
+    /**
+     * JLabel agissant comme bouton de fermeture
+     */
     private JLabel fermer;
+    /**
+     * JLabel agissant comme bouton d'agrandissement
+     */
     private JLabel agrandir;
+    /**
+     * JLabel agissant comme bouton de minimisation
+     */
     private JLabel minimiser;
+    /**
+     * JLabel agissant comme bouton d'options
+     */
     private JLabel options;
+    /**
+     * JLabel agissant comme bouton de profile
+     */
     private JLabel profile;
+    /**
+     * Le point du click initial lors d'un drag and drop
+     */
     private Point clickInitial;
 
+    /**
+     * Indique si le frame est en plein écran
+     */
     private boolean isFullScreen;
+    /**
+     * Conserve la dernière longueur
+     */
     private int derniereLongueur;
+    /**
+     * Conserve la dernière hauteur
+     */
     private int derniereHauteur;
+    /**
+     * Conserve la dernière position en X
+     */
     private int dernierePositionX;
+    /**
+     * Conserve la dernière position en Y
+     */
     private int dernierePositionY;
 
+    /**
+     * Pointeur sur la fenetre
+     */
     private final FrmChatDesk fenetrePrincipale;
 
     /**
