@@ -11,7 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * Panneau qui affiche toutes les conversations que l'utilisateur à. Le dernier message recu/envoyé
+ * Panneau qui affiche toutes les conversations que l'utilisateur ï¿½. Le dernier message recu/envoyï¿½
  * pour chaque conversation et la date de reception/envoie du dernier message pour chaque conversation
  */
 class PnlConversations extends JPanel {
@@ -29,7 +29,7 @@ class PnlConversations extends JPanel {
 
     private final FrmChatDesk fenetrePrincipale;
 
-    private FacadeModele facadeModele;
+    private final FacadeModele facadeModele;
 
     private int grandeurPnlConversationX;
 
@@ -46,7 +46,7 @@ class PnlConversations extends JPanel {
     private int conversationCount;
 
     /**
-     * Constructeur qui crée et initialise le panneau des conversations
+     * Constructeur qui crï¿½e et initialise le panneau des conversations
      *
      * @param fenetrePrincipale La fenetre principale
      * @param facadeModele      Le gestionnaire de conversation
@@ -67,7 +67,7 @@ class PnlConversations extends JPanel {
     }
 
     /**
-     * Initialise les grandeurs des composants selon la grandeur de la fenêtre du programme
+     * Initialise les grandeurs des composants selon la grandeur de la fenï¿½tre du programme
      */
     private void initialiserGrandeursComposants() {
         grandeurPnlConversationX = this.getWidth();
@@ -89,7 +89,7 @@ class PnlConversations extends JPanel {
     /**
      * Ajoute une conversation au panneau
      *
-     * @param conversationDTO La conversation à ajouter
+     * @param conversationDTO La conversation ï¿½ ajouter
      */
     private void ajouterConversation(ConversationDTO conversationDTO) {
         JPanel pnlConversation = new JPanel();
@@ -104,7 +104,7 @@ class PnlConversations extends JPanel {
     /**
      * Initialise le panneau d'une conversation
      *
-     * @param pnlConversation Le panneau à initialiser
+     * @param pnlConversation Le panneau ï¿½ initialiser
      * @param conversationDTO Une conversation
      */
     private void initialiserPanneauConversation(JPanel pnlConversation, ConversationDTO conversationDTO) {
@@ -137,7 +137,7 @@ class PnlConversations extends JPanel {
     }
 
     /**
-     * Initialise le dernier message recu ou envoyé de la conversation
+     * Initialise le dernier message recu ou envoyï¿½ de la conversation
      *
      * @param pnlConversation Le panneau d'une conversation
      * @param conversationDTO Une conversation
@@ -146,7 +146,7 @@ class PnlConversations extends JPanel {
         String texteDernierMessage = "";
         if (conversationDTO.getLastMessage() != null) {
             if (conversationDTO.getLastMessage().isEnvoyer()) {
-                /*Affiché dans le cas où le dernier message est envoyé par l'utilisateur*/
+                /*Affichï¿½ dans le cas oï¿½ le dernier message est envoyï¿½ par l'utilisateur*/
                 String ENVOYEUR = "Vous : ";
                 texteDernierMessage = ENVOYEUR + conversationDTO.getLastMessage().getText();
             } else {
@@ -164,7 +164,7 @@ class PnlConversations extends JPanel {
     }
 
     /**
-     * Initialiser la date du dernier message recu/envoyé
+     * Initialiser la date du dernier message recu/envoyï¿½
      *
      * @param pnlConversation Le panneau d'une conversation
      * @param conversationDTO Une conversation
@@ -179,7 +179,7 @@ class PnlConversations extends JPanel {
     }
 
     /**
-     * Mettre à jour les conversations
+     * Mettre ï¿½ jour les conversations
      */
     public void mettreAJour() {
         this.removeAll();

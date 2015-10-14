@@ -4,7 +4,7 @@ package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
  * Gère les appareils auxquels il est possible de se connecter
  * Created by Louis-Simon on 10/10/2015.
  */
-public class GestionnaireAppareils {
+class GestionnaireAppareils {
 
     /**
      * Liste des appareils
@@ -20,6 +20,8 @@ public class GestionnaireAppareils {
     }
 
     public void setAppareils(Appareil[] appareils) {
+
         this.appareils = appareils;
     }
+
 }

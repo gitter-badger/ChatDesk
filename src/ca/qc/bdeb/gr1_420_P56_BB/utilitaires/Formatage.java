@@ -26,7 +26,7 @@ public class Formatage {
         /**
          * La valeur de la journée de la semaine
          */
-        private String valeur;
+        private final String valeur;
 
         JourFormat(String valeur) {
             this.valeur = valeur;
@@ -45,7 +45,7 @@ public class Formatage {
         HEURE(" h"),
         MINUTE(" m");
 
-        private String valeur;
+        private final String valeur;
 
         HeureFormat(String valeur) {
             this.valeur = valeur;

@@ -11,13 +11,13 @@ public class Utilisateur implements Serializable{
     private String motDePasse;
     private boolean informationsdeConnexionValides;
 
-    public Utilisateur(String motDePasse, String nom) {
-        this.motDePasse = motDePasse;
-        this.nom = nom;
+    public Utilisateur(String motDePasse) {
+        this.motDePasse = "chose";
+        this.nom = "chose";
         determinerInformationValide();
     }
 
-     void determinerInformationValide(){
+     private void determinerInformationValide(){
 
         informationsdeConnexionValides = true;
     }

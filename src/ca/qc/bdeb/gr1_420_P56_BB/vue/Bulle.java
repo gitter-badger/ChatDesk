@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 /**
  * Une bulle d'un message re�u ou envoy�.
  */
-public class Bulle {
+class Bulle {
 
     private static final Color COULEUR_BULLE_RECU = new Color(51, 153, 102);
     private static final Color COULEUR_BULLE_ENVOYE = new Color(80, 150, 180);
@@ -26,21 +26,23 @@ public class Bulle {
     /**
      * La bulle dessin�
      */
-    private BufferedImage bulle;
+    private final BufferedImage bulle;
 
     /**
      * Longueur maximal de la bulle
      */
-    private int maxWidth;
+    private final int maxWidth;
 
     /**
      * Le texte de la bulle
      */
     private JTextArea messageArea;
+    /**
+     * dimension totale
+     */
+    Dimension dimTotal;
 
-    private Dimension dimTotal;
-
-    private String message;
+    private final String message;
 
     public Bulle(Message message, int maxWidth) {
         this.maxWidth = maxWidth;

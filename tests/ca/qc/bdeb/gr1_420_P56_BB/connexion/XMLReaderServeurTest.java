@@ -10,13 +10,12 @@ import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireFic
 public class XMLReaderServeurTest extends TestCase {
 
     private XMLReaderServeur xmlReaderServeur;
-    private final String PATH_FICHIER_TEST_PREMIERE_CONNEXION = "resources\\fichiersTest\\testCommandeXmlServeurLireContenu.xml";
-    private final String PATH_FICHIER_TEST_COMMANDE_MESSAGES = "resources\\fichiersTest\\testCommandeXmlServeurCommandeMessages.xml";
 
     public void testLireContenu() throws Exception {
         EnveloppeBalisesCommServeur gestUser = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, "Alexandre");
         EnveloppeBalisesCommServeur gestPass = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, "1234");
 
+        String PATH_FICHIER_TEST_PREMIERE_CONNEXION = "resources\\fichiersTest\\testCommandeXmlServeurLireContenu.xml";
         xmlReaderServeur = new XMLReaderServeur(lireFichierDepuisChemin(PATH_FICHIER_TEST_PREMIERE_CONNEXION));
         EnveloppeBalisesCommServeur[] tabGest = xmlReaderServeur.lireContenu();
 
@@ -28,6 +27,7 @@ public class XMLReaderServeurTest extends TestCase {
     public void testLireCommande() throws Exception {
         CommandesServeur expected = CommandesServeur.REQUETE_MESSAGES;
 
+        String PATH_FICHIER_TEST_COMMANDE_MESSAGES = "resources\\fichiersTest\\testCommandeXmlServeurCommandeMessages.xml";
         xmlReaderServeur = new XMLReaderServeur(lireFichierDepuisChemin(PATH_FICHIER_TEST_COMMANDE_MESSAGES));
         CommandesServeur actual = xmlReaderServeur.lireCommande();
 

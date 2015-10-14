@@ -19,7 +19,7 @@ enum CommandesClient implements Balises {
      */
     MESSAGES("messages");
 
-    private String commande;
+    private final String commande;
 
     CommandesClient(String commande) {
         this.commande = commande;

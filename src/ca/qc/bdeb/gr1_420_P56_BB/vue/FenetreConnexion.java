@@ -49,28 +49,26 @@ public class FenetreConnexion extends JFrame {
     // Chiffre utiliser pour désigner la moitié de l'écran dans certains calculs
     private static final int MOITIE_ECRAN = 2;
     //Hauteur du Texte à côter des champs
-    public static final int HAUTEUR_STRING = 45;
+    private static final int HAUTEUR_STRING = 45;
     //Longueur de la chaine
-    public static final double RATIO_LONGEUR_CHAINE = 0.1;
+    private static final double RATIO_LONGEUR_CHAINE = 0.1;
     //Autre façon de représenter la moitié de l'écran dans certains calculs
-    public static final double RATIO_MOITIE_ECRAN = 0.5;
+    private static final double RATIO_MOITIE_ECRAN = 0.5;
     //Ratio d'hauteur de certain bouton sur l'écran
-    public static final double RATIO_HAUTEUR_LAYOUT_BOUTON = 0.01;
+    private static final double RATIO_HAUTEUR_LAYOUT_BOUTON = 0.01;
     //Nombre de colones dans le grid layout de la fenêtre
-    public static final int COL_LAYOUT_GRID = 2;
+    private static final int COL_LAYOUT_GRID = 2;
     //Utilsateur pour que les champs puissent être remplis à l'avance
     private Utilisateur utilisateur;
     //Pour établir la connexion avec le serveur
-    private FacadeModele facadeModele;
+    private final FacadeModele facadeModele;
 
     private JButton btnConnexion;
-    private JButton btnInscription;
     private JPanel pnlInformationEntres;
     private JPanel pnlBoutonsActions;
     private JTextArea champDeNomUsager;
     private JTextArea champDeMotDePasse;
     private JLabel lblIcone;
-    private ImageIcon iconeImage;
 
     /**
      * Contructeur... Je sais pas quoi dire de plus
@@ -111,7 +109,7 @@ public class FenetreConnexion extends JFrame {
      */
     private void initialiserIcone() {
         lblIcone = new JLabel();
-        iconeImage = new ImageIcon(CHEMIN_ICONE);
+        ImageIcon iconeImage = new ImageIcon(CHEMIN_ICONE);
         lblIcone.setIcon(iconeImage);
         lblIcone.setEnabled(true);
         lblIcone.setLocation(0, 0);
@@ -137,7 +135,7 @@ public class FenetreConnexion extends JFrame {
         pnlBoutonsActions.setSize(this.getWidth(), (int) (this.getHeight() * RATIO_80_ECRAN));
         pnlBoutonsActions.setLayout(new GridLayout(0, COL_LAYOUT_GRID, (int) (this.getHeight() * RATIO_HAUTEUR_LAYOUT_BOUTON), (int) (this.getHeight() * RATIO_MOITIE_ECRAN)));
         btnConnexion = new JButton(TEXTE_BOUTON_CONNEXION);
-        btnInscription = new JButton(TEXT_BOUTON_INSCRIPTION);
+        JButton btnInscription = new JButton(TEXT_BOUTON_INSCRIPTION);
         btnInscription.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT), HAUTEUR_BOUTON));
         btnConnexion.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT), HAUTEUR_BOUTON));
         connectionServeur();

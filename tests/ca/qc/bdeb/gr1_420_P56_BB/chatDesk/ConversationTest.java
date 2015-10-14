@@ -16,17 +16,11 @@ import static org.junit.Assert.assertEquals;
  * Created by Alexandre on 2015-09-07.
  */
 public class ConversationTest {
-    Conversation conversation;
+    private Conversation conversation;
 
     @Before
     public void setUp() throws Exception {
         conversation = new Conversation();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-
     }
 
     @Test

@@ -11,12 +11,12 @@ public class Contact{
     /**
      * Le numï¿½ro de tï¿½lï¿½phone du contact
      */
-    private long numeroTelephone;
+    private final long numeroTelephone;
 
     /**
      * Le nom du contact
      */
-    private String nom;
+    private final String nom;
 
     /**
      * Constructeur qui permet de crï¿½e un contact

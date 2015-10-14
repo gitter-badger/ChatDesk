@@ -16,12 +16,12 @@ public class GestionnaireConversation implements Observable {
     /**
      * Liste des observateurs
      */
-    private ArrayList<Observateur> observateurs = new ArrayList<>();
+    private final ArrayList<Observateur> observateurs = new ArrayList<>();
 
     /**
      * Liste des conversations
      */
-    private ArrayList<Conversation> conversations = new ArrayList<>();
+    private final ArrayList<Conversation> conversations = new ArrayList<>();
 
     /**
      * Le constructeur du gestionnaire de conversation
@@ -80,7 +80,7 @@ public class GestionnaireConversation implements Observable {
         return convertirConversationsToConversationsDTO();
     }
 
-    ArrayList<ConversationDTO> convertirConversationsToConversationsDTO() {
+    private ArrayList<ConversationDTO> convertirConversationsToConversationsDTO() {
         ArrayList<ConversationDTO> conversationsDTO = new ArrayList<>();
         for (Conversation conversation : conversations) {
             conversationsDTO.add(conversation.genererDTO());

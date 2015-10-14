@@ -10,31 +10,31 @@ class GestionnaireContacts {
     /**
      * Liste de tous les contacts présentement chargés dans le programme
      */
-    private ArrayList<Contact> listeContacts;
+    private final ArrayList<Contact> listeContacts;
 
     public GestionnaireContacts() {
         this.listeContacts = new ArrayList<>();
     }
 
-    protected void ajouterContact(Contact contact) {
+    void ajouterContact(Contact contact) {
         listeContacts.add(contact);
     }
 
-    protected void ajouterContacts(ArrayList<Contact> listeContacts) {
+    void ajouterContacts(ArrayList<Contact> listeContacts) {
         for (Contact contact : listeContacts) {
             this.listeContacts.add(contact);
         }
     }
 
-    protected void supprimerContact(Contact contact) {
+    void supprimerContact(Contact contact) {
         listeContacts.remove(contact);
     }
 
-    protected void supprimerContact(int position) {
-        listeContacts.remove(position);
+    void supprimerContact() {
+        listeContacts.remove(0);
     }
 
-    protected ArrayList getContacts() {
+    ArrayList getContacts() {
         return listeContacts;
     }
 
@@ -44,7 +44,7 @@ class GestionnaireContacts {
      * @param numeroTelephone Le numéro de téléphone du contact à retourner
      * @return Le contact possédant ce numéro de téléphone
      */
-    protected Contact getContact(long numeroTelephone) {
+    Contact getContact(long numeroTelephone) {
         int position = 0;
         Contact contact = null;
         boolean trouve = false;
@@ -65,7 +65,7 @@ class GestionnaireContacts {
      * @param nom Le nom du contact à retourner
      * @return Le contact possédant ce nom
      */
-    protected Contact getContact(String nom) {
+    Contact getContact(String nom) {
         int position = 0;
         Contact contact = null;
         boolean rechercheTermine = false;

@@ -19,8 +19,8 @@ public class GestionnaireConnexion {
      */
     private static final int NOMBRE_CHAMPS_APPAREIL = 2;
 
-    private FacadeModele facadeModele;
-    private GestionnaireSocket gestionnaireSocket;
+    private final FacadeModele facadeModele;
+    private final GestionnaireSocket gestionnaireSocket;
 
     public GestionnaireConnexion(FacadeModele facadeModele) {
         this.facadeModele = facadeModele;
@@ -166,5 +166,9 @@ public class GestionnaireConnexion {
      */
     public void arreterProgramme() {
         gestionnaireSocket.terminerCommuication();
+    }
+
+    public FacadeModele getFacadeModele() {
+        return facadeModele;
     }
 }

@@ -19,7 +19,7 @@ class XMLReader {
     private static final String MESSAGE_ERREUR_TELEPHONE = "Numéro de téléphone invalide";
     private static final String MESSAGE_ERREUR_TELEPHONE_OU_DATE = "Numéro de téléphone ou date invalide";
 
-    private Document document;
+    private final Document document;
 
     public XMLReader(String contenu) {
         document = lireXmlDepuisContenu(contenu);

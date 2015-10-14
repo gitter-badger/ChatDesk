@@ -19,9 +19,7 @@ public class XMLReaderTest {
 
     private XMLReader xmlH;
     private final String PATH_FICHIER_TEST_PREMIERE_CONNEXION = "resources\\fichiersTest\\testCommandeXmlPremiereConnexion.xml";
-    private final String PATH_FICHIER_TEST_CONTACTS = "resources\\fichiersTest\\testCommandeXmlPremiereConnexion.xml";
     private final String PATH_FICHIER_TEST_MESSAGES = "resources\\fichiersTest\\testCommandeXmlMessages.xml";
-    private final String PATH_FICHIER_TEST_ACCUSE = "resources\\fichiersTest\\testCommandeXmlAccuse.xml";
 
     @Test
     public void testCreerHandler() {
@@ -47,6 +45,7 @@ public class XMLReaderTest {
 
     @Test
     public void testLireUnContact() {
+        String PATH_FICHIER_TEST_CONTACTS = "resources\\fichiersTest\\testCommandeXmlPremiereConnexion.xml";
         xmlH = new XMLReader(lireFichierDepuisChemin(PATH_FICHIER_TEST_CONTACTS));
         ArrayList<Contact> listeContacts = xmlH.lireContacts();
         assertNotNull(listeContacts);
@@ -71,6 +70,7 @@ public class XMLReaderTest {
 
     @Test
     public void testLireAucunMessage() {
+        String PATH_FICHIER_TEST_ACCUSE = "resources\\fichiersTest\\testCommandeXmlAccuse.xml";
         xmlH = new XMLReader(lireFichierDepuisChemin(PATH_FICHIER_TEST_ACCUSE));
         ArrayList<EnveloppeMessage> listeEnveloppes = xmlH.lireMessages();
         assertNotNull(listeEnveloppes);

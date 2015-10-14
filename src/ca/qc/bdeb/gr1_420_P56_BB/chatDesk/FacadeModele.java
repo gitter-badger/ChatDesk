@@ -13,10 +13,10 @@ import java.util.ArrayList;
  */
 public class FacadeModele {
 
-    private GestionnaireConnexion gestionnaireConnexion;
-    private GestionnaireConversation gestionnaireConversation;
-    private GestionnaireContacts gestionnaireContacts;
-    private GestionnaireAppareils gestionnaireAppareils;
+    private final GestionnaireConnexion gestionnaireConnexion;
+    private final GestionnaireConversation gestionnaireConversation;
+    private final GestionnaireContacts gestionnaireContacts;
+    private final GestionnaireAppareils gestionnaireAppareils;
 
     /**
      * Initialise les différents éléments du modèle
@@ -92,5 +92,12 @@ public class FacadeModele {
 
     public void arreterProgramme() {
         gestionnaireConnexion.arreterProgramme();
+    }
+
+    public GestionnaireAppareils getGestionnaireAppareils() {
+        return gestionnaireAppareils;
+    }
+    public Appareil[] getAppareils(){
+        return gestionnaireAppareils.getAppareils();
     }
 }

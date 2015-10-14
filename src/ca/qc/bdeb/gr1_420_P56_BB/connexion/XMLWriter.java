@@ -17,10 +17,7 @@ import java.io.Writer;
  * Created by Louis-Simon Mc Nicoll on 2015-09-16.
  */
 class XMLWriter {
-    private static int VIDE = 0;
-    private static int LONGUEUR_MAX_LIGNE_XML = 65;
-    private static int TAILLE_INDENTATION = 4;
-    private static boolean INDENTE = true;
+    private static final int VIDE = 0;
 
     private Document doc;
 
@@ -35,20 +32,18 @@ class XMLWriter {
 
     /**
      * Envoie une commande et une liste de contacts
-     * @param commande
      * @return Le xml en format String
      */
-    public String construireXmlCommunication(Balises commande, EnveloppeContact[] tabContacts) {
-        return construireXmlCommunication(commande, new EnveloppeMessage[VIDE], tabContacts);
+    public String construireXmlCommunication(EnveloppeContact[] tabContacts) {
+        return construireXmlCommunication(CommandesClient.CONTACTS, new EnveloppeMessage[VIDE], tabContacts);
     }
 
     /**
      * Envoie une commande et une liste de messages
-     * @param commande
      * @return Le xml en format String
      */
-    public String construireXmlCommunication(Balises commande, EnveloppeMessage[] tabEnveloppes) {
-        return construireXmlCommunication(commande, tabEnveloppes, new EnveloppeContact[VIDE]);
+    public String construireXmlCommunication(EnveloppeMessage[] tabEnveloppes) {
+        return construireXmlCommunication(CommandesClient.MESSAGES, tabEnveloppes, new EnveloppeContact[VIDE]);
     }
 
     /**
@@ -157,8 +152,11 @@ class XMLWriter {
         doc.normalizeDocument();
         OutputFormat format = new OutputFormat(doc);
 
+        int LONGUEUR_MAX_LIGNE_XML = 65;
         format.setLineWidth(LONGUEUR_MAX_LIGNE_XML);
+        boolean INDENTE = true;
         format.setIndenting(INDENTE);
+        int TAILLE_INDENTATION = 4;
         format.setIndent(TAILLE_INDENTATION);
 
         XMLSerializer serializer = new XMLSerializer(out, format);

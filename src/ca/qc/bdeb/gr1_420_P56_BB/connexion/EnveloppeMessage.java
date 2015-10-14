@@ -8,9 +8,9 @@ import java.util.Date;
  */
 public class EnveloppeMessage implements ConvertissableXml {
 
-    private String message;
-    private Date date;
-    private long numeroTelephone;
+    private final String message;
+    private final Date date;
+    private final long numeroTelephone;
 
     public EnveloppeMessage(String message, long numeroTelephone, Date date) {
         this.message = message;
@@ -36,6 +36,6 @@ public class EnveloppeMessage implements ConvertissableXml {
      */
     @Override
     public String convertirEnXml() {
-        return new XMLWriter().construireXmlCommunication(CommandesClient.MESSAGES, new EnveloppeMessage[]{this});
+        return new XMLWriter().construireXmlCommunication(new EnveloppeMessage[]{this});
     }
 }

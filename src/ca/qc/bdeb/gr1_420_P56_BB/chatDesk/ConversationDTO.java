@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ConversationDTO {
 
     private ArrayList<Message> messages = new ArrayList<>();
-    private long numeroTelephone;
+    private final long numeroTelephone;
 
     /**
      * Créer une nouvelle conversation avec un contact et

@@ -3,8 +3,6 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Message;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
 import ca.qc.bdeb.gr1_420_P56_BB.vue.*;
-import ca.qc.bdeb.gr1_420_P56_BB.vue.Bulle;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,8 +18,8 @@ import java.util.Date;
  */
 public class BulleTest {
 
-    StringBuilder message;
-    Bulle bulle;
+    private StringBuilder message;
+    private Bulle bulle;
     @Before
     public void setUp() throws Exception {
         message = new StringBuilder("Bonjour, ceci est un message trop long de plus de 20 caractères pour faire des choses");

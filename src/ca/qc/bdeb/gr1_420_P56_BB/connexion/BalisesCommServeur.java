@@ -47,7 +47,7 @@ enum BalisesCommServeur implements Balises {
      */
     BALISE_MESSAGE("message");
 
-    private String balise;
+    private final String balise;
 
     BalisesCommServeur(String balise) {
         this.balise = balise;

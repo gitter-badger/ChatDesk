@@ -7,8 +7,8 @@ package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
  */
 public class Appareil {
 
-    private String nom;
-    private int id;
+    private final String nom;
+    private final int id;
 
     public Appareil(String nom, int id) {
         this.nom = nom;

@@ -15,38 +15,41 @@ import java.util.Date;
  * Panneau qui contient la conversation courante d'un utilisateur.
  */
 class PnlConversation extends JPanel {
-
+    //bouton pour envoyer sur une image
     private static final ImageIcon IMAGE_SEND_BUTTON = new ImageIcon("resources/images/send_button.png");
-
+    //nom de la police dans le panel
     private static final String NOM_POLICE = "Segoe UI Black";
+    //Taille du texte
     private static final int GRANDEUR_TEXTE = 18;
+    //Font dans le panel
     private final Font font = new Font(NOM_POLICE, Font.BOLD, GRANDEUR_TEXTE);
-
-    private final int VALEUR_CENTRER = 2;
-    private final int PNL_INFO_CONVO_HAUTEUR = 60;
-    private final int PNL_ENVOIE_HAUTEUR = 140;
-    private final int GRANDEUR_CONTOUR_CHAMP_AJOUT_MESSAGE = 10;
-    private final double POURCENTAGE_LONGUEUR_IMG_ENVOYER = 0.08;
-    private final double POURCENTAGE_HAUTEUR_IMG_ENVOYER = 0.25;
-
+    //Variable pour exprimer l'abscence de numÃ©ro de tÃ©lÃ©phone
     private final int AUCUN_NUMERO_TELEPHONE = -1;
-    private final String TEXTE_VIDE = "";
 
+    //panneau contentant l'information de la conversation
+    private final JPanel pnlInfoConvo;
+    //panneau pour l'envoie
+    private final JPanel pnlEnvoie;
 
-    private JPanel pnlInfoConvo;
-    private JPanel pnlEnvoie;
-    private PnlBulles pnlBulles;
+    //panneau contenant les bulles
+    private final PnlBulles pnlBulles;private JTextArea champAjoutMessage;
 
-    private JTextArea champAjoutMessage;
-
+    //bouton pour envoyer un message
     private JButton btnEnvoyer;
 
-    private FacadeModele facadeModele;
+    //Texte vide... jvoix pas quoi dire de plus
+    private final String TEXTE_VIDE = "";
 
-    private JLabel nom;
+    //Permet la communication
+    private final FacadeModele facadeModele;
 
+    //Nom du contact
+    private final JLabel nom;
+
+    //numÃ©ro de tÃ©lÃ©phone dans la liste de conversation
     private long numeroTelephone;
 
+    //Le scrolling dans les fenetre
     private ScrollPanel scrollPanelConversation;
 
     public PnlConversation(FacadeModele facadeModele) {
@@ -81,6 +84,7 @@ class PnlConversation extends JPanel {
 
     private void initialiserPnlInfoConvo() {
         pnlInfoConvo.setLocation(0, 0);
+        int PNL_INFO_CONVO_HAUTEUR = 60;
         pnlInfoConvo.setSize(this.getWidth(), PNL_INFO_CONVO_HAUTEUR);
         pnlInfoConvo.setLayout(null);
         nom.setFont(font);
@@ -89,6 +93,7 @@ class PnlConversation extends JPanel {
 
     private void initialiserPnlEnvoie() {
         pnlEnvoie.removeAll();
+        int PNL_ENVOIE_HAUTEUR = 140;
         pnlEnvoie.setSize(this.getWidth(), PNL_ENVOIE_HAUTEUR);
         pnlEnvoie.setLocation(0, this.getHeight() - pnlEnvoie.getHeight());
         pnlEnvoie.setLayout(null);
@@ -105,6 +110,7 @@ class PnlConversation extends JPanel {
         champAjoutMessage.setSize(pnlEnvoie.getWidth(), pnlEnvoie.getHeight());
         champAjoutMessage.setLocation(0, 0);
         Border border = BorderFactory.createLineBorder(Color.BLACK);
+        int GRANDEUR_CONTOUR_CHAMP_AJOUT_MESSAGE = 10;
         champAjoutMessage.setBorder(BorderFactory.createCompoundBorder(border,
                 BorderFactory.createEmptyBorder(GRANDEUR_CONTOUR_CHAMP_AJOUT_MESSAGE,
                         GRANDEUR_CONTOUR_CHAMP_AJOUT_MESSAGE, GRANDEUR_CONTOUR_CHAMP_AJOUT_MESSAGE,
@@ -113,7 +119,9 @@ class PnlConversation extends JPanel {
 
     private void initialiserBtnEnvoyer() {
         btnEnvoyer = new JButton();
+        double POURCENTAGE_LONGUEUR_IMG_ENVOYER = 0.08;
         int widthImage = (int) (pnlEnvoie.getWidth() * POURCENTAGE_LONGUEUR_IMG_ENVOYER);
+        double POURCENTAGE_HAUTEUR_IMG_ENVOYER = 0.25;
         int heightImage = (int) (pnlEnvoie.getHeight() * POURCENTAGE_HAUTEUR_IMG_ENVOYER);
         btnEnvoyer.setBorderPainted(false);
         btnEnvoyer.setContentAreaFilled(false);
@@ -142,7 +150,7 @@ class PnlConversation extends JPanel {
     /**
      * Permet le changement de conversation
      *
-     * @param numeroTelephone Le numéro de téléphone de la nouvelle conversation
+     * @param numeroTelephone Le numï¿½ro de tï¿½lï¿½phone de la nouvelle conversation
      */
     public void changerConversation(long numeroTelephone) {
         this.numeroTelephone = numeroTelephone;
@@ -153,6 +161,7 @@ class PnlConversation extends JPanel {
         }
         Dimension dimensionNom = Formatage.calculerDimensionString(nom.getText(), font);
         nom.setSize(dimensionNom);
+        int VALEUR_CENTRER = 2;
         nom.setLocation(pnlInfoConvo.getWidth() / VALEUR_CENTRER - nom.getWidth() / VALEUR_CENTRER,
                 pnlInfoConvo.getHeight() / VALEUR_CENTRER - nom.getHeight() / VALEUR_CENTRER);
         if (btnEnvoyer != null) {
@@ -166,7 +175,7 @@ class PnlConversation extends JPanel {
     /**
      * Envoyer un message
      */
-    public void envoyerMessage() {
+    private void envoyerMessage() {
         if (!champAjoutMessage.getText().equals(TEXTE_VIDE) && numeroTelephone != AUCUN_NUMERO_TELEPHONE) {
             facadeModele.envoyerMessage(numeroTelephone,
                     new Message(champAjoutMessage.getText(), new Date(System.currentTimeMillis()), true));
@@ -175,9 +184,9 @@ class PnlConversation extends JPanel {
     }
 
     /**
-     * Mettre à jour les messages de la conversation si le message reçu fait partie de la conversation.
+     * Mettre ï¿½ jour les messages de la conversation si le message reï¿½u fait partie de la conversation.
      *
-     * @param numeroTelephone Le numéro de téléphone du nouveau message reçu
+     * @param numeroTelephone Le numï¿½ro de tï¿½lï¿½phone du nouveau message reï¿½u
      */
     public void mettreAJour(long numeroTelephone) {
         if (this.numeroTelephone == numeroTelephone) {

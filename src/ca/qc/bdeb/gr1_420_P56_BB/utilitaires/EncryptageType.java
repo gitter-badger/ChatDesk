@@ -8,7 +8,7 @@ public enum EncryptageType {
     ENCRYPTAGE_SERVER(10),
     ENCRYPTAGE_MESSAGE(40);
 
-    private long value;
+    private final long value;
 
     EncryptageType(long value) {
         this.value = value;

@@ -51,10 +51,6 @@ class GestionnaireSocket implements Runnable {
      * Balises contenant le nombre de lignes qu'il faut lire dans la connexion
      */
     private final String DEBUT_BALISE_LIGNES = "<lines>", FIN_BALISE_LIGNES = "</lines>";
-    /**
-     * Indicateur d'entier pour le formattage de string
-     */
-    private final String INDICATEUR_ENTIER = "%d";
 
 
     private Socket socket;
@@ -62,20 +58,12 @@ class GestionnaireSocket implements Runnable {
      * Détermine si le socket devrait écouter en lecture, sa mise à false entrainerait la fin de la connexion
      */
     private boolean actif;
-    private GestionnaireConnexion gestionnaireConnexion;
+    private final GestionnaireConnexion gestionnaireConnexion;
 
     /**
      * Host name à utilisé pour se connecter localement
      */
     private final String HOST_NAME_LOCAL = "127.0.0.1";
-    /**
-     * Host names auquel se connecté si le serveur est distant
-     */
-    private final String HOST_NAME = "chatdesk.ddns.net";
-    /**
-     * Le port auquel se connecté sur le serveur
-     */
-    private final int PORT = 8080;
 
     private PrintWriter out;
     private BufferedReader in;
@@ -98,6 +86,13 @@ class GestionnaireSocket implements Runnable {
         if (!socket.isConnected()) {
             try {
                 this.socket = new Socket();
+                /*
+      Le port auquel se connecté sur le serveur
+     */
+                int PORT = 8080;/*
+      Host names auquel se connecté si le serveur est distant
+     */
+                String HOST_NAME = "chatdesk.ddns.net";
                 this.socket.connect(new InetSocketAddress(HOST_NAME, PORT), TEMPS_CONNEXION_SOCKET);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -181,6 +176,7 @@ class GestionnaireSocket implements Runnable {
 
     /**
      * Lis toutes les lignes d'une communication et les retournent dans un seul String
+     *
      * @return String des lignes concaténées
      */
     private synchronized String readAllLines() {
@@ -198,7 +194,7 @@ class GestionnaireSocket implements Runnable {
                 inputLine = in.readLine();
                 contenu += inputLine;
             }
-        } catch (SocketException e ) {
+        } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -216,19 +212,27 @@ class GestionnaireSocket implements Runnable {
 
     /**
      * Envoi un message
+     *
      * @param communication
      */
     void envoyerMessage(String communication) {
-        out.println(mettreBaliseNombreLigne(communication));
-        out.flush();
+        if (out != null) {
+            out.println(mettreBaliseNombreLigne(communication));
+            out.flush();
+        }
     }
 
     /**
      * Ajoute les balises contenant le nombre de lignes au début de la communication
+     *
      * @param communication La communication
      * @return La communication avec les balises ajoutées
      */
     private String mettreBaliseNombreLigne(String communication) {
+        /*
+      Indicateur d'entier pour le formattage de string
+     */
+        String INDICATEUR_ENTIER = "%d";
         communication = DEBUT_BALISE_LIGNES + INDICATEUR_ENTIER + FIN_BALISE_LIGNES + "\n" + communication;
         communication = String.format(communication, trouverNombreLignes(communication));
         return communication;
@@ -236,6 +240,7 @@ class GestionnaireSocket implements Runnable {
 
     /**
      * Trouve le nombre de lignes que fait la communication
+     *
      * @param communication La communication
      * @return Le nombre de lignes que fait la communication
      */

@@ -8,16 +8,16 @@ public class EnveloppeContact implements ConvertissableXml {
     /**
      * Le numéro de téléphone du contact
      */
-    private long numeroTelephone;
+    private final long numeroTelephone;
 
     /**
      * Le nom du contact
      */
-    private String nom;
+    private final String nom;
 
-    public EnveloppeContact(long numeroTelephone, String nom) {
-        this.numeroTelephone = numeroTelephone;
-        this.nom = nom;
+    public EnveloppeContact(long numeroTelephone) {
+        this.numeroTelephone = 9367457456l;
+        this.nom = "jacques";
     }
 
     /**
@@ -40,6 +40,6 @@ public class EnveloppeContact implements ConvertissableXml {
      */
     @Override
     public String convertirEnXml() {
-        return new XMLWriter().construireXmlCommunication(CommandesClient.CONTACTS, new EnveloppeContact[]{this});
+        return new XMLWriter().construireXmlCommunication(new EnveloppeContact[]{this});
     }
 }

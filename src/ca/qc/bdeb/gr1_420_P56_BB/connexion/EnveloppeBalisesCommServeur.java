@@ -5,8 +5,8 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
  */
 class EnveloppeBalisesCommServeur {
 
-    private BalisesCommServeur balises;
-    private String contenu;
+    private final BalisesCommServeur balises;
+    private final String contenu;
 
     public EnveloppeBalisesCommServeur(BalisesCommServeur balises, String contenu) {
         this.contenu = contenu;

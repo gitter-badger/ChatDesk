@@ -16,15 +16,15 @@ import static org.junit.Assert.*;
  * Created by 47 on 2015-10-11.
  */
 public class FrmChatDeskTest {
-    ConversationDTO conversationDTOTest;
-    ArrayList<Message> listeMessageTest;
+    private ConversationDTO conversationDTOTest;
+    private ArrayList<Message> listeMessageTest;
     private static final long NUM_TEST = 5141234567l;
     private static final Message MESSAGE_1 = new Message("A", new Date(), false);
     private static final Message MESSAGE_2 = new Message("B", new Date(), true);
     private static final Message MESSAGE_3 = new Message("C", new Date(), false);
     private static final Message MESSAGE_4 = new Message("D", new Date(), true);
-    FrmChatDesk frmChatDeskTest;
-    FacadeModele facadeModeleTest;
+    private FrmChatDesk frmChatDeskTest;
+    private FacadeModele facadeModeleTest;
     @Before
     public void setUp() throws Exception {
         facadeModeleTest = new FacadeModele();

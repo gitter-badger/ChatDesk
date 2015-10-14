@@ -13,7 +13,7 @@ class Conversation {
     /**
      * Liste des messages d'une conversation
      */
-    private ArrayList<Message> messages = new ArrayList<>();
+    private final ArrayList<Message> messages = new ArrayList<>();
 
     /**
      * Numéro de téléphone du contact avec qui la conversation a lieu
@@ -66,7 +66,7 @@ class Conversation {
     /**
      * @return Liste des messages échangés
      */
-    public ArrayList<Message> getMessages() {
+    private ArrayList<Message> getMessages() {
         return messages;
     }
 

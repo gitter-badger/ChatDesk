@@ -15,7 +15,7 @@ import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireXml
  */
 class XMLReaderServeur {
 
-    private Document document;
+    private final Document document;
 
     public XMLReaderServeur(String contenu) {
         document = lireXmlDepuisContenu(contenu);
@@ -29,9 +29,9 @@ class XMLReaderServeur {
     CommandesServeur lireCommande() {
         String requeteTexte;
 
-        NodeList nList = getNodesParBalise(BalisesCommServeur.BALISE_SERVEUR);
+        NodeList nList = getNodesParBalise();
         Node node = nList.item(0);
-        requeteTexte = getElementParBalise(node, BalisesCommServeur.BALISE_REQUETE);
+        requeteTexte = getElementParBalise(node);
 
         return CommandesServeur.getRequeteParString(requeteTexte);
     }
@@ -44,7 +44,7 @@ class XMLReaderServeur {
     EnveloppeBalisesCommServeur[] lireContenu() {
         ArrayList<EnveloppeBalisesCommServeur> listeGest = new ArrayList<>();
 
-        NodeList nList = getNodesParBalise(BalisesCommServeur.BALISE_SERVEUR);
+        NodeList nList = getNodesParBalise();
         nList = nList.item(0).getChildNodes();
 
         for (int i = 0; i < nList.getLength(); i++) {
@@ -63,15 +63,14 @@ class XMLReaderServeur {
 
     /**
      * Retourne la liste de nodes (c'est à dire une balise et son contenu) correspondant à une balise
-     * @param balise La balise dont chercher les nodes
      * @return La liste des nodes correspondants à la balise
      */
-    private NodeList getNodesParBalise(Balises balise) {
-        return document.getElementsByTagName(balise.getBalise());
+    private NodeList getNodesParBalise() {
+        return document.getElementsByTagName(BalisesCommServeur.BALISE_SERVEUR.getBalise());
     }
 
-    private String getElementParBalise(Node node, Balises balise) {
-        return getElementParBalise(node, balise.getBalise());
+    private String getElementParBalise(Node node) {
+        return getElementParBalise(node, BalisesCommServeur.BALISE_REQUETE.getBalise());
     }
 
     /**

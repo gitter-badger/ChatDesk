@@ -3,7 +3,6 @@ package ca.qc.bdeb.gr1_420_P56_BB.utilitaires;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers;
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -18,8 +17,8 @@ public class EncryptageTest {
     public void testEncryptageDecryptage() {
         Encryptage encryptage = new Encryptage();
 
-        String messageEncrypter = encryptage.encrypter(ManipulationFichiers.lireFichierDepuisChemin(PATH_FICHIER_TEST_CONTACTS), EncryptageType.ENCRYPTAGE_MESSAGE);
-        String messageDecrypter = encryptage.decrypter(messageEncrypter, EncryptageType.ENCRYPTAGE_MESSAGE);
+        String messageEncrypter = Encryptage.encrypter(ManipulationFichiers.lireFichierDepuisChemin(PATH_FICHIER_TEST_CONTACTS), EncryptageType.ENCRYPTAGE_MESSAGE);
+        String messageDecrypter = Encryptage.decrypter(messageEncrypter, EncryptageType.ENCRYPTAGE_MESSAGE);
 
         assertEquals(ManipulationFichiers.lireFichierDepuisChemin(PATH_FICHIER_TEST_CONTACTS), messageDecrypter);
     }

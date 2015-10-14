@@ -16,7 +16,7 @@ public class GestionnaireContactsTest {
     private final Contact CONTACT_3 = new Contact(3, "C");
     private final Contact CONTACT_4 = new Contact(4, "D");
 
-    GestionnaireContacts gestionnaireContacts;
+    private GestionnaireContacts gestionnaireContacts;
 
     @Before
     public void setUp() {
@@ -51,7 +51,7 @@ public class GestionnaireContactsTest {
 
     @Test
     public void testSupprimerContactPosition(){
-        gestionnaireContacts.supprimerContact(0);
+        gestionnaireContacts.supprimerContact();
 
         Assert.assertEquals(3, gestionnaireContacts.getContacts().size());
         Assert.assertEquals(CONTACT_2, gestionnaireContacts.getContacts().get(0));

@@ -39,7 +39,7 @@ enum BalisesCommClient implements Balises {
      */
     BALISE_MESSAGE("message");
 
-    private String balise;
+    private final String balise;
 
     BalisesCommClient(String balise) {
         this.balise = balise;

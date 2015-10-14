@@ -12,7 +12,7 @@ enum CommandesServeur {
     REQUETE_LOGIN("login"),
     REQUETE_NOUVEAU_COMPTE("compte");
 
-    private String balise;
+    private final String balise;
 
     CommandesServeur(String balise) {
         this.balise = balise;

@@ -12,17 +12,17 @@ public class Message {
     /**
      * Le contenu du message
      */
-    private String text;
+    private final String text;
 
     /**
      * La date que le message à été recu ou envoyer
      */
-    private Date date;
+    private final Date date;
 
     /**
      * Si le message est envoyé ou recu
      */
-    private boolean envoyer;
+    private final boolean envoyer;
 
     /**
      * @param text    Le text

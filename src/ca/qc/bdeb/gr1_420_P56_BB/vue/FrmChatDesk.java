@@ -10,14 +10,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 /**
- * La fenêtre principale de l'application
+ * La fenï¿½tre principale de l'application
  */
 class FrmChatDesk extends JFrame implements Observateur {
-
-    private final int LARGEUR_SEPARATEUR = 1;
-    private final int VALEUR_CENTRER = 2;
-    private final double POURCENTAGE_ECRAN_GRANDEUR_FENETRE = 0.8;
-    private final double POURCENTAGE_ECRAN_GRANDEUR_PNL_CONVERSATION = 0.3;
 
     /**
      * Le panneau qui affiche la conversation en cours
@@ -25,19 +20,25 @@ class FrmChatDesk extends JFrame implements Observateur {
     private PnlConversation pnlConversation;
 
     /**
-     * Le panneau qui affiche toutes les conversation qu'à l'utilisateur
+     * Le panneau qui affiche toutes les conversation qu'ï¿½ l'utilisateur
      */
     private PnlConversations pnlConversations;
 
     /**
-     * La bar d'option/menu en haut de la fenêtre
+     * La bar d'option/menu en haut de la fenï¿½tre
      */
     private OptionBar optionBar;
-
+    /**
+     *
+     */
     private JSeparator separateurVertical;
-
-    private FacadeModele facadeModele;
-
+    /**
+     *
+     */
+    private final FacadeModele facadeModele;
+    /**
+     *
+     */
     private ScrollPanel scrollPanelConversations;
 
     public FrmChatDesk(FacadeModele facadeModele) {
@@ -47,23 +48,26 @@ class FrmChatDesk extends JFrame implements Observateur {
     }
 
     /**
-     * Initialise la fenêtre de l'application et toutes ses composantes
+     * Initialise la fenï¿½tre de l'application et toutes ses composantes
      */
     private void initialiserFenetre() {
         this.setLayout(null);
         this.setUndecorated(true);
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        double POURCENTAGE_ECRAN_GRANDEUR_FENETRE = 0.8;
         int dimensionAppX = (int) (dimension.width * POURCENTAGE_ECRAN_GRANDEUR_FENETRE);
         int dimensionAppY = (int) (dimension.height * POURCENTAGE_ECRAN_GRANDEUR_FENETRE);
 
         this.setSize(dimensionAppX, dimensionAppY);
+        int VALEUR_CENTRER = 2;
         this.setLocation(dimension.width / VALEUR_CENTRER - dimensionAppX / VALEUR_CENTRER,
                 dimension.height / VALEUR_CENTRER - dimensionAppY / VALEUR_CENTRER);
 
         optionBar = new OptionBar(this);
 
         pnlConversations = new PnlConversations(this, facadeModele);
+        double POURCENTAGE_ECRAN_GRANDEUR_PNL_CONVERSATION = 0.3;
         scrollPanelConversations = new ScrollPanel(pnlConversations,
                 (int) (this.getWidth() * POURCENTAGE_ECRAN_GRANDEUR_PNL_CONVERSATION),
                 this.getHeight() - optionBar.getHeight());
@@ -87,12 +91,13 @@ class FrmChatDesk extends JFrame implements Observateur {
     }
 
     /**
-     * Changement de grandeur de la fenêtre
+     * Changement de grandeur de la fenï¿½tre
      */
     private void changerGrandeurComposant() {
         optionBar.initialiserPanel();
         pnlConversations.initialiserPanel();
 
+        int LARGEUR_SEPARATEUR = 1;
         separateurVertical.setSize(LARGEUR_SEPARATEUR, this.getHeight());
         separateurVertical.setLocation(scrollPanelConversations.getWidth(), optionBar.getHeight());
 
@@ -105,7 +110,7 @@ class FrmChatDesk extends JFrame implements Observateur {
     /**
      * Ouvrir une couversation dans le panneau conversation
      *
-     * @param conversationDTO La conversation à ouvrir
+     * @param conversationDTO La conversation ï¿½ ouvrir
      */
     public void ouvrirConversation(ConversationDTO conversationDTO) {
         pnlConversation.changerConversation(conversationDTO.getNumeroTelephone());
@@ -119,7 +124,7 @@ class FrmChatDesk extends JFrame implements Observateur {
     }
 
     /**
-     * Récupérer le panel de conversation pour les tests.
+     * Rï¿½cupï¿½rer le panel de conversation pour les tests.
      *
      * @return Le panel conversation
      */
@@ -128,7 +133,7 @@ class FrmChatDesk extends JFrame implements Observateur {
     }
 
     /**
-     * Permet d'arrêter le programme
+     * Permet d'arrï¿½ter le programme
      */
     public void arreterProgramme(){
         this.dispose();

@@ -19,7 +19,7 @@ class OptionBar extends JPanel {
     private static final ImageIcon IMAGE_PROFILE = new ImageIcon("resources/images/profile.png");
 
     private static final int CLICK_COUNT = 2;
-    private static Color BACKGROUND_COLOR = new Color(0, 142, 198);
+    private static final Color BACKGROUND_COLOR = new Color(0, 142, 198);
 
 
     private JLabel fermer;
