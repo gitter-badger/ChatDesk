@@ -66,9 +66,10 @@ public class GestionnaireConnexion {
         Appareil[] tabAppareils = new Appareil[(tabCommAppareils.length - 1) / NOMBRE_CHAMPS_APPAREIL];
 
 
-        for (int i = 1, j = 0; i < tabCommAppareils.length; i += NOMBRE_CHAMPS_APPAREIL, j++) {
-            tabAppareils[j] = lireAppareil(tabCommAppareils[i], tabCommAppareils[i + 1]);
-
+        for (int indiceDonnees = 1, indiceTableauAppareils = 0; indiceDonnees < tabCommAppareils.length;
+             indiceDonnees += NOMBRE_CHAMPS_APPAREIL, indiceTableauAppareils++) {
+            tabAppareils[indiceTableauAppareils] = lireAppareil(tabCommAppareils[indiceDonnees],
+                    tabCommAppareils[indiceDonnees + 1]);
         }
 
         facadeModele.setAppareils(tabAppareils);

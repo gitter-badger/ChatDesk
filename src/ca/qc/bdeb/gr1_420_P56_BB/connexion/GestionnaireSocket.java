@@ -19,6 +19,13 @@ import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage.encrypter;
  */
 class GestionnaireSocket implements Runnable {
 
+    /*
+      Le port auquel se connecté sur le serveur
+    */
+    private final static int PORT = 8080;/*
+      Host names auquel se connecté si le serveur est distant
+     */
+    private final static String HOST_NAME = "chatdesk.ddns.net";
     /**
      * Temps d'attente maximal lors d'une lecture obligatoire
      */
@@ -48,16 +55,20 @@ class GestionnaireSocket implements Runnable {
      */
     private static final int NOMBRE_LIGNES_INITIAL = 1;
     /**
-     * Balises contenant le nombre de lignes qu'il faut lire dans la connexion
+     * Balises ouvrante contenant le nombre de lignes
      */
-    private final String DEBUT_BALISE_LIGNES = "<lines>", FIN_BALISE_LIGNES = "</lines>";
-
+    private final String DEBUT_BALISE_LIGNES = "<lines>";
+    /**
+     * Balises fermante contenant le nombre de lignes
+     */
+    private final String FIN_BALISE_LIGNES = "</lines>";
 
     private Socket socket;
     /**
      * Détermine si le socket devrait écouter en lecture, sa mise à false entrainerait la fin de la connexion
      */
     private boolean actif;
+
     private final GestionnaireConnexion gestionnaireConnexion;
 
     /**
@@ -86,13 +97,7 @@ class GestionnaireSocket implements Runnable {
         if (!socket.isConnected()) {
             try {
                 this.socket = new Socket();
-                /*
-      Le port auquel se connecté sur le serveur
-     */
-                int PORT = 8080;/*
-      Host names auquel se connecté si le serveur est distant
-     */
-                String HOST_NAME = "chatdesk.ddns.net";
+
                 this.socket.connect(new InetSocketAddress(HOST_NAME, PORT), TEMPS_CONNEXION_SOCKET);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
