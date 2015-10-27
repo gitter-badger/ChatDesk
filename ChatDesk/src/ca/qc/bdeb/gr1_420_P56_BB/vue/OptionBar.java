@@ -1,6 +1,7 @@
 package ca.qc.bdeb.gr1_420_P56_BB.vue;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,6 +11,12 @@ import java.awt.event.MouseMotionAdapter;
  * La bar d'option/menu en haut de la fen�tre principale du programme.
  */
 class OptionBar extends JPanel {
+
+    /**
+     *TODO ajouter le bouton d'ajout conversation
+     */
+
+
 
     /**
      * Image du bouton de fermeture
@@ -35,6 +42,10 @@ class OptionBar extends JPanel {
      * Image du bouton de profile
      */
     private static final ImageIcon IMAGE_PROFILE = new ImageIcon("resources/images/profile.png");
+    /**
+     * Image du bouton d'ajout de conversation
+     */
+    private static final ImageIcon IMAGE_AJOUT_CONVO = new ImageIcon("resources/images/android_add_circle_outline.png");
 
     /**
      * Nombre de cliques avant d'être considéré comme un double clique
@@ -70,6 +81,11 @@ class OptionBar extends JPanel {
      * Le point du click initial lors d'un drag and drop
      */
     private Point clickInitial;
+
+    /**
+     *
+     */
+    private JLabel ajoutConversation;
 
     /**
      * Indique si le frame est en plein écran
@@ -142,8 +158,10 @@ class OptionBar extends JPanel {
         initialiserBoutonFermer();
         initialiserBoutonGrandir();
         initialiserBoutonMinimiser();
+        initialiserBoutonAjoutConversation();
         initialiserBoutonOptions();
         initialiserBoutonProfile();
+
     }
 
     /**
@@ -161,6 +179,20 @@ class OptionBar extends JPanel {
         this.add(fermer);
     }
 
+    /**
+     * initialise le bouton pour ajouter une conversation à partir d'un numéro de téléphone
+     */
+    private void initialiserBoutonAjoutConversation(){
+        ajoutConversation = new JLabel(IMAGE_AJOUT_CONVO);
+        ajoutConversation.setSize(IMAGE_AJOUT_CONVO.getIconWidth(), IMAGE_AJOUT_CONVO.getIconHeight());
+        ajoutConversation.addMouseListener(new MouseInputAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                fenetrePrincipale.ajouterConversation();
+            }
+        });
+        this.add(ajoutConversation);
+    }
     /**
      * Initialise le bouton grandir
      */
@@ -215,7 +247,12 @@ class OptionBar extends JPanel {
         profile.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-
+                 FenetreContacts fenetreContacts = new FenetreContacts(fenetrePrincipale, fenetrePrincipale.getFacadeModele());
+                 JFrame jFrameContacts = new JFrame();
+                jFrameContacts.setLayout(null);
+                jFrameContacts.setBounds(fenetreContacts.getBounds());
+                jFrameContacts.add(fenetreContacts);
+                jFrameContacts.setVisible(true);
             }
         });
         this.add(profile);
@@ -272,5 +309,6 @@ class OptionBar extends JPanel {
                 this.getHeight() / 2 - minimiser.getHeight() / 2);
         options.setLocation(10, this.getHeight() / 2 - options.getHeight() / 2);
         profile.setLocation(options.getWidth() + 20, this.getHeight() / 2 - profile.getHeight() / 2);
+        ajoutConversation.setLocation(minimiser.getLocation().x - ajoutConversation.getWidth() - 10, this.getHeight() / 2 - ajoutConversation.getHeight() / 2);
     }
 }
