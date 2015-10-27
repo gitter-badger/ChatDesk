@@ -1,10 +1,11 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
-import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
-import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
 
-import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage.*;
+import ca.qc.bdeb.gr1_420_p56_bb.services.ChatDeskService;
+import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.EncryptageType;
+
+import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.decrypter;
+import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.encrypter;
 
 
 /**
@@ -14,16 +15,16 @@ import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage.*;
  */
 public class GestionnaireConnexion {
 
-    /**
-     * Nombre de champs par appareils
-     */
-    private static final int NOMBRE_CHAMPS_APPAREIL = 2;
-
-    private FacadeModele facadeModele;
+    private ChatDeskService service;
     private GestionnaireSocket gestionnaireSocket;
 
-    public GestionnaireConnexion(FacadeModele facadeModele) {
-        this.facadeModele = facadeModele;
+    /**
+     * Indique si ce programme est un téléphone, dans notre cas évidemment non
+     */
+    private static final boolean IS_TELEPHONE = false;
+
+    public GestionnaireConnexion(ChatDeskService service) {
+        this.service = service;
         this.gestionnaireSocket = new GestionnaireSocket(this);
     }
 
@@ -43,10 +44,6 @@ public class GestionnaireConnexion {
             case REQUETE_LIEN:
                 //Pas encore implémenté
                 break;
-            case REQUETE_LIENS:
-                GestionnaireBalisesCommServeur[] tabAppareils = xmlReaderServeur.lireContenu();
-                lireAppareils(tabAppareils);
-                break;
             case REQUETE_MESSAGES:
                 GestionnaireBalisesCommServeur[] tabMessages = xmlReaderServeur.lireContenu();
                 for (int i = 1; i < tabMessages.length; i++) {
@@ -54,57 +51,6 @@ public class GestionnaireConnexion {
                 }
                 break;
         }
-    }
-
-    /**
-     * Gère la lecture des appareils depuis le tableau de contenu
-     *
-     * @param tabCommAppareils
-     */
-    private void lireAppareils(GestionnaireBalisesCommServeur[] tabCommAppareils) {
-        //Soustrait 1 au length parce qu'une ligne est occupée par la balise de commande
-        Appareil[] tabAppareils = new Appareil[(tabCommAppareils.length - 1) / NOMBRE_CHAMPS_APPAREIL];
-
-        int i = 1, j = 0;
-        while (i < tabCommAppareils.length) {
-            tabAppareils[j] = lireAppareil(tabCommAppareils[i], tabCommAppareils[i + 1]);
-            i += NOMBRE_CHAMPS_APPAREIL;
-            j++;
-        }
-
-        facadeModele.setAppareils(tabAppareils);
-
-        /*
-         * Lignes seulement présentes à fin de test, elles font se connecter le programme au premier appareil
-         * de la liste s'il y en a un
-         */
-        if (tabAppareils.length > 0) {
-            initierLien(tabAppareils[0].getId());
-        }
-    }
-
-    /**
-     * Lis un appareil depuis plusieurs GestionnaireBalisesCommServeur
-     *
-     * @param champId Le champ contenant l'id
-     * @param champNom Le champ contenant le nom
-     * @return Un nouvel appareil doté des champs passés en paramètre
-     */
-    private Appareil lireAppareil(GestionnaireBalisesCommServeur champId, GestionnaireBalisesCommServeur champNom) {
-        int id = Integer.parseInt(champId.getContenu());
-        String nom = champNom.getContenu();
-        return new Appareil(nom, id);
-    }
-
-    /**
-     * Envoi au serveur une demande de connexion avec un autre client, appelé un lien
-     * @param idAppareil L'id de l'appareil auquel se connecter
-     */
-    public void initierLien(int idAppareil) {
-        XMLWriter xmlWriter = new XMLWriter();
-        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIEN,
-                new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_ID_APPAREIL, Integer.toString(idAppareil)));
-        this.gestionnaireSocket.envoyerMessage(encrypter(comm, EncryptageType.ENCRYPTAGE_SERVER));
     }
 
     /**
@@ -124,13 +70,11 @@ public class GestionnaireConnexion {
         String message = decrypter(communication, EncryptageType.ENCRYPTAGE_MESSAGE);
         XMLReader xmlReader = new XMLReader(message);
         switch (xmlReader.lireCommande()) {
-            case PREMIERE_CONNEXION:
-                facadeModele.ajouterContacts(xmlReader.lireContacts());
             case MESSAGES:
-                facadeModele.ajouterMessages(xmlReader.lireMessages());
+                service.envoyerMessages(xmlReader.lireMessages());
                 break;
             case CONTACTS:
-                facadeModele.ajouterContacts(xmlReader.lireContacts());
+                service.ajouterContacts(xmlReader.lireContacts());
                 break;
         }
     }
@@ -152,12 +96,24 @@ public class GestionnaireConnexion {
 
     /**
      * Envoi une demande de connexion au serveur
-     * @param nom Le nom d'utilisateur
+     * @param user Le nom d'utilisateur
      * @param pass Le mot de passe
      * @return Une des valeurs de l'énum ResultatsConnexion : Valide, Invalide ou Impossible
      */
-    public ResultatsConnexion seConnecter(String nom, String pass) {
-        return gestionnaireSocket.commencerCommunication(nom, pass);
+    public ResultatsConnexion seConnecter(String user, String pass) {
+        XMLWriter xmlWriter = new XMLWriter();
+
+        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurNom
+                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, user);
+        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurPass
+                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, pass);
+        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurIsTelephone
+                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_IS_TELEPHONE, Boolean.toString(IS_TELEPHONE));
+
+        String infoConnexionComm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, gestionnaireBalisesCommServeurNom,
+                gestionnaireBalisesCommServeurPass, gestionnaireBalisesCommServeurIsTelephone);
+
+        return gestionnaireSocket.commencerCommunication(infoConnexionComm);
     }
 
     /**

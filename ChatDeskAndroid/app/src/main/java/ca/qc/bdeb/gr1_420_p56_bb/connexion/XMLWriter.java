@@ -1,13 +1,12 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -26,6 +25,7 @@ class XMLWriter {
 
     /**
      * N'envoie qu'une commande
+     *
      * @param commande
      * @return Le xml en format String
      */
@@ -35,6 +35,7 @@ class XMLWriter {
 
     /**
      * Envoie une commande et une liste de contacts
+     *
      * @param commande
      * @return Le xml en format String
      */
@@ -44,6 +45,7 @@ class XMLWriter {
 
     /**
      * Envoie une commande et une liste de messages
+     *
      * @param commande
      * @return Le xml en format String
      */
@@ -53,6 +55,7 @@ class XMLWriter {
 
     /**
      * Envoie une commande, une liste de contacts et une liste de messages
+     *
      * @param commande
      * @return Le xml en format String
      */
@@ -70,6 +73,7 @@ class XMLWriter {
 
     /**
      * Construit la liste des balises contacts
+     *
      * @param rootElement Le parent de ces balises
      * @param tabContacts Le tableau de contacts à convertir en XML
      */
@@ -87,7 +91,8 @@ class XMLWriter {
 
     /**
      * Construit la liste des balises messages
-     * @param rootElement Le parent de ces balises
+     *
+     * @param rootElement   Le parent de ces balises
      * @param tabEnveloppes Le tableau de messages à convertir en XML
      */
     private void construireEnveloppesMessages(Element rootElement, EnveloppeMessage[] tabEnveloppes) {
@@ -106,6 +111,7 @@ class XMLWriter {
 
     /**
      * Construit un XML à l'addresse du serveur
+     *
      * @param commandesServeur
      * @param gestionnairesBalisesServeur tableau de gestionnairesBalisesServeur qui contiennent une balise et son contenu
      * @return Le xml en format String
@@ -126,6 +132,7 @@ class XMLWriter {
 
     /**
      * Construit un nouveau document
+     *
      * @param rootBalise La balise racine
      * @return Le nouveau document
      */
@@ -148,6 +155,7 @@ class XMLWriter {
 
     /**
      * Converti le document XML en un string XML
+     *
      * @return Le XML en format String
      */
     private String convertirDocToString() {
@@ -155,19 +163,17 @@ class XMLWriter {
         Writer out = new StringWriter();
 
         doc.normalizeDocument();
-        OutputFormat format = new OutputFormat(doc);
+        //OutputFormat format = new OutputFormat(doc);
 
-        format.setLineWidth(LONGUEUR_MAX_LIGNE_XML);
-        format.setIndenting(INDENTE);
-        format.setIndent(TAILLE_INDENTATION);
+        //format.setLineWidth(LONGUEUR_MAX_LIGNE_XML);
+        //format.setIndenting(INDENTE);
+        //format.setIndent(TAILLE_INDENTATION);
 
-        XMLSerializer serializer = new XMLSerializer(out, format);
-        try {
-            serializer.serialize(doc);
-            xmlString = out.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //XMLSerializer serializer = new XMLSerializer(out, format);
+
+        //    serializer.serialize(doc);
+        xmlString = out.toString();
+
 
         return xmlString;
     }
@@ -178,7 +184,8 @@ class XMLWriter {
 
     /**
      * Créer un élément en lui ajoutant un contenu
-     * @param balise La balise de l'élément
+     *
+     * @param balise  La balise de l'élément
      * @param contenu Le contenu
      * @return L'élément
      */
