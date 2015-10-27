@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Looper;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 import ca.qc.bdeb.gr1_420_p56_bb.connexion.ResultatsConnexion;
 import ca.qc.bdeb.gr1_420_p56_bb.services.ChatDeskService;
@@ -287,21 +289,34 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            boolean estConnecte;
+            final String message;
             ResultatsConnexion result = chatDeskService.seConnecter(mUserName, mPassword);
-            switch (result){
+            switch (result) {
                 case VALIDE:
-                    Toast.makeText(LoginActivity.this, "Vous êtes connecté " + mUserName, Toast.LENGTH_LONG).show();
-                    return true;
+                    message = "Vous êtes connecté " + mUserName;
+                    estConnecte = true;
+                    break;
                 case INVALIDE:
-                    Toast.makeText(LoginActivity.this, "Mauvais identifiant de connection", Toast.LENGTH_LONG).show();
-                    return false;
+                    message = "Mauvais identifiant de connection";
+                    estConnecte = false;
+                    break;
                 case IMPOSSIBLE:
-                    Toast.makeText(LoginActivity.this, "Impossible de se connecter", Toast.LENGTH_LONG).show();
-                    return false;
+                    message = "Impossible de se connecter";
+                    estConnecte = false;
+                    break;
                 default:
-                    return false;
+                    message = "Résultat de connection non connu";
+                    estConnecte = false;
             }
 
+            LoginActivity.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+                }
+            });
+
+            return estConnecte;
         }
 
         @Override

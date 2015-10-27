@@ -1,8 +1,8 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
 
-import ca.qc.bdeb.gr1_420_p56_bb.services.ChatDeskService;
 import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.EncryptageType;
+import ca.qc.bdeb.gr1_420_p56_bb.services.IService;
 
 import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.decrypter;
 import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.encrypter;
@@ -10,20 +10,20 @@ import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.encrypter;
 
 /**
  * Gère la connexion entre l'Android et l'ordinateur
- * <p>
+ * <p/>
  * Created by Alexandre on 2015-09-02.
  */
 public class GestionnaireConnexion {
 
-    private ChatDeskService service;
+    private IService service;
     private GestionnaireSocket gestionnaireSocket;
 
     /**
-     * Indique si ce programme est un téléphone, dans notre cas évidemment non
+     * Indique si ce programme est un téléphone, dans notre cas évidemment oui
      */
-    private static final boolean IS_TELEPHONE = false;
+    private static final boolean IS_TELEPHONE = true;
 
-    public GestionnaireConnexion(ChatDeskService service) {
+    public GestionnaireConnexion(IService service) {
         this.service = service;
         this.gestionnaireSocket = new GestionnaireSocket(this);
     }
@@ -42,7 +42,7 @@ public class GestionnaireConnexion {
                 //Pas encore implémenté
                 break;
             case REQUETE_LIEN:
-                //Pas encore implémenté
+                lierAppareil();
                 break;
             case REQUETE_MESSAGES:
                 GestionnaireBalisesCommServeur[] tabMessages = xmlReaderServeur.lireContenu();
@@ -53,17 +53,15 @@ public class GestionnaireConnexion {
         }
     }
 
-    /**
-     * Envoi une demande au serveur pour qu'il envoie tous les appareils auxquels il est possible de se connecter
-     */
-    public void demanderAppareils() {
-        XMLWriter xmlWriter = new XMLWriter();
-        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIENS);
-        this.gestionnaireSocket.envoyerMessage(encrypter(comm, EncryptageType.ENCRYPTAGE_SERVER));
+    private void lierAppareil() {
+        EnveloppeInitiale enveloppeInitiale = new EnveloppeInitiale(service.recupererTousMessage(),
+                service.recupererTousContact());
+        envoyerEnveloppe(enveloppeInitiale);
     }
 
     /**
      * Gère la lecture de la connexion addressée au client
+     *
      * @param communication Le xml de la connextion addressée au xlient
      */
     private void lireFichierXmlClient(String communication) {
@@ -71,16 +69,21 @@ public class GestionnaireConnexion {
         XMLReader xmlReader = new XMLReader(message);
         switch (xmlReader.lireCommande()) {
             case MESSAGES:
-                service.envoyerMessages(xmlReader.lireMessages());
+                for (EnveloppeMessage enveloppeMessage : xmlReader.lireMessages()) {
+                    service.envoyerMessageTelephone(enveloppeMessage);
+                }
                 break;
             case CONTACTS:
-                service.ajouterContacts(xmlReader.lireContacts());
+                for (EnveloppeContact enveloppeContact : xmlReader.lireContacts()) {
+                    service.ajouterContactTelephone(enveloppeContact);
+                }
                 break;
         }
     }
 
     /**
      * Envoie une enveloppe au serveur
+     *
      * @param enveloppe Une classe implémentant l'interface convertissableXml
      */
     public void envoyerEnveloppe(ConvertissableXml enveloppe) {
@@ -90,12 +93,11 @@ public class GestionnaireConnexion {
                 EncryptageType.ENCRYPTAGE_SERVER);
 
         gestionnaireSocket.envoyerMessage(xmlServer);
-
-        XMLReader xmlReader = new XMLReader(enveloppe.convertirEnXml());
     }
 
     /**
      * Envoi une demande de connexion au serveur
+     *
      * @param user Le nom d'utilisateur
      * @param pass Le mot de passe
      * @return Une des valeurs de l'énum ResultatsConnexion : Valide, Invalide ou Impossible

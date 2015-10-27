@@ -6,6 +6,12 @@ import org.w3c.dom.Element;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -59,14 +65,14 @@ class XMLWriter {
      * @param commande
      * @return Le xml en format String
      */
-    public String construireXmlCommunication(Balises commande, EnveloppeMessage[] tabEnveloppes, EnveloppeContact[] tabContacts) {
+    public String construireXmlCommunication(Balises commande, EnveloppeMessage[] tabMessages, EnveloppeContact[] tabContacts) {
         Element rootElement = construireDoc(BalisesCommClient.BALISE_COMM);
 
         Element elementCommande = creerElement(BalisesCommClient.BALISE_COMMANDE, commande.getBalise());
         rootElement.appendChild(elementCommande);
 
         construireEnveloppesContacts(rootElement, tabContacts);
-        construireEnveloppesMessages(rootElement, tabEnveloppes);
+        construireEnveloppesMessages(rootElement, tabMessages);
 
         return convertirDocToString();
     }
@@ -160,20 +166,21 @@ class XMLWriter {
      */
     private String convertirDocToString() {
         String xmlString = "";
-        Writer out = new StringWriter();
-
         doc.normalizeDocument();
-        //OutputFormat format = new OutputFormat(doc);
 
-        //format.setLineWidth(LONGUEUR_MAX_LIGNE_XML);
-        //format.setIndenting(INDENTE);
-        //format.setIndent(TAILLE_INDENTATION);
-
-        //XMLSerializer serializer = new XMLSerializer(out, format);
-
-        //    serializer.serialize(doc);
-        xmlString = out.toString();
-
+        try {
+            DOMSource domSource = new DOMSource(doc);
+            StringWriter writer = new StringWriter();
+            StreamResult result = new StreamResult(writer);
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            transformer.transform(domSource, result);
+            xmlString = writer.toString();
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        } catch (TransformerException ex) {
+            ex.printStackTrace();
+        }
 
         return xmlString;
     }
