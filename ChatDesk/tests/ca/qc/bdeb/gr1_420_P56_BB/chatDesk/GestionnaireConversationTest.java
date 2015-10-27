@@ -1,6 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
-import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.*;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeMessage;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,10 +15,10 @@ import static org.junit.Assert.assertEquals;
  */
 public class GestionnaireConversationTest {
 
-    private final EnveloppeMessage ENVELOPPE_1 = new EnveloppeMessage("A", 1, new Date());
-    private final EnveloppeMessage ENVELOPPE_2 = new EnveloppeMessage("B", 1, new Date());
-    private final EnveloppeMessage ENVELOPPE_3 = new EnveloppeMessage("C", 2, new Date());
-    private final EnveloppeMessage ENVELOPPE_4 = new EnveloppeMessage("D", 2, new Date());
+    private final EnveloppeMessage ENVELOPPE_1 = new EnveloppeMessage("A", 1, new Date(), true);
+    private final EnveloppeMessage ENVELOPPE_2 = new EnveloppeMessage("B", 1, new Date(), true);
+    private final EnveloppeMessage ENVELOPPE_3 = new EnveloppeMessage("C", 2, new Date(), true);
+    private final EnveloppeMessage ENVELOPPE_4 = new EnveloppeMessage("D", 2, new Date(), true);
     private ArrayList<EnveloppeMessage> listEnveloppes;
     private GestionnaireConversation gestionnaireConversation;
 
@@ -43,7 +42,7 @@ public class GestionnaireConversationTest {
     }
 
     @Test
-    public void testAjouterMessagesConversationDejaExistante(){
+    public void testAjouterMessagesConversationDejaExistante() {
         listEnveloppes = new ArrayList<>();
         listEnveloppes.add(ENVELOPPE_1);
         listEnveloppes.add(ENVELOPPE_3);

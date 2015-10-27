@@ -10,11 +10,13 @@ public class EnveloppeMessage implements ConvertissableXml {
     private final String message;
     private final Date date;
     private final long numeroTelephone;
+    private final boolean envoye;
 
-    public EnveloppeMessage(String message, long numeroTelephone, Date date) {
+    public EnveloppeMessage(String message, long numeroTelephone, Date date, boolean envoye) {
         this.message = message;
         this.numeroTelephone = numeroTelephone;
         this.date = date;
+        this.envoye = envoye;
     }
 
     public Date getDate() {
@@ -29,8 +31,13 @@ public class EnveloppeMessage implements ConvertissableXml {
         return numeroTelephone;
     }
 
+    public boolean isEnvoye() {
+        return envoye;
+    }
+
     /**
      * Converti les données du message en format XML
+     *
      * @return Les données du message en format XML
      */
     @Override

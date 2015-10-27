@@ -12,7 +12,7 @@ import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireFic
  */
 public class XMLWriterTest extends TestCase {
 
-    private final EnveloppeMessage[] TAB_ENVELOPPES = {new EnveloppeMessage("blahblahblah", 9367457456l, new Date(1367457456))};
+    private final EnveloppeMessage[] TAB_ENVELOPPES = {new EnveloppeMessage("blahblahblah", 9367457456l, new Date(1367457456), true)};
     private final EnveloppeContact[] TAB_CONTACTS = {new EnveloppeContact(9367457456l)};
 
     private XMLWriter xmlWriter;

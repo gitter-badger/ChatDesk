@@ -1,6 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
-import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.*;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeMessage;
 import junit.framework.TestCase;
 
@@ -12,10 +11,10 @@ import java.util.Date;
  */
 public class FacadeModeleTest extends TestCase {
     private FacadeModele facadeModeleTest;
-    private final EnveloppeMessage ENVELOPPE_1 = new EnveloppeMessage("A", 1, new Date());
-    private final EnveloppeMessage ENVELOPPE_2 = new EnveloppeMessage("B", 1, new Date());
-    private final EnveloppeMessage ENVELOPPE_3 = new EnveloppeMessage("C", 2, new Date());
-    private final EnveloppeMessage ENVELOPPE_4 = new EnveloppeMessage("D", 2, new Date());
+    private final EnveloppeMessage ENVELOPPE_1 = new EnveloppeMessage("A", 1, new Date(), true);
+    private final EnveloppeMessage ENVELOPPE_2 = new EnveloppeMessage("B", 1, new Date(), true);
+    private final EnveloppeMessage ENVELOPPE_3 = new EnveloppeMessage("C", 2, new Date(), true);
+    private final EnveloppeMessage ENVELOPPE_4 = new EnveloppeMessage("D", 2, new Date(), true);
 
     public void setUp() throws Exception {
         super.setUp();

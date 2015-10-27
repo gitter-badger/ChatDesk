@@ -21,6 +21,8 @@ import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Formatage.convertirNumeroTel
  */
 public class RecuperateurInfo {
 
+    private static int VALEUR_MESSAGE_ENVOYER = 2;
+
     static ArrayList<EnveloppeMessage> lireTousMessage(Service service) {
         ArrayList<EnveloppeMessage> enveloppeMessages = new ArrayList<>();
         Uri uri = Uri.parse("content://sms/");
@@ -31,8 +33,9 @@ public class RecuperateurInfo {
                 String message = cur.getString(cur.getColumnIndexOrThrow("body")).toString();
                 long numero = convertirNumeroTelephoneEnLong(cur.getString(cur.getColumnIndexOrThrow("address")).toString());
                 Date date = new Date(Long.parseLong(cur.getString(cur.getColumnIndexOrThrow("date")).toString()));
-                enveloppeMessages.add(new EnveloppeMessage(message, numero, date));
-                Log.i("RecuperateurInfo", numero + " : " + message);
+                boolean envoye = Integer.parseInt(cur.getString(cur.getColumnIndexOrThrow("type")).toString()) == VALEUR_MESSAGE_ENVOYER;
+
+                enveloppeMessages.add(new EnveloppeMessage(message, numero, date, envoye));
                 cur.moveToNext();
             }
         }
