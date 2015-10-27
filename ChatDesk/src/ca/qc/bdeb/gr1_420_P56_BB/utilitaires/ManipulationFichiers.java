@@ -48,7 +48,6 @@ public class ManipulationFichiers {
      */
     public static Document lireXmlDepuisContenu(String contenu) {
         Document document = null;
-
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();

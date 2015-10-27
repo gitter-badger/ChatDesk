@@ -57,6 +57,10 @@ class GestionnaireContacts {
             position++;
         }
 
+        if(contact == null){
+            contact = new Contact(numeroTelephone, "TEST PCQ CA PLANTE");
+        }
+
         return contact;
     }
 
