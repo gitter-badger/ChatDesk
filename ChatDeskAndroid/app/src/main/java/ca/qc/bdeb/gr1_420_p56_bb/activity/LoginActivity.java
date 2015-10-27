@@ -5,14 +5,19 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ComponentName;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Looper;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -24,9 +29,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
+
+import ca.qc.bdeb.gr1_420_p56_bb.connexion.ResultatsConnexion;
+import ca.qc.bdeb.gr1_420_p56_bb.services.ChatDeskService;
 
 /**
  * A login screen that offers login via email/password.
@@ -34,22 +44,17 @@ import java.util.List;
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mNomUtilView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    boolean mBounded;
+    ChatDeskService chatDeskService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mNomUtilView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -82,7 +87,36 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        Intent serviceIntent = new Intent(LoginActivity.this, ChatDeskService.class);
+        startService(serviceIntent);
+        Intent mIntent = new Intent(this, ChatDeskService.class);
+        bindService(mIntent, mConnection, BIND_AUTO_CREATE);
     }
+
+    ServiceConnection mConnection = new ServiceConnection() {
+
+        public void onServiceDisconnected(ComponentName name) {
+            mBounded = false;
+        }
+
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            // cast the IBinder and get MyService instance
+            ChatDeskService.LocalBinder binder = (ChatDeskService.LocalBinder) service;
+            chatDeskService = binder.getService();
+            mBounded = true;
+        }
+    };
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mBounded) {
+            unbindService(mConnection);
+            mBounded = false;
+        }
+    }
+
 
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
@@ -95,16 +129,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      * errors are presented and no actual login attempt is made.
      */
     public void attemptLogin() {
+
         if (mAuthTask != null) {
             return;
         }
 
         // Reset errors.
-        mEmailView.setError(null);
+        mNomUtilView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String nomUtil = mNomUtilView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -118,13 +153,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+        if (TextUtils.isEmpty(nomUtil)) {
+            mNomUtilView.setError(getString(R.string.error_field_required));
+            focusView = mNomUtilView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+        } else if (!isNomUtilValid(nomUtil)) {
+            mNomUtilView.setError(getString(R.string.error_invalid_email));
+            focusView = mNomUtilView;
             cancel = true;
         }
 
@@ -136,19 +171,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(nomUtil, password);
             mAuthTask.execute((Void) null);
         }
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+    private boolean isNomUtilValid(String email) {
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return true;
     }
 
     /**
@@ -228,7 +261,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         };
 
         int ADDRESS = 0;
-        int IS_PRIMARY = 1;
     }
 
 
@@ -238,7 +270,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 new ArrayAdapter<String>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+        mNomUtilView.setAdapter(adapter);
     }
 
     /**
@@ -247,35 +279,44 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final String mUserName;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
+        UserLoginTask(String userName, String password) {
+            mUserName = userName;
             mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+            boolean estConnecte;
+            final String message;
+            ResultatsConnexion result = chatDeskService.seConnecter(mUserName, mPassword);
+            switch (result) {
+                case VALIDE:
+                    message = "Vous êtes connecté " + mUserName;
+                    estConnecte = true;
+                    break;
+                case INVALIDE:
+                    message = "Mauvais identifiant de connection";
+                    estConnecte = false;
+                    break;
+                case IMPOSSIBLE:
+                    message = "Impossible de se connecter";
+                    estConnecte = false;
+                    break;
+                default:
+                    message = "Résultat de connection non connu";
+                    estConnecte = false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+            LoginActivity.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
                 }
-            }
+            });
 
-            // TODO: register the new account here.
-            return true;
+            return estConnecte;
         }
 
         @Override

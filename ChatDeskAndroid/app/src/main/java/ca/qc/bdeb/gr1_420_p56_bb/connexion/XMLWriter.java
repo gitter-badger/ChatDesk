@@ -1,13 +1,18 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -26,6 +31,7 @@ class XMLWriter {
 
     /**
      * N'envoie qu'une commande
+     *
      * @param commande
      * @return Le xml en format String
      */
@@ -35,6 +41,7 @@ class XMLWriter {
 
     /**
      * Envoie une commande et une liste de contacts
+     *
      * @param commande
      * @return Le xml en format String
      */
@@ -44,6 +51,7 @@ class XMLWriter {
 
     /**
      * Envoie une commande et une liste de messages
+     *
      * @param commande
      * @return Le xml en format String
      */
@@ -53,23 +61,25 @@ class XMLWriter {
 
     /**
      * Envoie une commande, une liste de contacts et une liste de messages
+     *
      * @param commande
      * @return Le xml en format String
      */
-    public String construireXmlCommunication(Balises commande, EnveloppeMessage[] tabEnveloppes, EnveloppeContact[] tabContacts) {
+    public String construireXmlCommunication(Balises commande, EnveloppeMessage[] tabMessages, EnveloppeContact[] tabContacts) {
         Element rootElement = construireDoc(BalisesCommClient.BALISE_COMM);
 
         Element elementCommande = creerElement(BalisesCommClient.BALISE_COMMANDE, commande.getBalise());
         rootElement.appendChild(elementCommande);
 
         construireEnveloppesContacts(rootElement, tabContacts);
-        construireEnveloppesMessages(rootElement, tabEnveloppes);
+        construireEnveloppesMessages(rootElement, tabMessages);
 
         return convertirDocToString();
     }
 
     /**
      * Construit la liste des balises contacts
+     *
      * @param rootElement Le parent de ces balises
      * @param tabContacts Le tableau de contacts à convertir en XML
      */
@@ -87,7 +97,8 @@ class XMLWriter {
 
     /**
      * Construit la liste des balises messages
-     * @param rootElement Le parent de ces balises
+     *
+     * @param rootElement   Le parent de ces balises
      * @param tabEnveloppes Le tableau de messages à convertir en XML
      */
     private void construireEnveloppesMessages(Element rootElement, EnveloppeMessage[] tabEnveloppes) {
@@ -106,6 +117,7 @@ class XMLWriter {
 
     /**
      * Construit un XML à l'addresse du serveur
+     *
      * @param commandesServeur
      * @param gestionnairesBalisesServeur tableau de gestionnairesBalisesServeur qui contiennent une balise et son contenu
      * @return Le xml en format String
@@ -126,6 +138,7 @@ class XMLWriter {
 
     /**
      * Construit un nouveau document
+     *
      * @param rootBalise La balise racine
      * @return Le nouveau document
      */
@@ -148,25 +161,25 @@ class XMLWriter {
 
     /**
      * Converti le document XML en un string XML
+     *
      * @return Le XML en format String
      */
     private String convertirDocToString() {
         String xmlString = "";
-        Writer out = new StringWriter();
-
         doc.normalizeDocument();
-        OutputFormat format = new OutputFormat(doc);
 
-        format.setLineWidth(LONGUEUR_MAX_LIGNE_XML);
-        format.setIndenting(INDENTE);
-        format.setIndent(TAILLE_INDENTATION);
-
-        XMLSerializer serializer = new XMLSerializer(out, format);
         try {
-            serializer.serialize(doc);
-            xmlString = out.toString();
-        } catch (IOException e) {
+            DOMSource domSource = new DOMSource(doc);
+            StringWriter writer = new StringWriter();
+            StreamResult result = new StreamResult(writer);
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            transformer.transform(domSource, result);
+            xmlString = writer.toString();
+        } catch (TransformerConfigurationException e) {
             e.printStackTrace();
+        } catch (TransformerException ex) {
+            ex.printStackTrace();
         }
 
         return xmlString;
@@ -178,7 +191,8 @@ class XMLWriter {
 
     /**
      * Créer un élément en lui ajoutant un contenu
-     * @param balise La balise de l'élément
+     *
+     * @param balise  La balise de l'élément
      * @param contenu Le contenu
      * @return L'élément
      */

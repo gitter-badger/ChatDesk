@@ -106,4 +106,9 @@ public class Formatage {
             }
         }
     }
+
+    public static long convertirNumeroTelephoneEnLong(String numeroTelephone) {
+        numeroTelephone = numeroTelephone.replaceAll("[\\D]", "");
+        return Long.parseLong(numeroTelephone);
+    }
 }

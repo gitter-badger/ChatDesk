@@ -7,7 +7,7 @@ import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 
-import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireXmlDepuisContenu;
+import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.ManipulationFichiers.lireXmlDepuisContenu;
 
 /**
  * List un document en format XML provenant du serveur

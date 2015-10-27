@@ -1,8 +1,5 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +9,10 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage.encrypter;
+import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage;
+import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.EncryptageType;
+
+import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.encrypter;
 
 /**
  * Gère les communications avec le serveur niveau socket.
@@ -31,10 +31,7 @@ class GestionnaireSocket implements Runnable {
      * Temps d'attente maximal lors de la connexion initale du socket
      */
     private static final int TEMPS_CONNEXION_SOCKET = 1500;
-    /**
-     * Indique si ce programme est un téléphone, dans notre cas évidemment non
-     */
-    private static final boolean IS_TELEPHONE = false;
+
     /**
      * La position de la confirmation du login dans le tableau de contenu
      */
@@ -88,11 +85,10 @@ class GestionnaireSocket implements Runnable {
     /**
      * Envoi une demande de connexion au serveur
      *
-     * @param nom  Le nom d'utilisateur
-     * @param pass Le mot de passe
+     * @param infoConnexionComm Les informations de connexion encrypté
      * @return Une des valeurs de l'énum ResultatsConnexion : Valide, Invalide ou Impossible
      */
-    public ResultatsConnexion commencerCommunication(String nom, String pass) {
+    public ResultatsConnexion commencerCommunication(String infoConnexionComm) {
         ResultatsConnexion resultatsConnexion = ResultatsConnexion.IMPOSSIBLE;
 
         if (!socket.isConnected()) {
@@ -114,7 +110,7 @@ class GestionnaireSocket implements Runnable {
         }
 
         if (resultatsConnexion != ResultatsConnexion.IMPOSSIBLE) {
-            if (connecter(nom, pass)) {
+            if (connecter(infoConnexionComm)) {
                 new Thread(this).start();
                 resultatsConnexion = ResultatsConnexion.VALIDE;
             }
@@ -145,24 +141,13 @@ class GestionnaireSocket implements Runnable {
     /**
      * Envoi une requête de login au serveur
      *
-     * @param user Le nom d'utilisateur
-     * @param pass Le mot de passe
+     * @param infoConnexionComm Les informations de connexion encrypté
      * @return Boolean indiquant si les données sont valides
      */
-    private boolean connecter(String user, String pass) {
-        XMLWriter xmlWriter = new XMLWriter();
+    private boolean connecter(String infoConnexionComm) {
         boolean connecte = false;
 
-        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurNom
-                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, user);
-        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurPass
-                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, pass);
-        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurIsTelephone
-                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_IS_TELEPHONE, Boolean.toString(IS_TELEPHONE));
-
-        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, gestionnaireBalisesCommServeurNom,
-                gestionnaireBalisesCommServeurPass, gestionnaireBalisesCommServeurIsTelephone);
-        envoyerMessage(encrypter(comm, EncryptageType.ENCRYPTAGE_SERVER));
+        envoyerMessage(encrypter(infoConnexionComm, EncryptageType.ENCRYPTAGE_SERVER));
 
         try {
             this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);

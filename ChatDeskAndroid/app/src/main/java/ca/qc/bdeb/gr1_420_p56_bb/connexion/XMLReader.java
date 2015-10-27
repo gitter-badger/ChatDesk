@@ -1,6 +1,5 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
-import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Contact;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -9,7 +8,8 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireXmlDepuisContenu;
+
+import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.ManipulationFichiers.lireXmlDepuisContenu;
 
 /**
  * Lis un document en format XML
@@ -39,9 +39,9 @@ class XMLReader {
      * Lis toutes les balises contacts et créé de nouveaux contacts pour chacune
      * @return La liste des nouveaux contacts
      */
-    public ArrayList<Contact> lireContacts() {
-        ArrayList<Contact> listeContacts = new ArrayList();
-        Contact nouveauContact;
+    public ArrayList<EnveloppeContact> lireContacts() {
+        ArrayList<EnveloppeContact> listeContacts = new ArrayList();
+        EnveloppeContact nouveauContact;
         long numeroTel;
         String nomContact;
 
@@ -52,7 +52,7 @@ class XMLReader {
                 Node node = nList.item(i);
                 numeroTel = Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_NUM_TEL));
                 nomContact = getElementParBalise(node, BalisesCommClient.BALISE_NOM);
-                nouveauContact = new Contact(numeroTel, nomContact);
+                nouveauContact = new EnveloppeContact(numeroTel, nomContact);
                 listeContacts.add(nouveauContact);
             } catch (NumberFormatException nfe) {
                 System.out.println(MESSAGE_ERREUR_TELEPHONE);
