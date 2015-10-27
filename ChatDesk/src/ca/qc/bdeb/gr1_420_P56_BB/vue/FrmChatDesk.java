@@ -12,7 +12,7 @@ import java.awt.event.ComponentEvent;
 /**
  * La fen�tre principale de l'application
  */
-class FrmChatDesk extends JFrame implements Observateur {
+public class FrmChatDesk extends JFrame implements Observateur {
 
     /**
      * Le panneau qui affiche la conversation en cours
@@ -24,9 +24,12 @@ class FrmChatDesk extends JFrame implements Observateur {
      */
     private PnlConversations pnlConversations;
 
+
+
     /**
      * La bar d'option/menu en haut de la fen�tre
      */
+
     private OptionBar optionBar;
 
     /**
@@ -93,6 +96,11 @@ class FrmChatDesk extends JFrame implements Observateur {
         this.add(pnlConversation);
     }
 
+
+    public void ajouterConversation(){
+       String numeroTelephone = JOptionPane.showInputDialog("Entrez le numéro du contact");
+       this.ouvrirConversation(new ConversationDTO(null,Long.parseLong(numeroTelephone)));
+    }
     /**
      * Changement de grandeur de la fen�tre
      */
@@ -141,5 +149,8 @@ class FrmChatDesk extends JFrame implements Observateur {
     public void arreterProgramme(){
         this.dispose();
         facadeModele.arreterProgramme();
+    }
+    public FacadeModele getFacadeModele() {
+        return facadeModele;
     }
 }
