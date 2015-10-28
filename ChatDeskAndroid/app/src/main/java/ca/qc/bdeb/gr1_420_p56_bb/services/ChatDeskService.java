@@ -4,10 +4,12 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
+import android.telephony.SmsManager;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -22,18 +24,11 @@ import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Formatage.convertirNumeroTel
 
 public class ChatDeskService extends Service implements IService {
 
+    public static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
+
     private final IBinder binder = new LocalBinder();
     private GestionnaireConnexion gestionnaireConnexion;
-
-
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra("message");
-            Log.d("receiver", "Got message: " + message);
-        }
-    };
-
+    private SmsReceiver smsReceiver;
 
     public ChatDeskService() {
         gestionnaireConnexion = new GestionnaireConnexion(this);
@@ -45,16 +40,18 @@ public class ChatDeskService extends Service implements IService {
         }
     }
 
+    @Override
+    public void onCreate() {
+        smsReceiver = new SmsReceiver(this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(SMS_RECEIVED);
+        filter.addAction(android.telephony.TelephonyManager.ACTION_PHONE_STATE_CHANGED);
+        this.registerReceiver(smsReceiver, filter);
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
         return binder;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-        return START_STICKY;
     }
 
     public ResultatsConnexion seConnecter(String nomUtilisateur, String pass) {
@@ -64,6 +61,9 @@ public class ChatDeskService extends Service implements IService {
 
     @Override
     public void envoyerMessageTelephone(EnveloppeMessage enveloppeMessage) {
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(Long.toString(enveloppeMessage.getNumeroTelephone())
+                , null, enveloppeMessage.getMessage(), null, null);
 
     }
 
@@ -82,4 +82,8 @@ public class ChatDeskService extends Service implements IService {
         return RecuperateurInfo.lireTousContact(this);
     }
 
+    @Override
+    public void receptionMessageText(EnveloppeMessage enveloppeMessage) {
+        gestionnaireConnexion.envoyerEnveloppe(enveloppeMessage);
+    }
 }

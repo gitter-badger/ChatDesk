@@ -107,10 +107,12 @@ class XMLWriter {
             Element numero = creerElement(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabEnveloppes[i].getNumeroTelephone()));
             Element message = creerElement(BalisesCommClient.BALISE_MESSAGE, tabEnveloppes[i].getMessage());
             Element date = creerElement(BalisesCommClient.BALISE_DATE, Long.toString(tabEnveloppes[i].getDate().getTime()));
+            Element envoye = creerElement(BalisesCommClient.BALISE_EST_ENVOYE, Boolean.toString(tabEnveloppes[i].isEnvoye()));
 
             enveloppe.appendChild(numero);
             enveloppe.appendChild(message);
             enveloppe.appendChild(date);
+            enveloppe .appendChild(envoye);
             rootElement.appendChild(enveloppe);
         }
     }

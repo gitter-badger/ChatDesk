@@ -22,4 +22,6 @@ public interface IService {
     ArrayList<EnveloppeMessage> recupererTousMessage();
 
     ArrayList<EnveloppeContact> recupererTousContact();
+
+    void receptionMessageText(EnveloppeMessage enveloppeMessage);
 }

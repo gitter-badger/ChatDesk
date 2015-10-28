@@ -34,7 +34,7 @@ public class GestionnaireConversation implements Observable {
     }
 
     private Message creerMessage(EnveloppeMessage enveloppe) {
-        return new Message(enveloppe.getMessage(), enveloppe.getDate(), false);
+        return new Message(enveloppe.getMessage(), enveloppe.getDate(), enveloppe.isEnvoye());
     }
 
     /**

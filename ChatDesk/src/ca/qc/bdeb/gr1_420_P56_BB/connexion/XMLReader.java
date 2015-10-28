@@ -52,6 +52,7 @@ class XMLReader {
 
     /**
      * Lis toutes les balises contacts et créé de nouveaux contacts pour chacune
+     *
      * @return La liste des nouveaux contacts
      */
     public ArrayList<Contact> lireContacts() {
@@ -80,6 +81,7 @@ class XMLReader {
 
     /**
      * Lis toutes les balises messages et créé de nouveaux messages pour chacune
+     *
      * @return La liste des nouveaux messages
      */
     public ArrayList<EnveloppeMessage> lireMessages() {
@@ -88,6 +90,7 @@ class XMLReader {
         long numeroTel;
         String message;
         Date dateMessage;
+        boolean envoye;
 
         NodeList nList = getNodesParBalise(BalisesCommClient.BALISE_ENVELOPPES);
 
@@ -97,7 +100,9 @@ class XMLReader {
                 numeroTel = Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_NUM_TEL));
                 message = getElementParBalise(node, BalisesCommClient.BALISE_MESSAGE);
                 dateMessage = new Date(Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_DATE)));
-                nouvelEnveloppe = new EnveloppeMessage(message, numeroTel, dateMessage);
+                envoye = Boolean.parseBoolean(getElementParBalise(node, BalisesCommClient.BALISE_EST_ENVOYE));
+
+                nouvelEnveloppe = new EnveloppeMessage(message, numeroTel, dateMessage, envoye);
                 listeEnveloppes.add(nouvelEnveloppe);
             } catch (NumberFormatException nfe) {
                 System.out.println(MESSAGE_ERREUR_TELEPHONE_OU_DATE);
@@ -110,6 +115,7 @@ class XMLReader {
 
     /**
      * Retourne la liste de nodes (c'est à dire une balise et son contenu) correspondant à une balise
+     *
      * @param balise La balise dont chercher les nodes
      * @return La liste des nodes correspondants à la balise
      */
@@ -120,10 +126,11 @@ class XMLReader {
     /**
      * Retourne le contenu d'une balise dans un node par exemple :
      * <node>
-     *     <element>Jacques</element>
+     * <element>Jacques</element>
      * </node>
      * retourerait Jacques
-     * @param node Le node dont éxtraire le contenu
+     *
+     * @param node   Le node dont éxtraire le contenu
      * @param balise La balise
      * @return Le contenu de la balise dans le node
      */

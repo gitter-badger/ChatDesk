@@ -36,7 +36,11 @@ enum BalisesCommClient implements Balises {
     /**
      * Le contenu d'un message
      */
-    BALISE_MESSAGE("message");
+    BALISE_MESSAGE("message"),
+    /**
+     * Si c'est un message envoyé ou reçu
+     */
+    BALISE_EST_ENVOYE("estEnvoye");
 
     private final String balise;
 

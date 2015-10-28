@@ -82,7 +82,7 @@ class XMLReader {
                 numeroTel = Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_NUM_TEL));
                 message = getElementParBalise(node, BalisesCommClient.BALISE_MESSAGE);
                 dateMessage = new Date(Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_DATE)));
-                nouvelEnveloppe = new EnveloppeMessage(message, numeroTel, dateMessage);
+                nouvelEnveloppe = new EnveloppeMessage(message, numeroTel, dateMessage, true);
                 listeEnveloppes.add(nouvelEnveloppe);
             } catch (NumberFormatException nfe) {
                 System.out.println(MESSAGE_ERREUR_TELEPHONE_OU_DATE);

@@ -47,7 +47,7 @@ public class FacadeModele {
      */
     public void envoyerMessage(long numeroTelephone, Message message) {
         gestionnaireConversation.ajouterMessage(numeroTelephone, message);
-        gestionnaireConnexion.envoyerEnveloppe(new EnveloppeMessage(message.getText(), numeroTelephone, message.getDate()));
+        gestionnaireConnexion.envoyerEnveloppe(new EnveloppeMessage(message.getText(), numeroTelephone, message.getDate(), true));
     }
 
     public void demanderAppareils(){
