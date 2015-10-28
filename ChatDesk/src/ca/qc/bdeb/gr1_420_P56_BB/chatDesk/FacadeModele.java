@@ -18,6 +18,8 @@ public class FacadeModele {
     private final GestionnaireContacts gestionnaireContacts;
     private final GestionnaireAppareils gestionnaireAppareils;
 
+
+
     /**
      * Initialise les différents éléments du modèle
      */
@@ -28,6 +30,12 @@ public class FacadeModele {
         gestionnaireAppareils = new GestionnaireAppareils();
     }
 
+    public GestionnaireContacts getGestionnaireContacts() {
+        return gestionnaireContacts;
+    }
+    public ArrayList<ContactDTO> getContacts(){
+        return gestionnaireContacts.getContactsDTO();
+    }
     public void ajouterMessages(ArrayList<EnveloppeMessage> listeEnveloppes) {
         gestionnaireConversation.ajouterMessages(listeEnveloppes);
     }

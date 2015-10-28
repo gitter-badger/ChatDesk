@@ -1,9 +1,10 @@
 package ca.qc.bdeb.gr1_420_P56_BB.vue;
 
 
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactsTest;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ConversationDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactDTO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -115,6 +116,7 @@ class FenetreContacts extends JPanel {
     public FenetreContacts(FrmChatDesk fenetrePrincipale, FacadeModele facadeModele) {
         this.facadeModele = facadeModele;
         this.fenetrePrincipale = fenetrePrincipale;
+        initialiserPanel();
         this.setDoubleBuffered(true);
     }
 
@@ -124,7 +126,7 @@ class FenetreContacts extends JPanel {
     public void initialiserPanel() {
         this.setLayout(null);
         initialiserGrandeursComposants();
-        mettreAJour();
+        initialiserContacts();
     }
 
     /**
@@ -147,33 +149,29 @@ class FenetreContacts extends JPanel {
         borderVideSize = (int)(hauteurPnlConversationY * POURCENTAGE_COUTOUR_VIDE);
     }
 
-    /**
-     * Ajoute une conversation au panneau
-     *
-     * @param conversationDTO La conversation ? ajouter
-     */
-    private void ajouterConversation(ConversationDTO conversationDTO) {
+
+    private void ajouterContact(ContactDTO contactDTO) {
         JPanel pnlConversation = new JPanel();
-        initialiserPanneauConversation(pnlConversation, conversationDTO);
-        initialiserPanneauConversationNom(pnlConversation, conversationDTO);
+        initialiserPanneauContact(pnlConversation, contactDTO);
+        initialiserPanneauNom(pnlConversation, contactDTO);
         this.add(pnlConversation);
     }
 
     /**
      * Initialise le panneau d'une conversation
-     *
-     * @param pnlConversation Le panneau ? initialiser
-     * @param conversationDTO Une conversation
+     *  @param pnlConversation Le panneau ? initialiser
+     * @param contactDTO Une conversation
      */
-    private void initialiserPanneauConversation(JPanel pnlConversation, ConversationDTO conversationDTO) {
+    private void initialiserPanneauContact(JPanel pnlConversation, ContactDTO contactDTO) {
         pnlConversation.setLayout(null);
         pnlConversation.setLocation(0, hauteurPnlConversationY * conversationCount);
         pnlConversation.setSize(longueurPnlConversationX, hauteurPnlConversationY);
+        pnlConversation.setBackground(Color.RED);
         pnlConversation.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() == CLICK_COUNT) {
-                    fenetrePrincipale.ouvrirConversation(conversationDTO);
+                    fenetrePrincipale.ouvrirConversation(new ConversationDTO(null, contactDTO.getNumeroTelephone()));
                 }
             }
         });
@@ -181,78 +179,37 @@ class FenetreContacts extends JPanel {
 
     /**
      * Initialise le nom de la personne avec qui la conversation a lieu
-     *
-     * @param pnlConversation Le panneau d'une conversation
+     *  @param pnlConversation Le panneau d'une conversation
      * @param conversationDTO Une conversation
      */
-    private void initialiserPanneauConversationNom(JPanel pnlConversation, ConversationDTO conversationDTO) {
+    private void initialiserPanneauNom(JPanel pnlConversation, ContactDTO conversationDTO) {
+        //JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getNumeroTelephone()).getNom());
         JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getNumeroTelephone()).getNom());
         nom.setFont(new Font(nom.getFont().getFontName(), Font.BOLD, (int) dimLblNom.getHeight()));
         nom.setSize(dimLblNom);
-        nom.setLocation(borderVideSize, (int)(pnlConversation.getHeight() / 2 - (dimLblNom.getHeight() +
+        nom.setLocation(borderVideSize, (int) (pnlConversation.getHeight() / 2 - (dimLblNom.getHeight() +
                 dimLblDernierMessage.getHeight()) / 2));
         pnlConversation.add(nom);
     }
 
-    /**
-     * Initialise le dernier message recu ou envoy? de la conversation
-     *
-     * @param pnlConversation Le panneau d'une conversation
-     * @param conversationDTO Une conversation
-     */
-    private void initialiserPanneauConversationDernierMessage(JPanel pnlConversation, ConversationDTO conversationDTO) {
-        String texteDernierMessage = "";
-        if (conversationDTO.getLastMessage() != null) {
-            if (conversationDTO.getLastMessage().isEnvoyer()) {
-                /*Affich? dans le cas o? le dernier message est envoy? par l'utilisateur*/
-                String ENVOYEUR = "Vous : ";
-                texteDernierMessage = ENVOYEUR + conversationDTO.getLastMessage().getText();
-            } else {
-                texteDernierMessage = conversationDTO.getLastMessage().getText();
-            }
-        }
 
-        JLabel dernierMessage = new JLabel(texteDernierMessage);
-        dernierMessage.setFont(new Font(dernierMessage.getFont().getFontName(), Font.PLAIN,
-                (int) dimLblDernierMessage.getHeight()));
-        dernierMessage.setSize(dimLblDernierMessage);
-        dernierMessage.setLocation(borderVideSize, (int) (pnlConversation.getHeight() / 2 -
-                (dimLblNom.getHeight() + dimLblDernierMessage.getHeight()) / 2 + dimLblNom.getHeight()));
-        pnlConversation.add(dernierMessage);
-    }
+
+
 
     /**
-     * Initialiser la date du dernier message recu/envoy?
-     *
-     * @param pnlConversation Le panneau d'une conversation
-     * @param conversationDTO Une conversation
+     * Mettre ? jour les contacts
      */
-    private void initialiserPanneauConversationDate(JPanel pnlConversation, ConversationDTO conversationDTO) {
-        JLabel dateMsg = new JLabel(Formatage.formatageDate(conversationDTO.getLastMessage().getDate()));
-        dateMsg.setFont(new Font(dateMsg.getFont().getFontName(), Font.PLAIN, (int) dimLblDate.getHeight()));
-        dateMsg.setSize(dimLblDate);
-        dateMsg.setLocation(pnlConversation.getWidth() - dateMsg.getWidth() - borderVideSize,
-                pnlConversation.getHeight() / 2 - dateMsg.getHeight() / 2);
-        pnlConversation.add(dateMsg);
-    }
-
-    /**
-     * Mettre ? jour les conversations
-     */
-    public void mettreAJour() {
+    public void initialiserContacts() {
         this.removeAll();
         conversationCount = 0;
-        for (ConversationDTO conversationDTO : facadeModele.getConversations()) {
-            ajouterConversation(conversationDTO);
+        for (ContactDTO contactDTO : ContactsTest.asList()) {
+            ajouterContact(contactDTO);
             conversationCount++;
         }
-
-        this.setPreferredSize(new Dimension(this.getWidth(), hauteurPnlConversationY * conversationCount));
+        this.setBounds(0,0,this.getWidth(), hauteurPnlConversationY * conversationCount);
         this.repaint();
     }
 
 
-    public FacadeModele getFacadeModele() {
-        return facadeModele;
-    }
+
 }
