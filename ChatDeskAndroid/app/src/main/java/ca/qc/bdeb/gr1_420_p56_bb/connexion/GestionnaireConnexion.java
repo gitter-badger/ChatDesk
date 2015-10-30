@@ -1,12 +1,8 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
 
-import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.EncryptageType;
 import ca.qc.bdeb.gr1_420_p56_bb.services.IService;
-
-import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.decrypter;
-import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.encrypter;
-
+import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage;
 
 /**
  * Gère la connexion entre l'Android et l'ordinateur
@@ -34,7 +30,7 @@ public class GestionnaireConnexion {
      * @param messageRecu
      */
     synchronized void reception(String messageRecu) {
-        String messageServeurDecrypter = decrypter(messageRecu, EncryptageType.ENCRYPTAGE_SERVER);
+        String messageServeurDecrypter = Encryptage.getInstanceServeur().decrypter(messageRecu);
         XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageServeurDecrypter);
 
         switch (xmlReaderServeur.lireCommande()) {
@@ -65,7 +61,7 @@ public class GestionnaireConnexion {
      * @param communication Le xml de la connextion addressée au xlient
      */
     private void lireFichierXmlClient(String communication) {
-        String message = decrypter(communication, EncryptageType.ENCRYPTAGE_MESSAGE);
+        String message = Encryptage.getInstanceClient().decrypter(communication);
         XMLReader xmlReader = new XMLReader(message);
         switch (xmlReader.lireCommande()) {
             case MESSAGES:
@@ -87,10 +83,11 @@ public class GestionnaireConnexion {
      * @param enveloppe Une classe implémentant l'interface convertissableXml
      */
     public void envoyerEnveloppe(ConvertissableXml enveloppe) {
-        String xmlClientMessage = encrypter(enveloppe.convertirEnXml(), EncryptageType.ENCRYPTAGE_MESSAGE);
-        String xmlServer = encrypter(new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_MESSAGES,
-                        new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_MESSAGE, xmlClientMessage)),
-                EncryptageType.ENCRYPTAGE_SERVER);
+        String xmlClientMessage = Encryptage.getInstanceClient().encrypter(enveloppe.convertirEnXml());
+        String xmlServer = Encryptage.getInstanceServeur().encrypter(
+                new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_MESSAGES,
+                        new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_MESSAGE,
+                                xmlClientMessage)));
 
         gestionnaireSocket.envoyerMessage(xmlServer);
     }

@@ -58,7 +58,6 @@ public class ChatDeskService extends Service implements IService {
         return gestionnaireConnexion.seConnecter(nomUtilisateur, pass);
     }
 
-
     @Override
     public void envoyerMessageTelephone(EnveloppeMessage enveloppeMessage) {
         SmsManager smsManager = SmsManager.getDefault();

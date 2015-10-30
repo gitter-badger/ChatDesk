@@ -10,9 +10,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage;
-import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.EncryptageType;
-
-import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.encrypter;
 
 /**
  * Gère les communications avec le serveur niveau socket.
@@ -147,12 +144,12 @@ class GestionnaireSocket implements Runnable {
     private boolean connecter(String infoConnexionComm) {
         boolean connecte = false;
 
-        envoyerMessage(encrypter(infoConnexionComm, EncryptageType.ENCRYPTAGE_SERVER));
+        envoyerMessage(Encryptage.getInstanceServeur().encrypter(infoConnexionComm));
 
         try {
             this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
             String contenu = readAllLines();
-            contenu = Encryptage.decrypter(contenu, EncryptageType.ENCRYPTAGE_SERVER);
+            contenu = Encryptage.getInstanceServeur().encrypter(contenu);
             XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(contenu);
             if (xmlReaderServeur.lireCommande() == CommandesServeur.REQUETE_LOGIN) {
                 connecte = xmlReaderServeur.lireContenu()[POSITION_CONFIRMATION].getContenu().equals(Boolean.toString(!connecte));
