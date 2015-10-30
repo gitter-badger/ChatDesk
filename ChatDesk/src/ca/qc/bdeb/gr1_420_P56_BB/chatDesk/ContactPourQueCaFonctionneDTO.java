@@ -1,11 +1,11 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
 /**
- * Created by 47 on 2015-10-27.
+ * Created by Alexandre on 2015-10-30.
  */
-public class ContactDTO {
+public class ContactPourQueCaFonctionneDTO {
     /**
-     * Le num�ro de t�l�phone du contact
+     * Le num?ro de t?l?phone du contact
      */
     private final long numeroTelephone;
 
@@ -14,7 +14,7 @@ public class ContactDTO {
      */
     private final String nom;
 
-    public ContactDTO(String nom, long numeroTelephone) {
+    public ContactPourQueCaFonctionneDTO(String nom, long numeroTelephone) {
         this.nom = nom;
         this.numeroTelephone = numeroTelephone;
     }
