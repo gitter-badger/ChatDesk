@@ -52,7 +52,7 @@ public class Encryptage {
         try {
             c = Cipher.getInstance("AES/ECB/PKCS5Padding");
             keyPairGenerator = KeyPairGenerator.getInstance("DH");
-            keyPairGenerator.initialize(1024);
+            keyPairGenerator.initialize(2048);
         } catch (NoSuchAlgorithmException e) {
         } catch (NoSuchPaddingException e) {
         }
@@ -64,7 +64,6 @@ public class Encryptage {
         Log.i("Encryptage", "2");
 
         privateKey = keyPair.getPrivate();
-        System.out.println(privateKey);
         return Base64.encodeToString(keyPair.getPublic().getEncoded(), Base64.NO_WRAP);
     }
 
