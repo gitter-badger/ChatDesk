@@ -13,12 +13,14 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 
 /**
@@ -55,15 +57,18 @@ public class Encryptage {
         }
     }
 
-    public PublicKey createKeyToPair() {
+    public String createKeyToPair() {
         KeyPair keyPair = keyPairGenerator.genKeyPair();
         privateKey = keyPair.getPrivate();
 
-        return keyPair.getPublic();
+        return Base64.encodeToString(keyPair.getPublic().getEncoded(), Base64.NO_WRAP);
     }
 
-    public void createKey(final PublicKey publicKeyServeur) {
+    public void createKey(final String keyEncode) {
+
         try {
+            PublicKey publicKeyServeur = KeyFactory.getInstance("DH").generatePublic(new X509EncodedKeySpec(Base64.decode(keyEncode, Base64.NO_WRAP)));
+
             KeyAgreement keyAgreement = KeyAgreement.getInstance("DH");
             keyAgreement.init(privateKey);
             keyAgreement.doPhase(publicKeyServeur, true);
@@ -104,3 +109,5 @@ public class Encryptage {
         return messageDecrypte;
     }
 }
+
+
