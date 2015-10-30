@@ -13,9 +13,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
 
 /**
  * Créer un nouveau fichier XML et y écris les informations demandés
@@ -112,9 +110,28 @@ class XMLWriter {
             enveloppe.appendChild(numero);
             enveloppe.appendChild(message);
             enveloppe.appendChild(date);
-            enveloppe .appendChild(envoye);
+            enveloppe.appendChild(envoye);
             rootElement.appendChild(enveloppe);
         }
+    }
+
+    /**
+     * Construit un XML pour l'échange de la clé public
+     *
+     * @param cle La clé public
+     * @return Le xml en format String
+     */
+    public String construireCleClient(String cle) {
+        Element rootElement = construireDoc(BalisesCommClient.BALISE_COMM);
+
+        Element elementCommande = creerElement(BalisesCommClient.BALISE_COMMANDE, CommandesClient.REQUETE_ECHANGE_CLE.getBalise());
+        rootElement.appendChild(elementCommande);
+
+        Element element = creerElement(BalisesCommClient.BALISE_PUBLIC_KEY, cle);
+        rootElement.appendChild(element);
+
+
+        return convertirDocToString();
     }
 
     /**
@@ -124,13 +141,13 @@ class XMLWriter {
      * @param gestionnairesBalisesServeur tableau de gestionnairesBalisesServeur qui contiennent une balise et son contenu
      * @return Le xml en format String
      */
-    public String construireXmlServeur(CommandesServeur commandesServeur, GestionnaireBalisesCommServeur... gestionnairesBalisesServeur) {
+    public String construireXmlServeur(CommandesServeur commandesServeur, EnveloppeBalisesComm... gestionnairesBalisesServeur) {
         Element rootElement = construireDoc(BalisesCommServeur.BALISE_SERVEUR);
 
         Element elementCommande = creerElement(BalisesCommServeur.BALISE_REQUETE, commandesServeur.getRequete());
         rootElement.appendChild(elementCommande);
 
-        for (GestionnaireBalisesCommServeur gestionnaireBalisesServeur : gestionnairesBalisesServeur) {
+        for (EnveloppeBalisesComm gestionnaireBalisesServeur : gestionnairesBalisesServeur) {
             Element element = creerElement(gestionnaireBalisesServeur.getBalises(), gestionnaireBalisesServeur.getContenu());
             rootElement.appendChild(element);
         }

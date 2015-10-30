@@ -1,6 +1,7 @@
 package ca.qc.bdeb.gr1_420_p56_bb.utilitaires;
 
 import android.util.Base64;
+import android.util.Log;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -12,7 +13,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -39,15 +39,16 @@ public class Encryptage {
 
     private KeyPairGenerator keyPairGenerator;
 
-    public static Encryptage getInstanceServeur() {
-        return instanceServeur;
+    public static Encryptage getInstance(EncryptageType eT) {
+        if (eT == EncryptageType.ENCRYPTAGE_CLIENT) {
+            return instanceClient;
+        } else if (eT == EncryptageType.ENCRYPTAGE_SERVEUR) {
+            return instanceServeur;
+        }
+        return null;
     }
 
-    public static Encryptage getInstanceClient() {
-        return instanceClient;
-    }
-
-    Encryptage() {
+    private Encryptage() {
         try {
             c = Cipher.getInstance("AES/ECB/PKCS5Padding");
             keyPairGenerator = KeyPairGenerator.getInstance("DH");
@@ -58,14 +59,16 @@ public class Encryptage {
     }
 
     public String createKeyToPair() {
+        Log.i("Encryptage", "1");
         KeyPair keyPair = keyPairGenerator.genKeyPair();
-        privateKey = keyPair.getPrivate();
+        Log.i("Encryptage", "2");
 
+        privateKey = keyPair.getPrivate();
+        System.out.println(privateKey);
         return Base64.encodeToString(keyPair.getPublic().getEncoded(), Base64.NO_WRAP);
     }
 
     public void createKey(final String keyEncode) {
-
         try {
             PublicKey publicKeyServeur = KeyFactory.getInstance("DH").generatePublic(new X509EncodedKeySpec(Base64.decode(keyEncode, Base64.NO_WRAP)));
 
@@ -73,7 +76,7 @@ public class Encryptage {
             keyAgreement.init(privateKey);
             keyAgreement.doPhase(publicKeyServeur, true);
             byte[] secret = keyAgreement.generateSecret();
-            MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+            MessageDigest sha256 = MessageDigest.getInstance("SHA-512");
             byte[] bytesKey = Arrays.copyOf(sha256.digest(secret), AES_KEY_SIZE / Byte.SIZE);
             key = new SecretKeySpec(bytesKey, "AES");
         } catch (Exception e) {
@@ -81,30 +84,34 @@ public class Encryptage {
     }
 
     public String encrypter(final String messageDecrypte) {
-        String messageEncrypte = "";
-        try {
-            c.init(Cipher.ENCRYPT_MODE, key);
-            byte[] valeurEncrypte = c.doFinal(messageDecrypte.getBytes("UTF8"));
-            messageEncrypte = Base64.encodeToString(valeurEncrypte, Base64.NO_WRAP);
-        } catch (IllegalBlockSizeException e) {
-        } catch (BadPaddingException e) {
-        } catch (InvalidKeyException e) {
-        } catch (UnsupportedEncodingException e) {
+        String messageEncrypte = messageDecrypte;
+        if (key != null) {
+            try {
+                c.init(Cipher.ENCRYPT_MODE, key);
+                byte[] valeurEncrypte = c.doFinal(messageDecrypte.getBytes("UTF8"));
+                messageEncrypte = Base64.encodeToString(valeurEncrypte, Base64.NO_WRAP);
+            } catch (IllegalBlockSizeException e) {
+            } catch (BadPaddingException e) {
+            } catch (InvalidKeyException e) {
+            } catch (UnsupportedEncodingException e) {
+            }
         }
         return messageEncrypte;
     }
 
     public String decrypter(final String messageEncrypte) {
-        String messageDecrypte = "";
-        try {
-            c.init(Cipher.DECRYPT_MODE, key);
-            byte[] valeurDecorded = Base64.decode(messageEncrypte, Base64.NO_WRAP);
-            byte[] ciphertext = c.doFinal(valeurDecorded);
-            messageDecrypte = new String(ciphertext, "utf-8");
-        } catch (InvalidKeyException e) {
-        } catch (BadPaddingException e) {
-        } catch (IllegalBlockSizeException e) {
-        } catch (UnsupportedEncodingException e) {
+        String messageDecrypte = messageEncrypte;
+        if (key != null) {
+            try {
+                c.init(Cipher.DECRYPT_MODE, key);
+                byte[] valeurDecorded = Base64.decode(messageEncrypte, Base64.NO_WRAP);
+                byte[] ciphertext = c.doFinal(valeurDecorded);
+                messageDecrypte = new String(ciphertext, "utf-8");
+            } catch (InvalidKeyException e) {
+            } catch (BadPaddingException e) {
+            } catch (IllegalBlockSizeException e) {
+            } catch (UnsupportedEncodingException e) {
+            }
         }
         return messageDecrypte;
     }

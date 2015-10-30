@@ -26,17 +26,26 @@ class XMLReader {
     }
 
     public CommandesClient lireCommande() {
-        String commandeTexte;
+        return CommandesClient.getCommandeParString(lireContenuBalise(BalisesCommClient.BALISE_COMMANDE));
+    }
+
+    public String lireCle() {
+        return lireContenuBalise(BalisesCommClient.BALISE_PUBLIC_KEY);
+    }
+
+    private String lireContenuBalise(BalisesCommClient balisesCommClient) {
+        String contenu;
 
         NodeList nList = getNodesParBalise(BalisesCommClient.BALISE_COMM);
         Node node = nList.item(0);
-        commandeTexte = getElementParBalise(node, BalisesCommClient.BALISE_COMMANDE);
+        contenu = getElementParBalise(node, balisesCommClient);
 
-        return CommandesClient.getCommandeParString(commandeTexte);
+        return contenu;
     }
 
     /**
      * Lis toutes les balises contacts et créé de nouveaux contacts pour chacune
+     *
      * @return La liste des nouveaux contacts
      */
     public ArrayList<EnveloppeContact> lireContacts() {
@@ -65,6 +74,7 @@ class XMLReader {
 
     /**
      * Lis toutes les balises messages et créé de nouveaux messages pour chacune
+     *
      * @return La liste des nouveaux messages
      */
     public ArrayList<EnveloppeMessage> lireMessages() {
@@ -95,6 +105,7 @@ class XMLReader {
 
     /**
      * Retourne la liste de nodes (c'est à dire une balise et son contenu) correspondant à une balise
+     *
      * @param balise La balise dont chercher les nodes
      * @return La liste des nodes correspondants à la balise
      */
@@ -105,10 +116,11 @@ class XMLReader {
     /**
      * Retourne le contenu d'une balise dans un node par exemple :
      * <node>
-     *     <element>Jacques</element>
+     * <element>Jacques</element>
      * </node>
      * retourerait Jacques
-     * @param node Le node dont éxtraire le contenu
+     *
+     * @param node   Le node dont éxtraire le contenu
      * @param balise La balise
      * @return Le contenu de la balise dans le node
      */
