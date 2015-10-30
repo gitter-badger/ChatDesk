@@ -4,6 +4,7 @@ import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -41,15 +42,19 @@ public class Encryptage {
         }
     }
 
-    public PublicKey createKeyToPair() {
+    public String createKeyToPair() {
         KeyPair keyPair = keyPairGenerator.genKeyPair();
         privateKey = keyPair.getPrivate();
 
-        return keyPair.getPublic();
+        return Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded());
     }
 
-    public void createKey(final PublicKey publicKeyServeur) {
+    public void createKey(final String keyEncode) {
+
         try {
+            PublicKey publicKeyServeur = KeyFactory.getInstance("DH").generatePublic(
+                    new X509EncodedKeySpec(Base64.getDecoder().decode(keyEncode)));
+
             KeyAgreement keyAgreement = KeyAgreement.getInstance("DH");
             keyAgreement.init(privateKey);
             keyAgreement.doPhase(publicKeyServeur, true);

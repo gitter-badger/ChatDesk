@@ -55,6 +55,9 @@ public class GestionnaireConnexion {
                     lireFichierXmlClient(tabMessages[i].getContenu());
                 }
                 break;
+            case REQUETE_ECHANGE_CLE:
+
+                break;
         }
     }
 

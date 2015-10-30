@@ -17,8 +17,8 @@ public class EncryptageTest {
         Encryptage encryptageClient = Encryptage.getInstanceServeur();
         Encryptage encryptageServeur = new Encryptage();
 
-        PublicKey publicKeyClient = encryptageClient.createKeyToPair();
-        PublicKey publicKeyServeur = encryptageServeur.createKeyToPair();
+        String publicKeyClient = encryptageClient.createKeyToPair();
+        String publicKeyServeur = encryptageServeur.createKeyToPair();
 
         encryptageClient.createKey(publicKeyServeur);
         encryptageServeur.createKey(publicKeyClient);

@@ -118,6 +118,7 @@ class GestionnaireSocket implements Runnable {
                 this.socket.connect(new InetSocketAddress(HOST_NAME, PORT), TEMPS_CONNEXION_SOCKET);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
+                creationCle();
                 resultatsConnexion = ResultatsConnexion.INVALIDE;
             } catch (SocketException e) {
                 e.printStackTrace();
@@ -138,6 +139,20 @@ class GestionnaireSocket implements Runnable {
         }
 
         return resultatsConnexion;
+    }
+
+    private void creationCle() {
+        String clientPublicKey = Encryptage.getInstanceServeur().createKeyToPair();
+        XMLWriter xmlWriter = new XMLWriter();
+        String messageEnv = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_ECHANGE_CLE,
+                new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_PUBLIC_KEY, clientPublicKey));
+        envoyerMessage(messageEnv);
+
+        String messageRecu = readAllLines();
+        System.out.println("yeye");
+        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageRecu);
+        String serveurPublicKey = xmlReaderServeur.lireContenu()[1].getContenu();
+        Encryptage.getInstanceServeur().createKey(serveurPublicKey);
     }
 
     /**
