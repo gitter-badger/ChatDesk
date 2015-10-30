@@ -127,6 +127,25 @@ class XMLWriter {
     }
 
     /**
+     * Construit un XML pour l'échange de la clé public
+     *
+     * @param cle La clé public
+     * @return Le xml en format String
+     */
+    public String construireCleClient(String cle) {
+        Element rootElement = construireDoc(BalisesCommClient.BALISE_COMM);
+
+        Element elementCommande = creerElement(BalisesCommClient.BALISE_COMMANDE, CommandesClient.REQUETE_ECHANGE_CLE.getBalise());
+        rootElement.appendChild(elementCommande);
+
+        Element element = creerElement(BalisesCommClient.BALISE_PUBLIC_KEY, cle);
+        rootElement.appendChild(element);
+
+
+        return convertirDocToString();
+    }
+
+    /**
      * Construit un XML à l'addresse du serveur
      *
      * @param commandesServeur

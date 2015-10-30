@@ -2,8 +2,6 @@ package ca.qc.bdeb.gr1_420_P56_BB.utilitaires;
 
 import org.junit.Test;
 
-import java.security.PublicKey;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -14,8 +12,8 @@ public class EncryptageTest {
 
     @Test
     public void testEncryptageDecryptage() {
-        Encryptage encryptageClient = Encryptage.getInstanceServeur();
-        Encryptage encryptageServeur = new Encryptage();
+        Encryptage encryptageClient = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT);
+        Encryptage encryptageServeur = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_SERVEUR);
 
         String publicKeyClient = encryptageClient.createKeyToPair();
         String publicKeyServeur = encryptageServeur.createKeyToPair();
