@@ -251,7 +251,9 @@ class OptionBar extends JPanel {
                  JFrame jFrameContacts = new JFrame();
                 jFrameContacts.setLayout(null);
                 jFrameContacts.setBounds(fenetreContacts.getBounds());
+                jFrameContacts.setMinimumSize(fenetreContacts.getSize());
                 jFrameContacts.add(fenetreContacts);
+                jFrameContacts.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 jFrameContacts.setVisible(true);
             }
         });

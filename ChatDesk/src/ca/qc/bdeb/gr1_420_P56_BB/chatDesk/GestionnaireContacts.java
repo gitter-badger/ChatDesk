@@ -35,7 +35,7 @@ class GestionnaireContacts {
     }
 
     ArrayList getContacts() {
-        return listeContacts;
+        return  listeContacts;
     }
 
     /**
@@ -83,5 +83,12 @@ class GestionnaireContacts {
         }
 
         return contact;
+    }
+    public ArrayList<ContactDTO> getContactsDTO(){
+        ArrayList<ContactDTO> ContactDTOs = new ArrayList<>();
+        for (Contact contact: listeContacts) {
+            ContactDTOs.add(contact.genererContactDTO());
+        }
+        return ContactDTOs;
     }
 }
