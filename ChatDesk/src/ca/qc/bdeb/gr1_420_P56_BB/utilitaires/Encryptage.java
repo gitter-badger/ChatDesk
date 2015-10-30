@@ -1,165 +1,94 @@
 package ca.qc.bdeb.gr1_420_P56_BB.utilitaires;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.util.Date;
-import java.util.Random;
+import java.io.UnsupportedEncodingException;
+import java.security.*;
+import java.util.Arrays;
+import java.util.Base64;
 
 /**
  * Permet l'encryptage et le dégryptage de string pour l'envoie. Encryptage et décryptage de type serveur ou client.
  */
 public class Encryptage {
 
-    /**
-     * Le type d'algorithme
-     */
-    private static final String ALGO = "AES";
+    private static final int AES_KEY_SIZE = 128;
 
-    /**
-     * Le nombre de valeurs dans la clée
-     */
-    private static final int NBR_VALEURS_CLEE = 16;
+    private PrivateKey privateKey;
+    private SecretKey key = null;
+    private Cipher c;
 
-    /**
-     * Le temps en milliseconde d'une heure
-     */
-    private static final int HEURE_MILLI = 3600000;
+    private static Encryptage instanceServeur = new Encryptage();
+    private static Encryptage instanceClient = new Encryptage();
 
-    /**
-     * Caractère ascii de la lettre 'A'
-     */
-    private static final int ASCII_PREMIERE_LETTRE = 65;
+    private KeyPairGenerator keyPairGenerator;
 
-    /**
-     * Caractère ascii de la lettre 'Z'
-     */
-    private static final int ASCII_DERNIERE_LETTRE = 90;
+    public static Encryptage getInstanceServeur() {
+        return instanceServeur;
+    }
 
-    /**
-     * L'ancienne date en milliseconde pour changer la clé à chaque heure
-     */
-    private static long seedAncienneDateMilli = 0;
+    public static Encryptage getInstanceClient() {
+        return instanceClient;
+    }
 
-    /**
-     * L'ancienne clée d'encryptage et de décryptage
-     */
-    private static Key ancienneClee;
-
-    /**
-     * La nouvelle clée d'encryptage et de décryptage
-     */
-    private static Key nouvelleClee;
-
-    /**
-     * Permet d'encrypter un message avec la nouvelle clée
-     *
-     * @param message        Le message à encrypter
-     * @param encryptageType La méthode d'encryptage (serveur vs client)
-     * @return Le message encrypter
-     */
-    public static String encrypter(String message, EncryptageType encryptageType) {
-        verificationKeyValue(encryptageType);
-        String messageEncrypte = null;
+    Encryptage() {
         try {
-            Cipher cipher = Cipher.getInstance(ALGO);
-            cipher.init(Cipher.ENCRYPT_MODE, nouvelleClee);
-            byte[] valeurEncrypte = cipher.doFinal(message.getBytes());
-            messageEncrypte = new BASE64Encoder().encode(valeurEncrypte);
-        } catch (Exception e) {
-            e.printStackTrace();
+            c = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            keyPairGenerator = KeyPairGenerator.getInstance("DH");
+            keyPairGenerator.initialize(1024);
+        } catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchPaddingException e) {
         }
+    }
 
+    public PublicKey createKeyToPair() {
+        KeyPair keyPair = keyPairGenerator.genKeyPair();
+        privateKey = keyPair.getPrivate();
+
+        return keyPair.getPublic();
+    }
+
+    public void createKey(final PublicKey publicKeyServeur) {
+        try {
+            KeyAgreement keyAgreement = KeyAgreement.getInstance("DH");
+            keyAgreement.init(privateKey);
+            keyAgreement.doPhase(publicKeyServeur, true);
+            byte[] secret = keyAgreement.generateSecret();
+            MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+            byte[] bytesKey = Arrays.copyOf(sha256.digest(secret), AES_KEY_SIZE / Byte.SIZE);
+            key = new SecretKeySpec(bytesKey, "AES");
+        } catch (Exception e) {
+        }
+    }
+
+    public String encrypter(final String messageDecrypte) {
+        String messageEncrypte = "";
+        try {
+            c.init(Cipher.ENCRYPT_MODE, key);
+            byte[] valeurEncrypte = c.doFinal(messageDecrypte.getBytes("UTF8"));
+            messageEncrypte = Base64.getEncoder().encodeToString(valeurEncrypte);
+        } catch (IllegalBlockSizeException e) {
+        } catch (BadPaddingException e) {
+        } catch (InvalidKeyException e) {
+        } catch (UnsupportedEncodingException e) {
+        }
         return messageEncrypte;
     }
 
-    /**
-     * Décrypter le message passé en paramètre. Si la nouvelle clé ne fonctionne pas, utilisation de l'ancienne clé.
-     *
-     * @param messageEncrypter Le message à décrypter
-     * @param encryptageType   La méthode d'encryptage (serveur vs client)
-     * @return Le messsage décrypté
-     */
-    public static String decrypter(String messageEncrypter, EncryptageType encryptageType) {
-        verificationKeyValue(encryptageType);
-        String messageDecrypte = null;
+    public String decrypter(final String messageEncrypte) {
+        String messageDecrypte = "";
         try {
-            messageDecrypte = decrypterAvecBonneCle(nouvelleClee, messageEncrypter);
-        } catch (BadPaddingException bpe) {
-            try {
-                messageDecrypte = decrypterAvecBonneCle(ancienneClee, messageEncrypter);
-            } catch (BadPaddingException e) {
-                e.printStackTrace();
-            }
-        }
-        return messageDecrypte;
-    }
-
-    /**
-     * Permet de décrypter le message qui a été recu avec la clé passé en paramètre
-     *
-     * @param key              La clé
-     * @param messageEncrypter Le message qui est encrypter
-     * @return Le string qui est decrypté
-     * @throws Exception Si une erreur arrive
-     */
-    private static String decrypterAvecBonneCle(Key key, String messageEncrypter) throws BadPaddingException {
-
-        Cipher cipher = null;
-        String messageDecrypte = null;
-        try {
-            cipher = Cipher.getInstance(ALGO);
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] valeurDecorded = new BASE64Decoder().decodeBuffer(messageEncrypter);
-            byte[] valeurDecrypte = cipher.doFinal(valeurDecorded);
-
-            messageDecrypte = new String(valeurDecrypte);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
+            c.init(Cipher.DECRYPT_MODE, key);
+            byte[] valeurDecorded = Base64.getDecoder().decode(messageEncrypte);
+            byte[] ciphertext = c.doFinal(valeurDecorded);
+            messageDecrypte = new String(ciphertext, "utf-8");
         } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (BadPaddingException e) {
+        } catch (IllegalBlockSizeException e) {
+        } catch (UnsupportedEncodingException e) {
         }
-
         return messageDecrypte;
-    }
-
-    /**
-     * Permet de verifier la valeur de la clé. Après 1 heure, une nouvelle clé est créé et l'ancien clé est concervé
-     * pour 1 heure.
-     * <p>
-     * À changer : pour l'instant, il s'agit toujours de la même clé.
-     *
-     * @param encryptageType La méthode d'encryptage (serveur vs client)
-     */
-    private static void verificationKeyValue(EncryptageType encryptageType) {
-        byte[] keyValue = new byte[NBR_VALEURS_CLEE];
-
-        long seedNouvelleDateMilli = new Date().getTime();
-
-        if (nouvelleClee == null || seedNouvelleDateMilli - seedAncienneDateMilli >= HEURE_MILLI) {
-            Random rdm = new Random(seedNouvelleDateMilli % encryptageType.getValue());
-            seedAncienneDateMilli = seedNouvelleDateMilli;
-            for (int i = 0; i < NBR_VALEURS_CLEE; i++) {
-                keyValue[i] = (byte) (rdm.nextInt(ASCII_DERNIERE_LETTRE - ASCII_PREMIERE_LETTRE) + ASCII_PREMIERE_LETTRE);
-            }
-            ancienneClee = nouvelleClee;
-            nouvelleClee = new SecretKeySpec(new byte[]{'A', 'Y', 'R', 'E', 'D', 'W', 'Q', 'B', 'N', 'L', 'E', 'R', 'Q', 'C', 'V', 'M'},
-                    ALGO);
-        }
     }
 }
+
+

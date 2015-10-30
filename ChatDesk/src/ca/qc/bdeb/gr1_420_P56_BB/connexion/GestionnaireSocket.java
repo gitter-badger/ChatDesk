@@ -1,7 +1,6 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +10,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-
-import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage.encrypter;
 
 /**
  * Gère les communications avec le serveur niveau socket.
@@ -181,7 +178,7 @@ class GestionnaireSocket implements Runnable {
 
         String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, enveloppeBalisesCommServeurNom,
                 enveloppeBalisesCommServeurPass, enveloppeBalisesCommServeurIsTelephone);
-        envoyerMessage(encrypter(comm, EncryptageType.ENCRYPTAGE_SERVER));
+        envoyerMessage(Encryptage.getInstanceServeur().encrypter(comm));
 
         return receptionReponseConnexion();
     }
@@ -196,7 +193,7 @@ class GestionnaireSocket implements Runnable {
         try {
             this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
             String contenu = readAllLines();
-            contenu = Encryptage.decrypter(contenu, EncryptageType.ENCRYPTAGE_SERVER);
+            contenu = Encryptage.getInstanceServeur().decrypter(contenu);
             XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(contenu);
             if (xmlReaderServeur.lireCommande() == CommandesServeur.REQUETE_LOGIN) {
                 connecte = xmlReaderServeur.lireContenu()[POSITION_CONFIRMATION].getContenu().equals(Boolean.toString(!connecte));

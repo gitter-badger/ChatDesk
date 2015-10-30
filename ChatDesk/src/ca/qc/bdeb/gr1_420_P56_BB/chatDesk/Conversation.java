@@ -51,7 +51,16 @@ class Conversation {
      * @param message Un message
      */
     public void ajouterMessage(Message message) {
-        messages.add(message);
+        boolean positionTrouve = false;
+        int positionAjout;
+        for (positionAjout = 0; positionAjout < messages.size() && !positionTrouve; ++positionAjout) {
+            if (message.getDate().before(messages.get(positionAjout).getDate())) {
+                positionTrouve = true;
+                positionAjout = positionAjout - 1;
+            }
+        }
+
+        messages.add(positionAjout, message);
     }
 
     /**
@@ -77,7 +86,7 @@ class Conversation {
         return messages.size() - 1 >= 0 ? messages.get(messages.size() - 1) : null;
     }
 
-    ConversationDTO genererDTO(){
+    ConversationDTO genererDTO() {
         return new ConversationDTO(this.getMessages(), this.getNumeroTelephone());
     }
 }

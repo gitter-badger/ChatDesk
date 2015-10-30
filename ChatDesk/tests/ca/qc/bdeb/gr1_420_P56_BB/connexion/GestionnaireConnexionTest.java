@@ -3,13 +3,10 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
-import org.junit.After;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -38,7 +35,7 @@ public class GestionnaireConnexionTest {
                 "    <nom>Téléphone de Alexandre</nom>\n" +
                 "</serveur>";
 
-        xmlAjoutAppareil = Encryptage.encrypter(xmlAjoutAppareil, EncryptageType.ENCRYPTAGE_SERVER);
+        xmlAjoutAppareil = Encryptage.getInstanceClient().encrypter(xmlAjoutAppareil);
         Appareil[] expected = new Appareil[2];
         expected[0] = new Appareil("Téléphone de Louis", 0);
         expected[1] = new Appareil("Téléphone de Alexandre", 1);

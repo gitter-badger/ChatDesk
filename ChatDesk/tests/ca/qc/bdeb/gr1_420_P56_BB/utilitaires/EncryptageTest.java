@@ -1,9 +1,8 @@
 package ca.qc.bdeb.gr1_420_P56_BB.utilitaires;
 
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers;
 import org.junit.Test;
+
+import java.security.PublicKey;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,10 +14,17 @@ public class EncryptageTest {
 
     @Test
     public void testEncryptageDecryptage() {
-        Encryptage encryptage = new Encryptage();
+        Encryptage encryptageClient = Encryptage.getInstanceServeur();
+        Encryptage encryptageServeur = new Encryptage();
 
-        String messageEncrypter = Encryptage.encrypter(ManipulationFichiers.lireFichierDepuisChemin(PATH_FICHIER_TEST_CONTACTS), EncryptageType.ENCRYPTAGE_MESSAGE);
-        String messageDecrypter = Encryptage.decrypter(messageEncrypter, EncryptageType.ENCRYPTAGE_MESSAGE);
+        PublicKey publicKeyClient = encryptageClient.createKeyToPair();
+        PublicKey publicKeyServeur = encryptageServeur.createKeyToPair();
+
+        encryptageClient.createKey(publicKeyServeur);
+        encryptageServeur.createKey(publicKeyClient);
+
+        String messageEncrypter = encryptageClient.encrypter(ManipulationFichiers.lireFichierDepuisChemin(PATH_FICHIER_TEST_CONTACTS));
+        String messageDecrypter = encryptageServeur.decrypter(messageEncrypter);
 
         assertEquals(ManipulationFichiers.lireFichierDepuisChemin(PATH_FICHIER_TEST_CONTACTS), messageDecrypter);
     }
