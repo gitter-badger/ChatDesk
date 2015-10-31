@@ -2,10 +2,8 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
-
-import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage.*;
-
 
 /**
  * Gère la connexion entre l'Android et l'ordinateur
@@ -16,6 +14,11 @@ public class GestionnaireConnexion {
      * Nombre de champs par appareils
      */
     private static final int NOMBRE_CHAMPS_APPAREIL = 2;
+
+    /**
+     * Indique si ce programme est un téléphone, dans notre cas évidemment non
+     */
+    private static final boolean IS_TELEPHONE = false;
 
     /**
      * La facade du modele pour accèder au modèle
@@ -38,15 +41,14 @@ public class GestionnaireConnexion {
      * @param messageRecu le message reçu du serveur en version xml encrypter selon la méthode du serveur
      */
     synchronized void reception(String messageRecu) {
-        String messageServeurDecrypte = decrypter(messageRecu, EncryptageType.ENCRYPTAGE_SERVER);
+        String messageServeurDecrypte = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_SERVEUR).decrypter(messageRecu);
         XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageServeurDecrypte);
-
         switch (xmlReaderServeur.lireCommande()) {
             case REQUETE_NOUVEAU_COMPTE:
                 //Pas encore implémenté
                 break;
             case REQUETE_LIEN:
-                //Pas encore implémenté
+                echangerClePremiereFois();
                 break;
             case REQUETE_LIENS:
                 EnveloppeBalisesCommServeur[] tabAppareils = xmlReaderServeur.lireContenu();
@@ -58,7 +60,14 @@ public class GestionnaireConnexion {
                     lireFichierXmlClient(tabMessages[i].getContenu());
                 }
                 break;
+            case REQUETE_ECHANGE_CLE:
+                changementCleServeur(xmlReaderServeur.lireContenu()[1].getContenu());
+                break;
         }
+    }
+
+    private void echangerClePremiereFois() {
+        gestionnaireSocket.creationCleClient();
     }
 
     /**
@@ -110,7 +119,7 @@ public class GestionnaireConnexion {
         XMLWriter xmlWriter = new XMLWriter();
         String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIEN,
                 new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_ID_APPAREIL, Integer.toString(idAppareil)));
-        this.gestionnaireSocket.envoyerMessage(encrypter(comm, EncryptageType.ENCRYPTAGE_SERVER));
+        this.gestionnaireSocket.envoyerMessage(comm, EncryptageType.ENCRYPTAGE_SERVEUR);
     }
 
     /**
@@ -119,7 +128,7 @@ public class GestionnaireConnexion {
     public void demanderAppareils() {
         XMLWriter xmlWriter = new XMLWriter();
         String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIENS);
-        this.gestionnaireSocket.envoyerMessage(encrypter(comm, EncryptageType.ENCRYPTAGE_SERVER));
+        this.gestionnaireSocket.envoyerMessage(comm, EncryptageType.ENCRYPTAGE_SERVEUR);
     }
 
     /**
@@ -128,7 +137,7 @@ public class GestionnaireConnexion {
      * @param communication Le xml de la connextion addressée au xlient
      */
     private void lireFichierXmlClient(String communication) {
-        String message = decrypter(communication, EncryptageType.ENCRYPTAGE_MESSAGE);
+        String message = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).decrypter(communication);
         XMLReader xmlReader = new XMLReader(message);
         switch (xmlReader.lireCommande()) {
             case PREMIERE_CONNEXION:
@@ -139,7 +148,18 @@ public class GestionnaireConnexion {
             case CONTACTS:
                 facadeModele.ajouterContacts(xmlReader.lireContacts());
                 break;
+            case REQUETE_ECHANGE_CLE:
+                changementCleClient(xmlReader.lireCle());
+                break;
         }
+    }
+
+    private void changementCleServeur(String publicKeyServeur) {
+        Encryptage.getInstance(EncryptageType.ENCRYPTAGE_SERVEUR).createKey(publicKeyServeur);
+    }
+
+    private void changementCleClient(String publicKeyClient) {
+        Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).createKey(publicKeyClient);
     }
 
     /**
@@ -148,12 +168,11 @@ public class GestionnaireConnexion {
      * @param enveloppe Une classe implémentant l'interface convertissableXml
      */
     public void envoyerEnveloppe(ConvertissableXml enveloppe) {
-        String xmlClientMessage = encrypter(enveloppe.convertirEnXml(), EncryptageType.ENCRYPTAGE_MESSAGE);
-        String xmlServer = encrypter(new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_MESSAGES,
-                        new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MESSAGE, xmlClientMessage)),
-                EncryptageType.ENCRYPTAGE_SERVER);
+        String xmlClientMessage = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).encrypter(enveloppe.convertirEnXml());
+        String xmlServer = new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_MESSAGES,
+                new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MESSAGE, xmlClientMessage));
 
-        gestionnaireSocket.envoyerMessage(xmlServer);
+        gestionnaireSocket.envoyerMessage(xmlServer, EncryptageType.ENCRYPTAGE_SERVEUR);
     }
 
     /**
@@ -164,7 +183,19 @@ public class GestionnaireConnexion {
      * @return Une des valeurs de l'énum ResultatsConnexion : Valide, Invalide ou Impossible
      */
     public ResultatsConnexion seConnecter(String nom, String pass) {
-        return gestionnaireSocket.commencerCommunication(nom, pass);
+        XMLWriter xmlWriter = new XMLWriter();
+
+        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurNom
+                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, nom);
+        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurPass
+                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, pass);
+        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurIsTelephone
+                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_IS_TELEPHONE, Boolean.toString(IS_TELEPHONE));
+
+        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, enveloppeBalisesCommServeurNom,
+                enveloppeBalisesCommServeurPass, enveloppeBalisesCommServeurIsTelephone);
+
+        return gestionnaireSocket.commencerCommunication(comm);
     }
 
     /**

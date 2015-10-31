@@ -1,21 +1,9 @@
 package ca.qc.bdeb.gr1_420_p56_bb.utilitaires;
 
 /**
- * Permet de différencier l'encryptage au niveau serveur et l'encryptage au niveau client
+ * Le type d'encryptage possible
  */
 public enum EncryptageType {
-
-    ENCRYPTAGE_SERVER(10),
-    ENCRYPTAGE_MESSAGE(40);
-
-    private long value;
-
-    EncryptageType(long value) {
-        this.value = value;
-    }
-
-    public long getValue() {
-        return this.value;
-    }
-
+    ENCRYPTAGE_SERVEUR,
+    ENCRYPTAGE_CLIENT;
 }

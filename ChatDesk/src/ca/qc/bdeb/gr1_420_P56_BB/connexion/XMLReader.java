@@ -41,13 +41,21 @@ class XMLReader {
      * @return La commande client
      */
     public CommandesClient lireCommande() {
-        String commandeTexte;
+        return CommandesClient.getCommandeParString(lireContenuBalise(BalisesCommClient.BALISE_COMMANDE));
+    }
+
+    public String lireCle() {
+        return lireContenuBalise(BalisesCommClient.BALISE_PUBLIC_KEY);
+    }
+
+    private String lireContenuBalise(BalisesCommClient balisesCommClient) {
+        String contenu;
 
         NodeList nList = getNodesParBalise(BalisesCommClient.BALISE_COMM);
         Node node = nList.item(0);
-        commandeTexte = getElementParBalise(node, BalisesCommClient.BALISE_COMMANDE);
+        contenu = getElementParBalise(node, balisesCommClient);
 
-        return CommandesClient.getCommandeParString(commandeTexte);
+        return contenu;
     }
 
     /**

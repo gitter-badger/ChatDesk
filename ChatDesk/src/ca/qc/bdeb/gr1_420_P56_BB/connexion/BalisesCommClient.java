@@ -40,7 +40,9 @@ enum BalisesCommClient implements Balises {
     /**
      * Si c'est un message envoyé ou reçu
      */
-    BALISE_EST_ENVOYE("estEnvoye");
+    BALISE_EST_ENVOYE("estEnvoye"),
+
+    BALISE_PUBLIC_KEY("public_key");
 
     private final String balise;
 

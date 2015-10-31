@@ -10,7 +10,8 @@ enum CommandesServeur {
     REQUETE_LIENS("liens"),
     REQUETE_MESSAGES("messages"),
     REQUETE_LOGIN("login"),
-    REQUETE_NOUVEAU_COMPTE("compte");
+    REQUETE_NOUVEAU_COMPTE("compte"),
+    REQUETE_ECHANGE_CLE("echange_cle");
 
     private String balise;
 
@@ -40,6 +41,9 @@ enum CommandesServeur {
                 break;
             case "compte":
                 commande = REQUETE_NOUVEAU_COMPTE;
+                break;
+            case "echange_cle":
+                commande = REQUETE_ECHANGE_CLE;
                 break;
             default:
                 commande = null;

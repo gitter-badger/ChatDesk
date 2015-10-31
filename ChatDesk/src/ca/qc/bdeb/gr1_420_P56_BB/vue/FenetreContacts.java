@@ -4,8 +4,12 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactsTest;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ConversationDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
+<<<<<<< HEAD
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
+=======
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactPourQueCaFonctionneDTO;
+>>>>>>> 69d56585267921008a99d14b7db3edc1b9da1c87
 
 import javax.swing.*;
 import java.awt.*;
@@ -157,6 +161,7 @@ class FenetreContacts extends JPanel {
     }
 
 
+<<<<<<< HEAD
     private void ajouterContact(ContactDTO contactDTO) {
         JPanel pnlcontact = new JPanel();
         initialiserPanneauContact(pnlcontact, contactDTO);
@@ -179,6 +184,30 @@ class FenetreContacts extends JPanel {
                 if (mouseEvent.getClickCount() == CLICK_COUNT) {
                     fenetrePrincipale.ouvrirConversation(new ConversationDTO(null, contactDTO.getNumeroTelephone()));
                     jFrameContacts.dispose();
+=======
+    private void ajouterContact(ContactPourQueCaFonctionneDTO contactPourQueCaFonctionneDTO) {
+        JPanel pnlConversation = new JPanel();
+        initialiserPanneauContact(pnlConversation, contactPourQueCaFonctionneDTO);
+        initialiserPanneauNom(pnlConversation, contactPourQueCaFonctionneDTO);
+        this.add(pnlConversation);
+    }
+
+    /**
+     * Initialise le panneau d'une conversation
+     *  @param pnlConversation Le panneau ? initialiser
+     * @param contactPourQueCaFonctionneDTO Une conversation
+     */
+    private void initialiserPanneauContact(JPanel pnlConversation, ContactPourQueCaFonctionneDTO contactPourQueCaFonctionneDTO) {
+        pnlConversation.setLayout(null);
+        pnlConversation.setLocation(0, hauteurPnlConversationY * conversationCount);
+        pnlConversation.setSize(longueurPnlConversationX, hauteurPnlConversationY);
+        pnlConversation.setBackground(Color.RED);
+        pnlConversation.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                if (mouseEvent.getClickCount() == CLICK_COUNT) {
+                    fenetrePrincipale.ouvrirConversation(new ConversationDTO(null, contactPourQueCaFonctionneDTO.getNumeroTelephone()));
+>>>>>>> 69d56585267921008a99d14b7db3edc1b9da1c87
                 }
             }
         });
@@ -189,9 +218,15 @@ class FenetreContacts extends JPanel {
      *  @param pnlcontact Le panneau d'une contact
      * @param contactDTO Une contact
      */
+<<<<<<< HEAD
     private void initialiserPanneaucontactNom(JPanel pnlcontact, ContactDTO contactDTO) {
         //JLabel nom = new JLabel(facadeModele.getContact(contactDTO.getNumeroTelephone()).getNom());
         JLabel nom = new JLabel(contactDTO.getNom());
+=======
+    private void initialiserPanneauNom(JPanel pnlConversation, ContactPourQueCaFonctionneDTO conversationDTO) {
+        //JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getNumeroTelephone()).getNom());
+        JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getNumeroTelephone()).getNom());
+>>>>>>> 69d56585267921008a99d14b7db3edc1b9da1c87
         nom.setFont(new Font(nom.getFont().getFontName(), Font.BOLD, (int) dimLblNom.getHeight()));
         //nom.setSize(Formatage.calculerDimensionString(contactDTO.getNom(), new Font("raleway", Font.TRUETYPE_FONT, 12)));
         nom.setSize(Formatage.calculerDimensionString(contactDTO.getNom(), nom.getFont()));
@@ -212,10 +247,17 @@ class FenetreContacts extends JPanel {
      */
     public void initialiserContacts() {
         this.removeAll();
+<<<<<<< HEAD
         contactCount = 0;
         for (ContactDTO contactDTO : ContactsTest.asList()) {
             ajouterContact(contactDTO);
             contactCount++;
+=======
+        conversationCount = 0;
+        for (ContactPourQueCaFonctionneDTO contactPourQueCaFonctionneDTO : ContactsTest.asList()) {
+            ajouterContact(contactPourQueCaFonctionneDTO);
+            conversationCount++;
+>>>>>>> 69d56585267921008a99d14b7db3edc1b9da1c87
         }
         this.setBounds(0,0,longuerMaxContact + 50, hauteurPnlcontactY * contactCount);
         this.repaint();

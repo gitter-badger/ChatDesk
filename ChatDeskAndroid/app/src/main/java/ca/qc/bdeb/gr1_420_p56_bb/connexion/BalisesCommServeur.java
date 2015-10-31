@@ -45,7 +45,9 @@ enum BalisesCommServeur implements Balises {
     /**
      * Contient un message
      */
-    BALISE_MESSAGE("message");
+    BALISE_MESSAGE("message"),
+
+    BALISE_PUBLIC_KEY("public_key");
 
     private String balise;
 

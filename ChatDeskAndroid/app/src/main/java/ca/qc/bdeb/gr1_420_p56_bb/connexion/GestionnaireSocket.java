@@ -12,8 +12,6 @@ import java.net.UnknownHostException;
 import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage;
 import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.EncryptageType;
 
-import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.encrypter;
-
 /**
  * Gère les communications avec le serveur niveau socket.
  */
@@ -74,11 +72,17 @@ class GestionnaireSocket implements Runnable {
      */
     private final int PORT = 8080;
 
+    private static final Encryptage encryptageServeur = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_SERVEUR);
+    private static final Encryptage encryptageClient = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT);
+
     private PrintWriter out;
     private BufferedReader in;
 
     public GestionnaireSocket(GestionnaireConnexion gestionnaireConnexion) {
         this.gestionnaireConnexion = gestionnaireConnexion;
+
+
+
         this.socket = new Socket();
     }
 
@@ -97,6 +101,7 @@ class GestionnaireSocket implements Runnable {
                 this.socket.connect(new InetSocketAddress(HOST_NAME, PORT), TEMPS_CONNEXION_SOCKET);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
+                creationCleServeur();
                 resultatsConnexion = ResultatsConnexion.INVALIDE;
             } catch (SocketException e) {
                 e.printStackTrace();
@@ -117,6 +122,31 @@ class GestionnaireSocket implements Runnable {
         }
 
         return resultatsConnexion;
+    }
+
+    private void creationCleServeur() {
+        String clientPublicKey = encryptageServeur.createKeyToPair();
+        XMLWriter xmlWriter = new XMLWriter();
+        String messageEnv = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_ECHANGE_CLE,
+                new EnveloppeBalisesComm(BalisesCommServeur.BALISE_PUBLIC_KEY, clientPublicKey));
+        envoyerMessage(messageEnv, EncryptageType.ENCRYPTAGE_SERVEUR);
+
+        String messageRecu = readAllLines();
+        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageRecu);
+        String serveurPublicKey = xmlReaderServeur.lireContenu()[1].getContenu();
+        encryptageServeur.createKey(serveurPublicKey);
+    }
+
+    public void creationCleClient() {
+        String clientPublicKey = encryptageClient.createKeyToPair();
+        XMLWriter xmlWriter = new XMLWriter();
+        String messageEnv = xmlWriter.construireCleClient(clientPublicKey);
+        envoyerMessage(messageEnv, EncryptageType.ENCRYPTAGE_CLIENT);
+
+        String messageRecu = readAllLines();
+        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageRecu);
+        String autreClientPublicKey = xmlReaderServeur.lireContenu()[1].getContenu();
+        encryptageClient.createKey(autreClientPublicKey);
     }
 
     /**
@@ -145,14 +175,21 @@ class GestionnaireSocket implements Runnable {
      * @return Boolean indiquant si les données sont valides
      */
     private boolean connecter(String infoConnexionComm) {
+        envoyerMessage(infoConnexionComm, EncryptageType.ENCRYPTAGE_SERVEUR);
+        return receptionReponseConnexion();
+    }
+
+    /**
+     * Attend la réponse du serveur à la demande de connexion
+     *
+     * @return Si la demande a fonctionné
+     */
+    private boolean receptionReponseConnexion() {
         boolean connecte = false;
-
-        envoyerMessage(encrypter(infoConnexionComm, EncryptageType.ENCRYPTAGE_SERVER));
-
         try {
             this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
             String contenu = readAllLines();
-            contenu = Encryptage.decrypter(contenu, EncryptageType.ENCRYPTAGE_SERVER);
+            contenu = encryptageServeur.decrypter(contenu);
             XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(contenu);
             if (xmlReaderServeur.lireCommande() == CommandesServeur.REQUETE_LOGIN) {
                 connecte = xmlReaderServeur.lireContenu()[POSITION_CONFIRMATION].getContenu().equals(Boolean.toString(!connecte));
@@ -166,6 +203,7 @@ class GestionnaireSocket implements Runnable {
 
     /**
      * Lis toutes les lignes d'une communication et les retournent dans un seul String
+     *
      * @return String des lignes concaténées
      */
     private synchronized String readAllLines() {
@@ -201,15 +239,19 @@ class GestionnaireSocket implements Runnable {
 
     /**
      * Envoi un message
+     *
      * @param communication
      */
-    void envoyerMessage(String communication) {
-        out.println(mettreBaliseNombreLigne(communication));
-        out.flush();
+    void envoyerMessage(String communication, EncryptageType encryptageType) {
+        if (communication != null) {
+            out.println(mettreBaliseNombreLigne(Encryptage.getInstance(encryptageType).encrypter(communication)));
+            out.flush();
+        }
     }
 
     /**
      * Ajoute les balises contenant le nombre de lignes au début de la communication
+     *
      * @param communication La communication
      * @return La communication avec les balises ajoutées
      */
@@ -221,6 +263,7 @@ class GestionnaireSocket implements Runnable {
 
     /**
      * Trouve le nombre de lignes que fait la communication
+     *
      * @param communication La communication
      * @return Le nombre de lignes que fait la communication
      */

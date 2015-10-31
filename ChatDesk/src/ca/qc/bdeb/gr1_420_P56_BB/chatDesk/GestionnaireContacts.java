@@ -84,11 +84,11 @@ class GestionnaireContacts {
 
         return contact;
     }
-    public ArrayList<ContactDTO> getContactsDTO(){
-        ArrayList<ContactDTO> ContactDTOs = new ArrayList<>();
+    public ArrayList<ContactPourQueCaFonctionneDTO> getContactsDTO(){
+        ArrayList<ContactPourQueCaFonctionneDTO> contactPourQueCaFonctionneDTOs = new ArrayList<>();
         for (Contact contact: listeContacts) {
-            ContactDTOs.add(contact.genererContactDTO());
+            contactPourQueCaFonctionneDTOs.add(contact.genererContactDTO());
         }
-        return ContactDTOs;
+        return contactPourQueCaFonctionneDTOs;
     }
 }

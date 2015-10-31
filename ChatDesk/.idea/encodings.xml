@@ -28,7 +28,6 @@
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/XMLWriter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/Encryptage.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/EncryptageType.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/Formatage.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/ManipulationFichiers.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/Observable.java" charset="UTF-8" />
