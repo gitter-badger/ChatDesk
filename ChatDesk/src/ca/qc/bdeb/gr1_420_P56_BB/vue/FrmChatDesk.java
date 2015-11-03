@@ -101,6 +101,7 @@ public class FrmChatDesk extends JFrame implements Observateur {
        String numeroTelephone = JOptionPane.showInputDialog("Entrez le numéro du contact");
        this.ouvrirConversation(new ConversationDTO(null,Long.parseLong(numeroTelephone)));
     }
+
     /**
      * Changement de grandeur de la fen�tre
      */
@@ -150,7 +151,11 @@ public class FrmChatDesk extends JFrame implements Observateur {
         this.dispose();
         facadeModele.arreterProgramme();
     }
+    public void changerCouleurBulleEnvoye(Color couleur){
+        pnlConversation.getPnlBulles().setCouleurBullesEnvoyees(couleur);
+    }
     public FacadeModele getFacadeModele() {
         return facadeModele;
     }
+
 }

@@ -3,7 +3,7 @@ package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 /**
  * Created by Alexandre on 2015-10-30.
  */
-public class ContactPourQueCaFonctionneDTO {
+public class ContactDTO {
     /**
      * Le num?ro de t?l?phone du contact
      */
@@ -14,7 +14,7 @@ public class ContactPourQueCaFonctionneDTO {
      */
     private final String nom;
 
-    public ContactPourQueCaFonctionneDTO(String nom, long numeroTelephone) {
+    public ContactDTO(String nom, long numeroTelephone) {
         this.nom = nom;
         this.numeroTelephone = numeroTelephone;
     }

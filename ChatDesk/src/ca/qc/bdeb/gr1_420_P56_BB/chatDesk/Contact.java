@@ -41,7 +41,7 @@ public class Contact{
         return nom;
     }
 
-    public ContactPourQueCaFonctionneDTO genererContactDTO(){
-        return new ContactPourQueCaFonctionneDTO(nom, numeroTelephone);
+    public ContactDTO genererContactDTO(){
+        return new ContactDTO(nom, numeroTelephone);
     }
 }

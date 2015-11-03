@@ -12,18 +12,18 @@ public enum ContactsTest {
     CONTACT_3(32645678l,"Louis-Simon fagerester"),
     CONTACT_4(42744678l,"Gabriel faggest");
     private final Contact contact;
-    private List<ContactPourQueCaFonctionneDTO> listeContact;
+    private List<ContactDTO> listeContact;
     ContactsTest(long numero, String nom) {
         this.contact = new Contact(numero, nom);
-        listeContact = new ArrayList<ContactPourQueCaFonctionneDTO>();
+        listeContact = new ArrayList<ContactDTO>();
     }
 
     public Contact getContact() {
         return contact;
     }
 
-    public static ArrayList<ContactPourQueCaFonctionneDTO> asList(){
-        ArrayList<ContactPourQueCaFonctionneDTO> listeContacts = new ArrayList<>();
+    public static ArrayList<ContactDTO> asList(){
+        ArrayList<ContactDTO> listeContacts = new ArrayList<>();
 
         for (ContactsTest contactsTest : values()){
             listeContacts.add(contactsTest.getContact().genererContactDTO());

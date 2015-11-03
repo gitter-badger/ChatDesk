@@ -34,6 +34,7 @@
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/Observateur.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/Bulle.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FenetreConnexion.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FenetreOption.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmChatDesk.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlBulles.java" charset="UTF-8" />

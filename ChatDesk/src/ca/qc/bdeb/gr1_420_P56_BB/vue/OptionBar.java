@@ -232,7 +232,9 @@ class OptionBar extends JPanel {
         options.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-
+                FenetreOption fenetreOption = new FenetreOption(fenetrePrincipale.getHeight(), fenetrePrincipale.getWidth(),
+                        fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesEnvoyees(),
+                        fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesRecues(), fenetrePrincipale);
             }
         });
         this.add(options);

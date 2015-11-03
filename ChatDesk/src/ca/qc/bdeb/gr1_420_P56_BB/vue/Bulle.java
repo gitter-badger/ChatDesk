@@ -16,12 +16,12 @@ class Bulle {
     /**
      * Couleur des bulles reçus
      */
-    private static final Color COULEUR_BULLE_RECU = new Color(51, 153, 102);
+    private Color couleurBulleRecue = new Color(51, 153, 102);
 
     /**
      * Couleur des bulles envoyés
      */
-    private static final Color COULEUR_BULLE_ENVOYE = new Color(80, 150, 180);
+    private  Color couleurBulleEnvoyee = new Color(80, 150, 180);
 
     /**
      * Couleur vide
@@ -79,6 +79,14 @@ class Bulle {
         initialisationChampMessage();
         bulle = new BufferedImage(messageArea.getWidth(), messageArea.getHeight(), BufferedImage.TYPE_INT_ARGB);
         paintBulle(message.isEnvoyer());
+    }
+
+    public Bulle(Message message, int maxWidth, Color couleurBulleEnvoyee, Color couleurBulleRecue) {
+        this.maxWidth = maxWidth;
+        this.message = message.getText();
+        this.couleurBulleEnvoyee = couleurBulleEnvoyee;
+        this.couleurBulleRecue = couleurBulleRecue;
+        bulle = new BufferedImage(messageArea.getWidth(), messageArea.getHeight(), BufferedImage.TYPE_INT_ARGB);
     }
 
     /**
@@ -167,7 +175,7 @@ class Bulle {
      * @author user3767784
      */
     private void definirContourBulleRecu(Graphics2D g, int width, int height, GeneralPath path) {
-        g.setPaint(COULEUR_BULLE_RECU);
+        g.setPaint(couleurBulleRecue);
         path.moveTo(width - 5, 10);
 
         path.curveTo(width - 5, 10, width - 7, 5, width, 0);
@@ -195,7 +203,7 @@ class Bulle {
      * @author user3767784
      */
     private void definirContourBulleEnvoye(Graphics2D g, int width, int height, GeneralPath path) {
-        g.setPaint(COULEUR_BULLE_ENVOYE);
+        g.setPaint(couleurBulleEnvoyee);
         path.moveTo(5, 10);
 
         path.curveTo(5, 10, 7, 5, 0, 0);
