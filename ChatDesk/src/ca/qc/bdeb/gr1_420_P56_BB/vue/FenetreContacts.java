@@ -4,14 +4,10 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactsTest;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ConversationDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
-<<<<<<< HEAD
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
-=======
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
-import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactPourQueCaFonctionneDTO;
->>>>>>> e2c7de8d62270aa893f390408b67fe4563e25d05
+
 
 import javax.swing.*;
 import java.awt.*;
