@@ -35,7 +35,8 @@ public class Encryptage {
 
     private Encryptage() {
         try {
-            c = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            c = Cipher.getInstance(ALGO);
+            //c = Cipher.getInstance("AES/ECB/PKCS5Padding");
             keyPairGenerator = KeyPairGenerator.getInstance("DH");
             keyPairGenerator.initialize(1024);
         } catch (NoSuchAlgorithmException e) {
@@ -43,6 +44,7 @@ public class Encryptage {
         }
     }
 
+/*
     public String createKeyToPair() {
         KeyPair keyPair = keyPairGenerator.genKeyPair();
         privateKey = keyPair.getPrivate();
@@ -104,6 +106,47 @@ public class Encryptage {
             }
         }
         return messageDecrypte;
+    }
+*/
+
+    private static final String ALGO = "AES";
+    private static Key clee = new SecretKeySpec(new byte[]{'A', 'Y', 'R', 'E', 'D', 'W', 'Q', 'B', 'N', 'L', 'E', 'R', 'Q', 'C', 'V', 'M'},
+            ALGO);
+
+    public String encrypter(String message) {
+        String messageEncrypte = null;
+        try {
+            c.init(Cipher.ENCRYPT_MODE, clee);
+            byte[] valeurEncrypte = c.doFinal(message.getBytes());
+            messageEncrypte = Base64.getEncoder().encodeToString(valeurEncrypte);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return messageEncrypte;
+    }
+
+    public String decrypter(String messageEncrypter) {
+        String messageDecrypte = null;
+        try {
+
+            c.init(Cipher.DECRYPT_MODE, clee);
+            byte[] valeurDecorded = Base64.getDecoder().decode(messageEncrypter);
+            byte[] valeurDecrypte = c.doFinal(valeurDecorded);
+
+            messageDecrypte = new String(valeurDecrypte);
+        } catch (BadPaddingException bpe) {
+        } catch (IllegalBlockSizeException e) {
+        } catch (InvalidKeyException e) {
+        }
+        return messageDecrypte;
+    }
+
+    public String createKeyToPair() {
+        return "1";
+    }
+
+    public void createKey(final String keyEncode) {
     }
 }
 

@@ -13,6 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -50,7 +51,8 @@ public class Encryptage {
 
     private Encryptage() {
         try {
-            c = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            c = Cipher.getInstance(ALGO);
+            //c = Cipher.getInstance("AES/ECB/PKCS5Padding");
             keyPairGenerator = KeyPairGenerator.getInstance("DH");
             keyPairGenerator.initialize(2048);
         } catch (NoSuchAlgorithmException e) {
@@ -58,6 +60,7 @@ public class Encryptage {
         }
     }
 
+/*
     public String createKeyToPair() {
         Log.i("Encryptage", "1");
         KeyPair keyPair = keyPairGenerator.genKeyPair();
@@ -114,6 +117,48 @@ public class Encryptage {
         }
         return messageDecrypte;
     }
+*/
+
+
+    private static final String ALGO = "AES";
+    private static Key clee = new SecretKeySpec(new byte[]{'A', 'Y', 'R', 'E', 'D', 'W', 'Q', 'B', 'N', 'L', 'E', 'R', 'Q', 'C', 'V', 'M'},
+            ALGO);
+
+    public String encrypter(String message) {
+        String messageEncrypte = null;
+        try {
+            c.init(Cipher.ENCRYPT_MODE, clee);
+            byte[] valeurEncrypte = c.doFinal(message.getBytes());
+            messageEncrypte = Base64.encodeToString(valeurEncrypte, Base64.NO_WRAP);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return messageEncrypte;
+    }
+
+    public String decrypter(String messageEncrypter) {
+        String messageDecrypte = null;
+        try {
+            c.init(Cipher.DECRYPT_MODE, clee);
+            byte[] valeurDecorded = Base64.decode(messageEncrypter, Base64.NO_WRAP);
+            byte[] valeurDecrypte = c.doFinal(valeurDecorded);
+
+            messageDecrypte = new String(valeurDecrypte);
+        } catch (BadPaddingException bpe) {
+        } catch (IllegalBlockSizeException e) {
+        } catch (InvalidKeyException e) {
+        }
+        return messageDecrypte;
+    }
+
+    public String createKeyToPair() {
+        return "1";
+    }
+
+    public void createKey(final String keyEncode) {
+    }
+
 }
 
 

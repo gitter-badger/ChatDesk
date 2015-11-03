@@ -4,6 +4,7 @@ import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
 /**
  * Gère la connexion entre l'Android et l'ordinateur
@@ -42,27 +43,31 @@ public class GestionnaireConnexion {
      */
     synchronized void reception(String messageRecu) {
         String messageServeurDecrypte = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_SERVEUR).decrypter(messageRecu);
-        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageServeurDecrypte);
-        switch (xmlReaderServeur.lireCommande()) {
-            case REQUETE_NOUVEAU_COMPTE:
-                //Pas encore implémenté
-                break;
-            case REQUETE_LIEN:
-                echangerClePremiereFois();
-                break;
-            case REQUETE_LIENS:
-                EnveloppeBalisesCommServeur[] tabAppareils = xmlReaderServeur.lireContenu();
-                lireAppareils(tabAppareils);
-                break;
-            case REQUETE_MESSAGES:
-                EnveloppeBalisesCommServeur[] tabMessages = xmlReaderServeur.lireContenu();
-                for (int i = 1; i < tabMessages.length; i++) {
-                    lireFichierXmlClient(tabMessages[i].getContenu());
-                }
-                break;
-            case REQUETE_ECHANGE_CLE:
-                changementCleServeur(xmlReaderServeur.lireContenu()[1].getContenu());
-                break;
+        if (messageServeurDecrypte != null && !messageServeurDecrypte.isEmpty()) {
+            XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageServeurDecrypte);
+            switch (xmlReaderServeur.lireCommande()) {
+                case REQUETE_NOUVEAU_COMPTE:
+                    //Pas encore implémenté
+                    break;
+                case REQUETE_LIEN:
+                    //echangerClePremiereFois();
+                    break;
+                case REQUETE_LIENS:
+                    EnveloppeBalisesCommServeur[] tabAppareils = xmlReaderServeur.lireContenu();
+                    lireAppareils(tabAppareils);
+                    break;
+                case REQUETE_MESSAGES:
+                    EnveloppeBalisesCommServeur[] tabMessages = xmlReaderServeur.lireContenu();
+                    for (int i = 1; i < tabMessages.length; i++) {
+                        lireFichierXmlClient(tabMessages[i].getContenu());
+                    }
+                    break;
+                case REQUETE_ECHANGE_CLE:
+                    changementCleServeur(xmlReaderServeur.lireContenu()[1].getContenu());
+                    break;
+            }
+        } else {
+            gestionnaireSocket.terminerCommuication();
         }
     }
 
@@ -207,5 +212,9 @@ public class GestionnaireConnexion {
 
     public FacadeModele getFacadeModele() {
         return facadeModele;
+    }
+
+    public void ajouterObservateurErreur(ObservateurErreur observateurErreur) {
+        this.gestionnaireSocket.ajouterObservateur(observateurErreur);
     }
 }

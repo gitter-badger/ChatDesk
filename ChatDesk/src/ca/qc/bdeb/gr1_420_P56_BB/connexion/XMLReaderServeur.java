@@ -65,6 +65,7 @@ class XMLReaderServeur {
 
     /**
      * Retourne la liste de nodes (c'est à dire une balise et son contenu) correspondant à une balise
+     *
      * @return La liste des nodes correspondants à la balise
      */
     private NodeList getNodesParBalise() {
@@ -78,10 +79,11 @@ class XMLReaderServeur {
     /**
      * Retourne le contenu d'une balise dans un node par exemple :
      * <node>
-     *     <element>Jacques</element>
+     * <element>Jacques</element>
      * </node>
      * retourerait Jacques
-     * @param node Le node dont éxtraire le contenu
+     *
+     * @param node   Le node dont éxtraire le contenu
      * @param balise La balise en string
      * @return Le contenu de la balise dans le node
      */
