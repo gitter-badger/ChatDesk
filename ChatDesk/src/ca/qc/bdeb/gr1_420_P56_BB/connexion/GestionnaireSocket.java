@@ -112,7 +112,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      * @return Une des valeurs de l'énum ResultatsConnexion : Valide, Invalide ou Impossible
      */
     public ResultatsConnexion commencerCommunication(String infoConnexionComm) {
-        ResultatsConnexion resultatsConnexion = ResultatsConnexion.IMPOSSIBLE;
+        ResultatsConnexion resultatsConnexion ;
 
         if (!socket.isConnected()) {
             try {
@@ -122,12 +122,8 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
                 out = new PrintWriter(socket.getOutputStream(), true);
                 creationCleServeur();
                 resultatsConnexion = ResultatsConnexion.INVALIDE;
-            } catch (SocketException e) {
-                e.printStackTrace();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
+                resultatsConnexion = ResultatsConnexion.IMPOSSIBLE;
             }
         } else {
             resultatsConnexion = ResultatsConnexion.INVALIDE;
@@ -300,7 +296,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
         return counter;
     }
 
-    void terminerConnexion(){
+    void terminerConnexion() {
         try {
             this.socket.close();
         } catch (IOException e) {
@@ -324,7 +320,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
     }
 
     @Override
-    public void aviserObservateurs( ) {
+    public void aviserObservateurs() {
         for (ObservateurErreur observateurErreur : listeObservableErreurs) {
             observateurErreur.aviserErreur();
         }
