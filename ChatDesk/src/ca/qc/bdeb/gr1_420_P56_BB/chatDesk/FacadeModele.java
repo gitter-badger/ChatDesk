@@ -5,6 +5,7 @@ import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeMessage;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.GestionnaireConnexion;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.ResultatsConnexion;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observateur;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
 import java.util.ArrayList;
 
@@ -17,8 +18,6 @@ public class FacadeModele {
     private final GestionnaireConversation gestionnaireConversation;
     private final GestionnaireContacts gestionnaireContacts;
     private final GestionnaireAppareils gestionnaireAppareils;
-
-
 
     /**
      * Initialise les différents éléments du modèle
@@ -76,6 +75,10 @@ public class FacadeModele {
 
     public void ajouterObservateur(Observateur observateur) {
         this.gestionnaireConversation.ajouterObservateur(observateur);
+    }
+
+    public void ajouterObservateurErreur(ObservateurErreur observateur) {
+        this.gestionnaireConnexion.ajouterObservateurErreur(observateur);
     }
 
     public void supprimerObservateur(Observateur observateur) {

@@ -48,20 +48,22 @@ public class ManipulationFichiers {
      */
     public static Document lireXmlDepuisContenu(String contenu) {
         Document document = null;
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            InputSource is = new InputSource(new StringReader(contenu));
-            document = builder.parse(is);
-            document.getDocumentElement().normalize();
-        } catch (FileNotFoundException e) {
-            System.out.println("Fichier introuvable");
-        } catch (IOException e) {
-            System.out.println("Erreur de lecture");
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
+        if (contenu != null && !contenu.isEmpty()) {
+            try {
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                InputSource is = new InputSource(new StringReader(contenu));
+                document = builder.parse(is);
+                document.getDocumentElement().normalize();
+            } catch (FileNotFoundException e) {
+                System.out.println("Fichier introuvable");
+            } catch (IOException e) {
+                System.out.println("Erreur de lecture");
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            }
         }
 
         return document;

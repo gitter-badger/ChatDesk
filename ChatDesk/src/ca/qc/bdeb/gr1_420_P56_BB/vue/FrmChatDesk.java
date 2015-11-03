@@ -3,6 +3,7 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ConversationDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observateur;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,8 +13,9 @@ import java.awt.event.ComponentEvent;
 /**
  * La fen�tre principale de l'application
  */
-public class FrmChatDesk extends JFrame implements Observateur {
+public class FrmChatDesk extends JFrame implements Observateur, ObservateurErreur {
 
+    private static final String MESSAGE_ERREUR_CONNEXION_INTERROMPUE = "La connexion avec le serveur a été interrompue";
     /**
      * Le panneau qui affiche la conversation en cours
      */
@@ -24,12 +26,9 @@ public class FrmChatDesk extends JFrame implements Observateur {
      */
     private PnlConversations pnlConversations;
 
-
-
     /**
      * La bar d'option/menu en haut de la fen�tre
      */
-
     private OptionBar optionBar;
 
     /**
@@ -50,7 +49,8 @@ public class FrmChatDesk extends JFrame implements Observateur {
     public FrmChatDesk(FacadeModele facadeModele) {
         this.facadeModele = facadeModele;
         initialiserFenetre();
-        facadeModele.ajouterObservateur(this);
+        this.facadeModele.ajouterObservateur(this);
+        this.facadeModele.ajouterObservateurErreur(this);
     }
 
     /**
@@ -97,10 +97,11 @@ public class FrmChatDesk extends JFrame implements Observateur {
     }
 
 
-    public void ajouterConversation(){
-       String numeroTelephone = JOptionPane.showInputDialog("Entrez le numéro du contact");
-       this.ouvrirConversation(new ConversationDTO(null,Long.parseLong(numeroTelephone)));
+    public void ajouterConversation() {
+        String numeroTelephone = JOptionPane.showInputDialog("Entrez le numéro du contact");
+        this.ouvrirConversation(new ConversationDTO(null, Long.parseLong(numeroTelephone)));
     }
+
     /**
      * Changement de grandeur de la fen�tre
      */
@@ -127,13 +128,6 @@ public class FrmChatDesk extends JFrame implements Observateur {
         pnlConversation.changerConversation(conversationDTO.getNumeroTelephone());
     }
 
-    @Override
-    public void changementEtat(long num) {
-        pnlConversation.mettreAJour(num);
-        pnlConversations.mettreAJour();
-        scrollPanelConversations.mettreAJour();
-    }
-
     /**
      * R�cup�rer le panel de conversation pour les tests.
      *
@@ -146,11 +140,26 @@ public class FrmChatDesk extends JFrame implements Observateur {
     /**
      * Permet d'arr�ter le programme
      */
-    public void arreterProgramme(){
+    public void arreterProgramme() {
         this.dispose();
         facadeModele.arreterProgramme();
     }
+
     public FacadeModele getFacadeModele() {
         return facadeModele;
+    }
+
+    @Override
+    public void changementEtat(long num) {
+        pnlConversation.mettreAJour(num);
+        pnlConversations.mettreAJour();
+        scrollPanelConversations.mettreAJour();
+    }
+
+    @Override
+    public void aviserErreur() {
+        new FenetreConnexion();
+        this.dispose();
+        JOptionPane.showMessageDialog(this, MESSAGE_ERREUR_CONNEXION_INTERROMPUE);
     }
 }

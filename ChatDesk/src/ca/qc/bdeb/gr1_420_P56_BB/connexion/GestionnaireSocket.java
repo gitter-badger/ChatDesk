@@ -2,6 +2,8 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservableErreur;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,11 +13,14 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 /**
  * Gère les communications avec le serveur niveau socket.
  */
-class GestionnaireSocket implements Runnable {
+class GestionnaireSocket implements Runnable, ObservableErreur {
+
+    private static ArrayList<ObservateurErreur> listeObservableErreurs = new ArrayList<>();
 
     /**
      * Le port auquel se connecté sur le serveur
@@ -234,10 +239,8 @@ class GestionnaireSocket implements Runnable {
                 inputLine = in.readLine();
                 contenu += inputLine;
             }
-        } catch (SocketException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            aviserObservateurs();
         }
 
         return contenu;
@@ -269,9 +272,7 @@ class GestionnaireSocket implements Runnable {
      * @return La communication avec les balises ajoutées
      */
     private String mettreBaliseNombreLigne(String communication) {
-        /*
-      Indicateur d'entier pour le formattage de string
-     */
+        // Indicateur d'entier pour le formattage de string
         String INDICATEUR_ENTIER = "%d";
         communication = DEBUT_BALISE_LIGNES + INDICATEUR_ENTIER + FIN_BALISE_LIGNES + "\n" + communication;
         communication = String.format(communication, trouverNombreLignes(communication));
@@ -294,5 +295,40 @@ class GestionnaireSocket implements Runnable {
         }
 
         return counter;
+    }
+
+    void terminerConnexion(){
+        try {
+            this.socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void ajouterObservateur(ObservateurErreur ob) {
+        listeObservableErreurs.add(ob);
+    }
+
+    @Override
+    public void retirerObservateur(ObservateurErreur ob) {
+        listeObservableErreurs.remove(ob);
+    }
+
+    @Override
+    public void retirerObservateur(int indice) {
+        listeObservableErreurs.remove(indice);
+    }
+
+    @Override
+    public void aviserObservateurs( ) {
+        for (ObservateurErreur observateurErreur : listeObservableErreurs) {
+            observateurErreur.aviserErreur();
+        }
+    }
+
+    @Override
+    public void aviserObservateur(int indice) {
+        listeObservableErreurs.get(indice).aviserErreur();
     }
 }
