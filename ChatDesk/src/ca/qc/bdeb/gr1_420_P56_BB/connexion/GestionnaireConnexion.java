@@ -50,7 +50,7 @@ public class GestionnaireConnexion {
                     //Pas encore implémenté
                     break;
                 case REQUETE_LIEN:
-                    echangerClePremiereFois();
+                    //echangerClePremiereFois();
                     break;
                 case REQUETE_LIENS:
                     EnveloppeBalisesCommServeur[] tabAppareils = xmlReaderServeur.lireContenu();
