@@ -38,8 +38,8 @@ public class GestionnaireConnexion {
                 //Pas encore implémenté
                 break;
             case REQUETE_LIEN:
-                echangerClePremiereFois();
-                lierAppareil();
+                //echangerClePremiereFois();
+                envoyerMessagesContacts();
                 break;
             case REQUETE_MESSAGES:
                 EnveloppeBalisesComm[] tabMessages = xmlReaderServeur.lireContenu();
@@ -57,9 +57,9 @@ public class GestionnaireConnexion {
         gestionnaireSocket.creationCleClient();
     }
 
-    private void lierAppareil() {
-        EnveloppeInitiale enveloppeInitiale = new EnveloppeInitiale(service.recupererTousMessage(),
-                service.recupererTousContact());
+    private void envoyerMessagesContacts() {
+        EnveloppeInitiale enveloppeInitiale = new EnveloppeInitiale(service.recupererTousMessages(),
+                service.recupererTousContacts());
         envoyerEnveloppe(enveloppeInitiale);
     }
 

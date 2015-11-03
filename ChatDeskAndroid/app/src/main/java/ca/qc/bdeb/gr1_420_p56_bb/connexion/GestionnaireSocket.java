@@ -80,9 +80,6 @@ class GestionnaireSocket implements Runnable {
 
     public GestionnaireSocket(GestionnaireConnexion gestionnaireConnexion) {
         this.gestionnaireConnexion = gestionnaireConnexion;
-
-
-
         this.socket = new Socket();
     }
 
@@ -132,6 +129,9 @@ class GestionnaireSocket implements Runnable {
         envoyerMessage(messageEnv, EncryptageType.ENCRYPTAGE_SERVEUR);
 
         String messageRecu = readAllLines();
+
+        // TODO : Supprimer cette ligne lors du changement d'encryptage
+        messageRecu = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_SERVEUR).decrypter(messageRecu);
         XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageRecu);
         String serveurPublicKey = xmlReaderServeur.lireContenu()[1].getContenu();
         encryptageServeur.createKey(serveurPublicKey);

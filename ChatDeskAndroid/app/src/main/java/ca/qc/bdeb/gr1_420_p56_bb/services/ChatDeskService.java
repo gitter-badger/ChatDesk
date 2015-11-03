@@ -72,12 +72,12 @@ public class ChatDeskService extends Service implements IService {
     }
 
     @Override
-    public ArrayList<EnveloppeMessage> recupererTousMessage() {
+    public ArrayList<EnveloppeMessage> recupererTousMessages() {
         return RecuperateurInfo.lireTousMessage(this);
     }
 
     @Override
-    public ArrayList<EnveloppeContact> recupererTousContact() {
+    public ArrayList<EnveloppeContact> recupererTousContacts() {
         return RecuperateurInfo.lireTousContact(this);
     }
 
