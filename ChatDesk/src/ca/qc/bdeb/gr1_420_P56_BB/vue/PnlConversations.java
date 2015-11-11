@@ -17,9 +17,24 @@ import java.awt.event.MouseEvent;
 class PnlConversations extends JPanel {
 
     /**
+     * Image de profile vide
+     */
+    private static final ImageIcon IMAGE_PROFILE = new ImageIcon("resources/images/profile.png");
+
+    /**
      * Ratio du panneau selon la fenêtre principale
      */
     private static final int LONGUEUR_SELON_FENETRE_PRINCIPALE = 7;
+
+    /**
+     * Ratio de la longueur de l'image selon la longueur du panneau d'une conversation
+     */
+    private static final double POURCENTAGE_LONGUEUR_IMAGE_CONTACT = 0.4;
+
+    /**
+     * Ratio de la longueur de l'image selon la longueur du panneau d'une conversation
+     */
+    private static final double POURCENTAGE_HAUTEUR_IMAGE_CONTACT = 0.4;
 
     /**
      * Ratio de la longueur du label du nom selon la longueur du panneau d'une conversation
@@ -62,6 +77,11 @@ class PnlConversations extends JPanel {
     private static final int CLICK_COUNT = 1;
 
     /**
+     * Affiché dans le cas ou le dernier message est envoyé par l'utilisateur
+     */
+    private static final String ENVOYEUR = "Vous : ";
+
+    /**
      * La fenêtre principale du programme
      */
     private final FrmChatDesk fenetrePrincipale;
@@ -95,6 +115,11 @@ class PnlConversations extends JPanel {
      * La dimension du lable de la date
      */
     private Dimension dimLblDate;
+
+    /**
+     * La grandeur de l'image du contact
+     */
+    private Dimension dimLblImageContact;
 
     /**
      * Grandeur du contour d'une conversation qui est vide
@@ -134,17 +159,20 @@ class PnlConversations extends JPanel {
         longueurPnlConversationX = this.getWidth();
         hauteurPnlConversationY = fenetrePrincipale.getHeight() / LONGUEUR_SELON_FENETRE_PRINCIPALE;
 
-        dimLblNom = new Dimension((int)(longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_NOM),
-                (int)(hauteurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_NOM));
+        dimLblImageContact = new Dimension((int) (longueurPnlConversationX * POURCENTAGE_LONGUEUR_IMAGE_CONTACT),
+                (int) (hauteurPnlConversationY * POURCENTAGE_HAUTEUR_IMAGE_CONTACT));
 
-        dimLblDernierMessage = new Dimension((int)(longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DERNIER_MSG),
-                (int)(hauteurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DERNIER_MSG));
+        dimLblNom = new Dimension((int) (longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_NOM),
+                (int) (hauteurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_NOM));
+
+        dimLblDernierMessage = new Dimension((int) (longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DERNIER_MSG),
+                (int) (hauteurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DERNIER_MSG));
 
 
-        dimLblDate = new Dimension((int)(longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DATE),
-                (int)(hauteurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DATE));
+        dimLblDate = new Dimension((int) (longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DATE),
+                (int) (hauteurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DATE));
 
-        borderVideSize = (int)(hauteurPnlConversationY * POURCENTAGE_COUTOUR_VIDE);
+        borderVideSize = (int) (hauteurPnlConversationY * POURCENTAGE_COUTOUR_VIDE);
     }
 
     /**
@@ -155,6 +183,7 @@ class PnlConversations extends JPanel {
     private void ajouterConversation(ConversationDTO conversationDTO) {
         JPanel pnlConversation = new JPanel();
         initialiserPanneauConversation(pnlConversation, conversationDTO);
+        initialiserPanneauConversationImage(pnlConversation, conversationDTO);
         initialiserPanneauConversationNom(pnlConversation, conversationDTO);
         initialiserPanneauConversationDernierMessage(pnlConversation, conversationDTO);
         initialiserPanneauConversationDate(pnlConversation, conversationDTO);
@@ -182,6 +211,19 @@ class PnlConversations extends JPanel {
         });
     }
 
+    private void initialiserPanneauConversationImage(JPanel pnlConversation, ConversationDTO conversationDTO) {
+        ImageIcon imageIcon = facadeModele.getContact(conversationDTO.getNumeroTelephone()).getImage();
+        if (imageIcon == null) {
+            imageIcon = IMAGE_PROFILE;
+        }
+
+        JLabel lblImage = new JLabel(Formatage.redimensionnerImage(imageIcon, (int) dimLblImageContact.getWidth(),
+                (int) dimLblImageContact.getHeight()));
+        lblImage.setSize(dimLblImageContact);
+        lblImage.setLocation(borderVideSize, borderVideSize);
+        pnlConversation.add(lblImage);
+    }
+
     /**
      * Initialise le nom de la personne avec qui la conversation a lieu
      *
@@ -192,7 +234,7 @@ class PnlConversations extends JPanel {
         JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getNumeroTelephone()).getNom());
         nom.setFont(new Font(nom.getFont().getFontName(), Font.BOLD, (int) dimLblNom.getHeight()));
         nom.setSize(dimLblNom);
-        nom.setLocation(borderVideSize, (int)(pnlConversation.getHeight() / 2 - (dimLblNom.getHeight() +
+        nom.setLocation(borderVideSize + (int) dimLblImageContact.getWidth(), (int) (pnlConversation.getHeight() / 2 - (dimLblNom.getHeight() +
                 dimLblDernierMessage.getHeight()) / 2));
         pnlConversation.add(nom);
     }
@@ -207,8 +249,6 @@ class PnlConversations extends JPanel {
         String texteDernierMessage = "";
         if (conversationDTO.getLastMessage() != null) {
             if (conversationDTO.getLastMessage().isEnvoyer()) {
-                /*Affich� dans le cas o� le dernier message est envoy� par l'utilisateur*/
-                String ENVOYEUR = "Vous : ";
                 texteDernierMessage = ENVOYEUR + conversationDTO.getLastMessage().getText();
             } else {
                 texteDernierMessage = conversationDTO.getLastMessage().getText();
@@ -219,7 +259,7 @@ class PnlConversations extends JPanel {
         dernierMessage.setFont(new Font(dernierMessage.getFont().getFontName(), Font.PLAIN,
                 (int) dimLblDernierMessage.getHeight()));
         dernierMessage.setSize(dimLblDernierMessage);
-        dernierMessage.setLocation(borderVideSize, (int) (pnlConversation.getHeight() / 2 -
+        dernierMessage.setLocation(borderVideSize + (int) dimLblImageContact.getWidth(), (int) (pnlConversation.getHeight() / 2 -
                 (dimLblNom.getHeight() + dimLblDernierMessage.getHeight()) / 2 + dimLblNom.getHeight()));
         pnlConversation.add(dernierMessage);
     }

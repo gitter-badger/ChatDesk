@@ -29,7 +29,7 @@ public class BulleTest {
 
     @Test
     public void testCalculerDimensionBulle() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
-        bulle = new Bulle(new Message(message.toString(), new Date(),false), (895 * 3) / 2);
+        bulle = new Bulle(new Message(message.toString(), new Date(),false), (895 * 3) / 2, null, null);
         Dimension expected = Formatage.calculerDimensionString(message.toString(), new Font("Helvetica", Font.PLAIN, 20));
         Method method = bulle.getClass().getDeclaredMethod("calculerDimensionTotalMessage", String.class);
         Field dimensionTemp = bulle.getClass().getDeclaredField("dimTotal");
@@ -43,7 +43,7 @@ public class BulleTest {
 
     @Test
     public void testCalculerDimensionBulleEnvoyer() throws InvocationTargetException, IllegalAccessException, NoSuchFieldException, NoSuchMethodException {
-        bulle = new Bulle(new Message(message.toString(), new Date(),true), (895 * 3) / 2);
+        bulle = new Bulle(new Message(message.toString(), new Date(),true), (895 * 3) / 2, null, null);
         Dimension expected = Formatage.calculerDimensionString(message.toString(), new Font("Helvetica", Font.PLAIN,
                 20));
         expected.height = (int) (Math.ceil(expected.getWidth() / (double) (895 * 3) / 2) * expected.height);

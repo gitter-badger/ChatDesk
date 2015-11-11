@@ -14,7 +14,7 @@ public enum ContactsTest {
     private final Contact contact;
     private List<ContactDTO> listeContact;
     ContactsTest(long numero, String nom) {
-        this.contact = new Contact(numero, nom);
+        this.contact = new Contact(numero, nom, null);
         listeContact = new ArrayList<ContactDTO>();
     }
 

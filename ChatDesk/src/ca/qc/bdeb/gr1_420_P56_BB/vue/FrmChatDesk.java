@@ -144,19 +144,15 @@ public class FrmChatDesk extends JFrame implements Observateur, ObservateurErreu
         this.dispose();
         facadeModele.arreterProgramme();
     }
-<<<<<<< HEAD
     public void changerCouleurBulleEnvoye(Color couleur){
         pnlConversation.getPnlBulles().setCouleurBullesEnvoyees(couleur);
     }
-=======
 
->>>>>>> e2c7de8d62270aa893f390408b67fe4563e25d05
     public FacadeModele getFacadeModele() {
         return facadeModele;
     }
 
-<<<<<<< HEAD
-=======
+
     @Override
     public void changementEtat(long num) {
         pnlConversation.mettreAJour(num);
@@ -170,5 +166,4 @@ public class FrmChatDesk extends JFrame implements Observateur, ObservateurErreu
         this.dispose();
         JOptionPane.showMessageDialog(this, MESSAGE_ERREUR_CONNEXION_INTERROMPUE);
     }
->>>>>>> e2c7de8d62270aa893f390408b67fe4563e25d05
 }
