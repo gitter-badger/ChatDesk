@@ -61,7 +61,7 @@ class XMLReader {
                 Node node = nList.item(i);
                 numeroTel = Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_NUM_TEL));
                 nomContact = getElementParBalise(node, BalisesCommClient.BALISE_NOM);
-                nouveauContact = new EnveloppeContact(numeroTel, nomContact);
+                nouveauContact = new EnveloppeContact(numeroTel, nomContact, null);
                 listeContacts.add(nouveauContact);
             } catch (NumberFormatException nfe) {
                 System.out.println(MESSAGE_ERREUR_TELEPHONE);

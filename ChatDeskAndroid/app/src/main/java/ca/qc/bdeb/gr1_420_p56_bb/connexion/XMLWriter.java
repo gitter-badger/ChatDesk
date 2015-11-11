@@ -86,9 +86,11 @@ class XMLWriter {
             Element contact = creerElement(BalisesCommClient.BALISE_CONTACTS);
             Element nom = creerElement(BalisesCommClient.BALISE_NOM, tabContacts[i].getNom());
             Element numero = creerElement(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabContacts[i].getNumeroTelephone()));
+            Element image = creerElement(BalisesCommClient.BALISE_IMAGE_CONTACT, tabContacts[i].getImage());
 
             contact.appendChild(nom);
             contact.appendChild(numero);
+            contact.appendChild(image);
             rootElement.appendChild(contact);
         }
     }
