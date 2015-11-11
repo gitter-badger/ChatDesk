@@ -1,6 +1,8 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
 
+import javax.swing.*;
+
 /**
  * Un contact
  */
@@ -17,14 +19,21 @@ public class Contact{
     private final String nom;
 
     /**
+     * L'image du contact
+     */
+    private final ImageIcon image;
+
+
+    /**
      * Constructeur qui permet de crï¿½e un contact
      *
      * @param numeroTelephone Le numï¿½ro de tï¿½lï¿½phone du contact
      * @param nom Le nom du contact
      */
-    public Contact(long numeroTelephone, String nom){
+    public Contact(long numeroTelephone, String nom, ImageIcon image){
         this.numeroTelephone = numeroTelephone;
         this.nom = nom;
+        this.image = image;
     }
 
     /**
@@ -41,7 +50,11 @@ public class Contact{
         return nom;
     }
 
-    public ContactPourQueCaFonctionneDTO genererContactDTO(){
-        return new ContactPourQueCaFonctionneDTO(nom, numeroTelephone);
+    public ImageIcon getImage(){
+        return image;
+    }
+
+    public ContactDTO genererContactDTO(){
+        return new ContactDTO(nom, numeroTelephone, image);
     }
 }

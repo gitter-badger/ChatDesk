@@ -4,8 +4,10 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactsTest;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ConversationDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
+
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
-import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactPourQueCaFonctionneDTO;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -152,30 +154,36 @@ class FenetreContacts extends JPanel {
         borderVideSize = (int) (hauteurPnlcontactY * POURCENTAGE_COUTOUR_VIDE);
     }
 
-    private void ajouterContact(ContactPourQueCaFonctionneDTO contactPourQueCaFonctionneDTO) {
-        JPanel pnlConversation = new JPanel();
-        initialiserPanneauContact(pnlConversation, contactPourQueCaFonctionneDTO);
-        initialiserPanneauNom(pnlConversation, contactPourQueCaFonctionneDTO);
-        this.add(pnlConversation);
+
+    private void ajouterContact(ContactDTO contactDTO) {
+        JPanel pnlcontact = new JPanel();
+        initialiserPanneauContact(pnlcontact, contactDTO);
+        initialiserPanneaucontactNom(pnlcontact, contactDTO);
+        this.add(pnlcontact);
     }
 
     /**
-     * Initialise le panneau d'une conversation
+     * Initialise le panneau d'une contact
      *
-     * @param pnlConversation               Le panneau ? initialiser
-     * @param contactPourQueCaFonctionneDTO Une conversation
+     * @param pnlcontact Le panneau ? initialiser
+     * @param contactDTO Une contact
      */
-    private void initialiserPanneauContact(JPanel pnlConversation, ContactPourQueCaFonctionneDTO contactPourQueCaFonctionneDTO) {
-        pnlConversation.setLayout(null);
-        pnlConversation.setLocation(0, hauteurPnlcontactY * contactCount);
-        pnlConversation.setSize(longueurPnlcontactX, hauteurPnlcontactY);
-        pnlConversation.setBackground(Color.RED);
-        pnlConversation.addMouseListener(new MouseAdapter() {
+    private void initialiserPanneauContact(JPanel pnlcontact, ContactDTO contactDTO) {
+        pnlcontact.setLayout(null);
+        pnlcontact.setLocation(0, hauteurPnlcontactY * contactCount);
+        pnlcontact.setSize(longueurPnlcontactX, hauteurPnlcontactY);
+        pnlcontact.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() == CLICK_COUNT) {
-                    fenetrePrincipale.ouvrirConversation(new ConversationDTO(null, contactPourQueCaFonctionneDTO.getNumeroTelephone()));
+                    fenetrePrincipale.ouvrirConversation(new ConversationDTO(null, contactDTO.getNumeroTelephone()));
+                    jFrameContacts.dispose();
                 }
+                dimLblDernierMessage = new Dimension((int) (longueurPnlcontactX * POURCENTAGE_LONGUEUR_LBL_DERNIER_MSG),
+                        (int) (hauteurPnlcontactY * POURCENTAGE_HAUTEUR_LBL_DERNIER_MSG));
+
+
+                borderVideSize = (int) (hauteurPnlcontactY * POURCENTAGE_COUTOUR_VIDE);
             }
         });
     }
@@ -183,15 +191,25 @@ class FenetreContacts extends JPanel {
     /**
      * Initialise le nom de la personne avec qui la contact a lieu
      *
-     * @param pnlConversation Le panneau d'une contact
-     * @param conversationDTO Une contact
+     * @param pnlcontact Le panneau d'une contact
+     * @param contactDTO Une contact
      */
-    private void initialiserPanneauNom(JPanel pnlConversation, ContactPourQueCaFonctionneDTO conversationDTO) {
+    private void initialiserPanneaucontactNom(JPanel pnlcontact, ContactDTO contactDTO) {
+        JLabel nom = new JLabel(contactDTO.getNom());
+        nom.setFont(new Font(nom.getFont().getFontName(), Font.BOLD, (int) dimLblNom.getHeight()));
+        nom.setSize(Formatage.calculerDimensionString(contactDTO.getNom(), nom.getFont()));
+    }
+
+    /**
+     * @param pnlConversation Le panneau d'une contact
+     * @param contactDTO      Une contact
+     */
+    private void initialiserPanneauNom(JPanel pnlConversation, ContactDTO contactDTO) {
         //JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getNumeroTelephone()).getNom());
-        JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getNumeroTelephone()).getNom());
+        JLabel nom = new JLabel(facadeModele.getContact(contactDTO.getNumeroTelephone()).getNom());
         nom.setFont(new Font(nom.getFont().getFontName(), Font.BOLD, (int) dimLblNom.getHeight()));
         //nom.setSize(Formatage.calculerDimensionString(contactDTO.getNom(), new Font("raleway", Font.TRUETYPE_FONT, 12)));
-        nom.setSize(Formatage.calculerDimensionString(conversationDTO.getNom(), nom.getFont()));
+        nom.setSize(Formatage.calculerDimensionString(contactDTO.getNom(), nom.getFont()));
         if (nom.getWidth() > longuerMaxContact) {
             longuerMaxContact = nom.getWidth();
         }
@@ -200,17 +218,19 @@ class FenetreContacts extends JPanel {
         pnlConversation.add(nom);
     }
 
+
     /**
      * Mettre ? jour les contacts
      */
     public void initialiserContacts() {
         this.removeAll();
         contactCount = 0;
-        for (ContactPourQueCaFonctionneDTO contactPourQueCaFonctionneDTO : ContactsTest.asList()) {
-            ajouterContact(contactPourQueCaFonctionneDTO);
+        for (ContactDTO contactDTO : ContactsTest.asList()) {
+            ajouterContact(contactDTO);
             contactCount++;
         }
         this.setBounds(0, 0, longuerMaxContact + 50, hauteurPnlcontactY * contactCount);
         this.repaint();
     }
+
 }

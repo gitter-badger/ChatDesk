@@ -1,9 +1,11 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
+import javax.swing.*;
+
 /**
  * Created by Alexandre on 2015-10-30.
  */
-public class ContactPourQueCaFonctionneDTO {
+public class ContactDTO {
     /**
      * Le num?ro de t?l?phone du contact
      */
@@ -14,9 +16,15 @@ public class ContactPourQueCaFonctionneDTO {
      */
     private final String nom;
 
-    public ContactPourQueCaFonctionneDTO(String nom, long numeroTelephone) {
+    /**
+     * L'image du contact
+     */
+    private final ImageIcon image;
+
+    public ContactDTO(String nom, long numeroTelephone, ImageIcon image) {
         this.nom = nom;
         this.numeroTelephone = numeroTelephone;
+        this.image = image;
     }
 
     public String getNom() {
@@ -25,5 +33,9 @@ public class ContactPourQueCaFonctionneDTO {
 
     public long getNumeroTelephone() {
         return numeroTelephone;
+    }
+
+    public ImageIcon getImage(){
+        return image;
     }
 }

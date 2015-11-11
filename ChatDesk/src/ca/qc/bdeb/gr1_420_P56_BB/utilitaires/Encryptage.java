@@ -53,7 +53,6 @@ public class Encryptage {
     }
 
     public void createKey(final String keyEncode) {
-
         try {
             PublicKey publicKeyServeur = KeyFactory.getInstance("DH").generatePublic(
                     new X509EncodedKeySpec(Base64.getDecoder().decode(keyEncode)));

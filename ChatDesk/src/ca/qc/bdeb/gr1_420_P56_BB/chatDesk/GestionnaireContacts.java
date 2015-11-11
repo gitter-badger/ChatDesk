@@ -58,7 +58,7 @@ class GestionnaireContacts {
         }
 
         if(contact == null){
-            contact = new Contact(numeroTelephone, "");
+            contact = new Contact(numeroTelephone, "", null);
         }
 
         return contact;
@@ -84,11 +84,11 @@ class GestionnaireContacts {
 
         return contact;
     }
-    public ArrayList<ContactPourQueCaFonctionneDTO> getContactsDTO(){
-        ArrayList<ContactPourQueCaFonctionneDTO> contactPourQueCaFonctionneDTOs = new ArrayList<>();
+    public ArrayList<ContactDTO> getContactsDTO(){
+        ArrayList<ContactDTO> contactDTOs = new ArrayList<>();
         for (Contact contact: listeContacts) {
-            contactPourQueCaFonctionneDTOs.add(contact.genererContactDTO());
+            contactDTOs.add(contact.genererContactDTO());
         }
-        return contactPourQueCaFonctionneDTOs;
+        return contactDTOs;
     }
 }

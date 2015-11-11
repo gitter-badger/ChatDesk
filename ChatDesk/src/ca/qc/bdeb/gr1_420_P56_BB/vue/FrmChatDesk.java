@@ -144,10 +144,14 @@ public class FrmChatDesk extends JFrame implements Observateur, ObservateurErreu
         this.dispose();
         facadeModele.arreterProgramme();
     }
+    public void changerCouleurBulleEnvoye(Color couleur){
+        pnlConversation.getPnlBulles().setCouleurBullesEnvoyees(couleur);
+    }
 
     public FacadeModele getFacadeModele() {
         return facadeModele;
     }
+
 
     @Override
     public void changementEtat(long num) {

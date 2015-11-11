@@ -1,8 +1,6 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
 import ca.qc.bdeb.gr1_420_p56_bb.services.IService;
-import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage;
-import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.EncryptageType;
 
 /**
  * Gère la connexion entre l'Android et l'ordinateur
@@ -30,8 +28,7 @@ public class GestionnaireConnexion {
      * @param messageRecu
      */
     synchronized void reception(String messageRecu) {
-        String messageServeurDecrypter = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_SERVEUR).decrypter(messageRecu);
-        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageServeurDecrypter);
+        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageRecu);
 
         switch (xmlReaderServeur.lireCommande()) {
             case REQUETE_NOUVEAU_COMPTE:
@@ -48,13 +45,8 @@ public class GestionnaireConnexion {
                 }
                 break;
             case REQUETE_ECHANGE_CLE:
-                changementCleServeur(xmlReaderServeur.lireContenu()[1].getContenu());
                 break;
         }
-    }
-
-    private void echangerClePremiereFois() {
-        gestionnaireSocket.creationCleClient();
     }
 
     private void envoyerMessagesContacts() {
@@ -69,8 +61,7 @@ public class GestionnaireConnexion {
      * @param communication Le xml de la connextion addressée au xlient
      */
     private void lireFichierXmlClient(String communication) {
-        String message = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).decrypter(communication);
-        XMLReader xmlReader = new XMLReader(message);
+        XMLReader xmlReader = new XMLReader(communication);
         switch (xmlReader.lireCommande()) {
             case MESSAGES:
                 for (EnveloppeMessage enveloppeMessage : xmlReader.lireMessages()) {
@@ -83,17 +74,8 @@ public class GestionnaireConnexion {
                 }
                 break;
             case REQUETE_ECHANGE_CLE:
-                changementCleClient(xmlReader.lireCle());
                 break;
         }
-    }
-
-    private void changementCleServeur(String publicKeyServeur) {
-        Encryptage.getInstance(EncryptageType.ENCRYPTAGE_SERVEUR).createKey(publicKeyServeur);
-    }
-
-    private void changementCleClient(String publicKeyClient) {
-        Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).createKey(publicKeyClient);
     }
 
     /**
@@ -102,12 +84,12 @@ public class GestionnaireConnexion {
      * @param enveloppe Une classe implémentant l'interface convertissableXml
      */
     public void envoyerEnveloppe(ConvertissableXml enveloppe) {
-        String xmlClientMessage = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).encrypter(enveloppe.convertirEnXml());
+        String xmlClientMessage = enveloppe.convertirEnXml();
         String xmlServer = new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_MESSAGES,
                         new EnveloppeBalisesComm(BalisesCommServeur.BALISE_MESSAGE,
                                 xmlClientMessage));
 
-        gestionnaireSocket.envoyerMessage(xmlServer, EncryptageType.ENCRYPTAGE_SERVEUR);
+        gestionnaireSocket.envoyerMessage(xmlServer);
     }
 
     /**

@@ -42,9 +42,8 @@ public class GestionnaireConnexion {
      * @param messageRecu le message reçu du serveur en version xml encrypter selon la méthode du serveur
      */
     synchronized void reception(String messageRecu) {
-        String messageServeurDecrypte = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_SERVEUR).decrypter(messageRecu);
-        if (messageServeurDecrypte != null && !messageServeurDecrypte.isEmpty()) {
-            XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageServeurDecrypte);
+        if (messageRecu != null && !messageRecu.isEmpty()) {
+            XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageRecu);
             switch (xmlReaderServeur.lireCommande()) {
                 case REQUETE_NOUVEAU_COMPTE:
                     //Pas encore implémenté
@@ -69,10 +68,6 @@ public class GestionnaireConnexion {
         } else {
             gestionnaireSocket.terminerCommuication();
         }
-    }
-
-    private void echangerClePremiereFois() {
-        gestionnaireSocket.creationCleClient();
     }
 
     /**
@@ -124,7 +119,7 @@ public class GestionnaireConnexion {
         XMLWriter xmlWriter = new XMLWriter();
         String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIEN,
                 new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_ID_APPAREIL, Integer.toString(idAppareil)));
-        this.gestionnaireSocket.envoyerMessage(comm, EncryptageType.ENCRYPTAGE_SERVEUR);
+        this.gestionnaireSocket.envoyerMessage(comm);
     }
 
     /**
@@ -133,7 +128,7 @@ public class GestionnaireConnexion {
     public void demanderAppareils() {
         XMLWriter xmlWriter = new XMLWriter();
         String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIENS);
-        this.gestionnaireSocket.envoyerMessage(comm, EncryptageType.ENCRYPTAGE_SERVEUR);
+        this.gestionnaireSocket.envoyerMessage(comm);
     }
 
     /**
@@ -142,8 +137,7 @@ public class GestionnaireConnexion {
      * @param communication Le xml de la connextion addressée au xlient
      */
     private void lireFichierXmlClient(String communication) {
-        String message = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).decrypter(communication);
-        XMLReader xmlReader = new XMLReader(message);
+        XMLReader xmlReader = new XMLReader(communication);
         switch (xmlReader.lireCommande()) {
             case PREMIERE_CONNEXION:
                 facadeModele.ajouterContacts(xmlReader.lireContacts());
@@ -177,7 +171,7 @@ public class GestionnaireConnexion {
         String xmlServer = new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_MESSAGES,
                 new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MESSAGE, xmlClientMessage));
 
-        gestionnaireSocket.envoyerMessage(xmlServer, EncryptageType.ENCRYPTAGE_SERVEUR);
+        gestionnaireSocket.envoyerMessage(xmlServer);
     }
 
     /**

@@ -32,7 +32,7 @@ public class FacadeModele {
     public GestionnaireContacts getGestionnaireContacts() {
         return gestionnaireContacts;
     }
-    public ArrayList<ContactPourQueCaFonctionneDTO> getContacts(){
+    public ArrayList<ContactDTO> getContacts(){
         return gestionnaireContacts.getContactsDTO();
     }
     public void ajouterMessages(ArrayList<EnveloppeMessage> listeEnveloppes) {

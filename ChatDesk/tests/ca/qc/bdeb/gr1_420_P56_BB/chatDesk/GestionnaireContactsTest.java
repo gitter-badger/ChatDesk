@@ -11,10 +11,10 @@ import java.util.ArrayList;
  */
 public class GestionnaireContactsTest {
 
-    private final Contact CONTACT_1 = new Contact(1, "A");
-    private final Contact CONTACT_2 = new Contact(2, "B");
-    private final Contact CONTACT_3 = new Contact(3, "C");
-    private final Contact CONTACT_4 = new Contact(4, "D");
+    private final Contact CONTACT_1 = new Contact(1, "A", null);
+    private final Contact CONTACT_2 = new Contact(2, "B", null);
+    private final Contact CONTACT_3 = new Contact(3, "C", null);
+    private final Contact CONTACT_4 = new Contact(4, "D", null);
 
     private GestionnaireContacts gestionnaireContacts;
 
