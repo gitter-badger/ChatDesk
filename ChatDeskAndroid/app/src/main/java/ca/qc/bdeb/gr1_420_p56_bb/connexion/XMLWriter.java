@@ -20,12 +20,12 @@ import java.io.StringWriter;
  * Created by Louis-Simon Mc Nicoll on 2015-09-16.
  */
 class XMLWriter {
-    private static int VIDE = 0;
-    private static int LONGUEUR_MAX_LIGNE_XML = 65;
-    private static int TAILLE_INDENTATION = 4;
-    private static boolean INDENTE = true;
 
-    private Document doc;
+    private final static String DEBUT_BALISE = "<";
+    private final static String DEBUT_FERMETURE_BALISE = "</";
+    private final static String FIN_BALISE = ">";
+
+    private static int VIDE = 0;
 
     /**
      * N'envoie qu'une commande
@@ -64,56 +64,79 @@ class XMLWriter {
      * @return Le xml en format String
      */
     public String construireXmlCommunication(Balises commande, EnveloppeMessage[] tabMessages, EnveloppeContact[] tabContacts) {
-        Element rootElement = construireDoc(BalisesCommClient.BALISE_COMM);
+        StringBuilder informationCommBuilder = new StringBuilder();
 
-        Element elementCommande = creerElement(BalisesCommClient.BALISE_COMMANDE, commande.getBalise());
-        rootElement.appendChild(elementCommande);
+        informationCommBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_COMMANDE, commande.getBalise()));
+        construireEnveloppesContacts(informationCommBuilder, tabContacts);
+        construireEnveloppesMessages(informationCommBuilder, tabMessages);
 
-        construireEnveloppesContacts(rootElement, tabContacts);
-        construireEnveloppesMessages(rootElement, tabMessages);
+        return mettreInformationBalise(BalisesCommClient.BALISE_COMM, informationCommBuilder.toString());
+    }
 
-        return convertirDocToString();
+    private String mettreContourBaliseDebut(Balises commande) {
+        StringBuilder baliseDebutBuilder = new StringBuilder();
+
+        baliseDebutBuilder.append(DEBUT_BALISE);
+        baliseDebutBuilder.append(commande.getBalise());
+        baliseDebutBuilder.append(FIN_BALISE);
+
+        return baliseDebutBuilder.toString();
+    }
+
+    private String mettreContourBaliseFin(Balises commande) {
+        StringBuilder baliseFinBuilder = new StringBuilder();
+
+        baliseFinBuilder.append(DEBUT_FERMETURE_BALISE);
+        baliseFinBuilder.append(commande.getBalise());
+        baliseFinBuilder.append(FIN_BALISE);
+
+        return baliseFinBuilder.toString();
+    }
+
+    private String mettreInformationBalise(Balises balises, String information) {
+        StringBuilder baliseInfoBuilder = new StringBuilder();
+
+        baliseInfoBuilder.append(mettreContourBaliseDebut(balises));
+        baliseInfoBuilder.append(information);
+        baliseInfoBuilder.append(mettreContourBaliseFin(balises));
+
+        return baliseInfoBuilder.toString();
     }
 
     /**
      * Construit la liste des balises contacts
      *
-     * @param rootElement Le parent de ces balises
-     * @param tabContacts Le tableau de contacts à convertir en XML
+     * @param informationCommBuilder Le parent de ces balises
+     * @param tabContacts            Le tableau de contacts à convertir en XML
      */
-    private void construireEnveloppesContacts(Element rootElement, EnveloppeContact[] tabContacts) {
+    private void construireEnveloppesContacts(StringBuilder informationCommBuilder, EnveloppeContact[] tabContacts) {
         for (int i = 0; i < tabContacts.length; i++) {
-            Element contact = creerElement(BalisesCommClient.BALISE_CONTACTS);
-            Element nom = creerElement(BalisesCommClient.BALISE_NOM, tabContacts[i].getNom());
-            Element numero = creerElement(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabContacts[i].getNumeroTelephone()));
-            Element image = creerElement(BalisesCommClient.BALISE_IMAGE_CONTACT, tabContacts[i].getImage());
+            StringBuilder informationContactBuilder = new StringBuilder();
 
-            contact.appendChild(nom);
-            contact.appendChild(numero);
-            contact.appendChild(image);
-            rootElement.appendChild(contact);
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NOM, tabContacts[i].getNom()));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabContacts[i].getNumeroTelephone())));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_IMAGE_CONTACT, tabContacts[i].getImage()));
+
+            informationCommBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_CONTACTS, informationContactBuilder.toString()));
         }
     }
 
     /**
      * Construit la liste des balises messages
      *
-     * @param rootElement   Le parent de ces balises
-     * @param tabEnveloppes Le tableau de messages à convertir en XML
+     * @param informationCommBuilder Le parent de ces balises
+     * @param tabEnveloppes          Le tableau de messages à convertir en XML
      */
-    private void construireEnveloppesMessages(Element rootElement, EnveloppeMessage[] tabEnveloppes) {
+    private void construireEnveloppesMessages(StringBuilder informationCommBuilder, EnveloppeMessage[] tabEnveloppes) {
         for (int i = 0; i < tabEnveloppes.length; i++) {
-            Element enveloppe = creerElement(BalisesCommClient.BALISE_ENVELOPPES);
-            Element numero = creerElement(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabEnveloppes[i].getNumeroTelephone()));
-            Element message = creerElement(BalisesCommClient.BALISE_MESSAGE, tabEnveloppes[i].getMessage());
-            Element date = creerElement(BalisesCommClient.BALISE_DATE, Long.toString(tabEnveloppes[i].getDate().getTime()));
-            Element envoye = creerElement(BalisesCommClient.BALISE_EST_ENVOYE, Boolean.toString(tabEnveloppes[i].isEnvoye()));
+            StringBuilder informationContactBuilder = new StringBuilder();
 
-            enveloppe.appendChild(numero);
-            enveloppe.appendChild(message);
-            enveloppe.appendChild(date);
-            enveloppe.appendChild(envoye);
-            rootElement.appendChild(enveloppe);
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabEnveloppes[i].getNumeroTelephone())));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_MESSAGE, tabEnveloppes[i].getMessage()));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_DATE, Long.toString(tabEnveloppes[i].getDate().getTime())));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_EST_ENVOYE, Boolean.toString(tabEnveloppes[i].isEnvoye())));
+
+            informationCommBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_ENVELOPPES, informationContactBuilder.toString()));
         }
     }
 
@@ -124,16 +147,12 @@ class XMLWriter {
      * @return Le xml en format String
      */
     public String construireCleClient(String cle) {
-        Element rootElement = construireDoc(BalisesCommClient.BALISE_COMM);
+        StringBuilder informationCleClientBuilder = new StringBuilder();
 
-        Element elementCommande = creerElement(BalisesCommClient.BALISE_COMMANDE, CommandesClient.REQUETE_ECHANGE_CLE.getBalise());
-        rootElement.appendChild(elementCommande);
+        informationCleClientBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_COMMANDE, CommandesClient.REQUETE_ECHANGE_CLE.getBalise()));
+        informationCleClientBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_PUBLIC_KEY, cle));
 
-        Element element = creerElement(BalisesCommClient.BALISE_PUBLIC_KEY, cle);
-        rootElement.appendChild(element);
-
-
-        return convertirDocToString();
+        return mettreInformationBalise(BalisesCommClient.BALISE_COMM, informationCleClientBuilder.toString());
     }
 
     /**
@@ -144,86 +163,14 @@ class XMLWriter {
      * @return Le xml en format String
      */
     public String construireXmlServeur(CommandesServeur commandesServeur, EnveloppeBalisesComm... gestionnairesBalisesServeur) {
-        Element rootElement = construireDoc(BalisesCommServeur.BALISE_SERVEUR);
+        StringBuilder informationServeurBuilder = new StringBuilder();
 
-        Element elementCommande = creerElement(BalisesCommServeur.BALISE_REQUETE, commandesServeur.getRequete());
-        rootElement.appendChild(elementCommande);
+        informationServeurBuilder.append(mettreInformationBalise(BalisesCommServeur.BALISE_REQUETE, commandesServeur.getRequete()));
 
         for (EnveloppeBalisesComm gestionnaireBalisesServeur : gestionnairesBalisesServeur) {
-            Element element = creerElement(gestionnaireBalisesServeur.getBalises(), gestionnaireBalisesServeur.getContenu());
-            rootElement.appendChild(element);
+            informationServeurBuilder.append(mettreInformationBalise(gestionnaireBalisesServeur.getBalises(), gestionnaireBalisesServeur.getContenu()));
         }
 
-        return convertirDocToString();
-    }
-
-    /**
-     * Construit un nouveau document
-     *
-     * @param rootBalise La balise racine
-     * @return Le nouveau document
-     */
-    private Element construireDoc(Balises rootBalise) {
-        Element rootElement = null;
-
-        try {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            doc = docBuilder.newDocument();
-
-            rootElement = doc.createElement(rootBalise.getBalise());
-            doc.appendChild(rootElement);
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        }
-
-        return rootElement;
-    }
-
-    /**
-     * Converti le document XML en un string XML
-     *
-     * @return Le XML en format String
-     */
-    private String convertirDocToString() {
-        String xmlString = "";
-        doc.normalizeDocument();
-
-        try {
-            DOMSource domSource = new DOMSource(doc);
-            StringWriter writer = new StringWriter();
-            StreamResult result = new StreamResult(writer);
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
-            transformer.transform(domSource, result);
-            xmlString = writer.toString();
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerException ex) {
-            ex.printStackTrace();
-        }
-
-        return xmlString;
-    }
-
-    private Element creerElement(BalisesCommClient balise) {
-        return creerElement(balise, null);
-    }
-
-    /**
-     * Créer un élément en lui ajoutant un contenu
-     *
-     * @param balise  La balise de l'élément
-     * @param contenu Le contenu
-     * @return L'élément
-     */
-    private Element creerElement(Balises balise, String contenu) {
-        Element lastname = doc.createElement(balise.getBalise());
-
-        if (contenu != null) {
-            lastname.appendChild(doc.createTextNode(contenu));
-        }
-
-        return lastname;
+        return mettreInformationBalise(BalisesCommServeur.BALISE_SERVEUR, informationServeurBuilder.toString());
     }
 }
