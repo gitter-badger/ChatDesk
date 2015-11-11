@@ -3,11 +3,7 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue.selectionAppareils;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
