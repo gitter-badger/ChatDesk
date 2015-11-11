@@ -168,11 +168,8 @@ public class FenetreConnexion extends JFrame {
 
     /**
      * Contructeur... Je sais pas quoi dire de plus
-     *
-     * @param utilisateur l'utilisateur si on veut remplir les champs à l'avance(cette méthode doit encore être
-     *                    implémenté)
      */
-    public FenetreConnexion(Utilisateur utilisateur) {
+    public FenetreConnexion() {
         this.facadeModele = new FacadeModele();
         initialiserIcone();
         initialiserLayout();
@@ -268,7 +265,6 @@ public class FenetreConnexion extends JFrame {
             }
         });
     }
-
 
     /**
      * Initialise les JTextArea � remplir pour la connexion

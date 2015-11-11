@@ -30,6 +30,12 @@ enum BalisesCommClient implements Balises {
      * Contient le numéro de tél d'un contact
      */
     BALISE_NUM_TEL("numeroTelephone"),
+
+    /**
+     * L'image du contact
+     */
+    BALISE_IMAGE_CONTACT("imageContact"),
+
     /**
      * Contient la date d'envoi d'un message
      */
@@ -41,7 +47,9 @@ enum BalisesCommClient implements Balises {
     /**
      * Si c'est un message envoyé ou reçu
      */
-    BALISE_EST_ENVOYE("estEnvoye");
+    BALISE_EST_ENVOYE("estEnvoye"),
+
+    BALISE_PUBLIC_KEY("public_key");
 
     private String balise;
 

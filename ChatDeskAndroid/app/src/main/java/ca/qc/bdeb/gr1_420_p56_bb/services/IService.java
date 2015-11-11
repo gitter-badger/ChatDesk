@@ -19,9 +19,9 @@ public interface IService {
 
     void ajouterContactTelephone(EnveloppeContact enveloppeContact);
 
-    ArrayList<EnveloppeMessage> recupererTousMessage();
+    ArrayList<EnveloppeMessage> recupererTousMessages();
 
-    ArrayList<EnveloppeContact> recupererTousContact();
+    ArrayList<EnveloppeContact> recupererTousContacts();
 
     void receptionMessageText(EnveloppeMessage enveloppeMessage);
 }

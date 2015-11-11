@@ -31,6 +31,8 @@ class PnlBulles extends JPanel {
      */
     private int hauteurTotale;
 
+    private Color couleurBullesRecues = new Color(51, 153, 102);
+    private Color couleurBullesEnvoyees = new Color(80, 150, 180);
     public PnlBulles() {
         super(true);
     }
@@ -74,7 +76,7 @@ class PnlBulles extends JPanel {
      * @param message Le message de la conversation.
      */
     private void dessinerBulle(Graphics g, Message message) {
-        Bulle bulleTemp = new Bulle(message, (int) (this.getWidth() * LONGUEUR_MAX_BULLE));
+        Bulle bulleTemp = new Bulle(message, (int) (this.getWidth() * LONGUEUR_MAX_BULLE),couleurBullesEnvoyees,couleurBullesRecues);
         BufferedImage bufferedImage = bulleTemp.getBulleBufferedImage();
 
         String dateFormate = Formatage.formatageDate(message.getDate());
@@ -98,4 +100,22 @@ class PnlBulles extends JPanel {
 
         hauteurTotale += bufferedImage.getHeight() + HAUTEUR_EN_HAUT_EN_BAS_BULLE * 2 + (int) dimDateFormate.getHeight();
     }
+
+    public Color getCouleurBullesEnvoyees() {
+        return couleurBullesEnvoyees;
+    }
+
+    public Color getCouleurBullesRecues() {
+        return couleurBullesRecues;
+    }
+
+
+    public void setCouleurBullesEnvoyees(Color couleurBullesEnvoyees) {
+        this.couleurBullesEnvoyees = couleurBullesEnvoyees;
+    }
+
+    public void setCouleurBullesRecues(Color couleurBullesRecues) {
+        this.couleurBullesRecues = couleurBullesRecues;
+    }
+
 }

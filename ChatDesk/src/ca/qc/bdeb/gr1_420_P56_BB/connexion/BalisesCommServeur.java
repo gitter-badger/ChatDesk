@@ -44,7 +44,9 @@ enum BalisesCommServeur implements Balises {
     /**
      * Contient un message
      */
-    BALISE_MESSAGE("message");
+    BALISE_MESSAGE("message"),
+
+    BALISE_PUBLIC_KEY("public_key");
 
     private final String balise;
 
@@ -86,6 +88,9 @@ enum BalisesCommServeur implements Balises {
                 break;
             case "is_telephone":
                 baliseServeur = BALISE_IS_TELEPHONE;
+                break;
+            case "public_key":
+                baliseServeur = BALISE_PUBLIC_KEY;
                 break;
             default:
                 baliseServeur = null;

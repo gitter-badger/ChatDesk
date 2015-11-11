@@ -16,7 +16,9 @@ enum CommandesClient implements Balises {
     /**
      * Demande tous les messages
      */
-    MESSAGES("messages");
+    MESSAGES("messages"),
+
+    REQUETE_ECHANGE_CLE("echange_cle");
 
     private final String commande;
 
@@ -39,6 +41,9 @@ enum CommandesClient implements Balises {
                 break;
             case "messages":
                 commande = MESSAGES;
+                break;
+            case "echange_cle":
+                commande = REQUETE_ECHANGE_CLE;
                 break;
             default:
                 commande = null;

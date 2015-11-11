@@ -5,6 +5,7 @@ import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeMessage;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.GestionnaireConnexion;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.ResultatsConnexion;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observateur;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,12 @@ public class FacadeModele {
         gestionnaireAppareils = new GestionnaireAppareils();
     }
 
+    public GestionnaireContacts getGestionnaireContacts() {
+        return gestionnaireContacts;
+    }
+    public ArrayList<ContactDTO> getContacts(){
+        return gestionnaireContacts.getContactsDTO();
+    }
     public void ajouterMessages(ArrayList<EnveloppeMessage> listeEnveloppes) {
         gestionnaireConversation.ajouterMessages(listeEnveloppes);
     }
@@ -68,6 +75,10 @@ public class FacadeModele {
 
     public void ajouterObservateur(Observateur observateur) {
         this.gestionnaireConversation.ajouterObservateur(observateur);
+    }
+
+    public void ajouterObservateurErreur(ObservateurErreur observateur) {
+        this.gestionnaireConnexion.ajouterObservateurErreur(observateur);
     }
 
     public void supprimerObservateur(Observateur observateur) {

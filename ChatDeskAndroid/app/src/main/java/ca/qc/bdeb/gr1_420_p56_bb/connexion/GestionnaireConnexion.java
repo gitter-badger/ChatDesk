@@ -1,12 +1,6 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
-
-import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.EncryptageType;
 import ca.qc.bdeb.gr1_420_p56_bb.services.IService;
-
-import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.decrypter;
-import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.encrypter;
-
 
 /**
  * Gère la connexion entre l'Android et l'ordinateur
@@ -34,28 +28,30 @@ public class GestionnaireConnexion {
      * @param messageRecu
      */
     synchronized void reception(String messageRecu) {
-        String messageServeurDecrypter = decrypter(messageRecu, EncryptageType.ENCRYPTAGE_SERVER);
-        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageServeurDecrypter);
+        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageRecu);
 
         switch (xmlReaderServeur.lireCommande()) {
             case REQUETE_NOUVEAU_COMPTE:
                 //Pas encore implémenté
                 break;
             case REQUETE_LIEN:
-                lierAppareil();
+                //echangerClePremiereFois();
+                envoyerMessagesContacts();
                 break;
             case REQUETE_MESSAGES:
-                GestionnaireBalisesCommServeur[] tabMessages = xmlReaderServeur.lireContenu();
+                EnveloppeBalisesComm[] tabMessages = xmlReaderServeur.lireContenu();
                 for (int i = 1; i < tabMessages.length; i++) {
                     lireFichierXmlClient(tabMessages[i].getContenu());
                 }
                 break;
+            case REQUETE_ECHANGE_CLE:
+                break;
         }
     }
 
-    private void lierAppareil() {
-        EnveloppeInitiale enveloppeInitiale = new EnveloppeInitiale(service.recupererTousMessage(),
-                service.recupererTousContact());
+    private void envoyerMessagesContacts() {
+        EnveloppeInitiale enveloppeInitiale = new EnveloppeInitiale(service.recupererTousMessages(),
+                service.recupererTousContacts());
         envoyerEnveloppe(enveloppeInitiale);
     }
 
@@ -65,8 +61,7 @@ public class GestionnaireConnexion {
      * @param communication Le xml de la connextion addressée au xlient
      */
     private void lireFichierXmlClient(String communication) {
-        String message = decrypter(communication, EncryptageType.ENCRYPTAGE_MESSAGE);
-        XMLReader xmlReader = new XMLReader(message);
+        XMLReader xmlReader = new XMLReader(communication);
         switch (xmlReader.lireCommande()) {
             case MESSAGES:
                 for (EnveloppeMessage enveloppeMessage : xmlReader.lireMessages()) {
@@ -78,6 +73,8 @@ public class GestionnaireConnexion {
                     service.ajouterContactTelephone(enveloppeContact);
                 }
                 break;
+            case REQUETE_ECHANGE_CLE:
+                break;
         }
     }
 
@@ -87,10 +84,10 @@ public class GestionnaireConnexion {
      * @param enveloppe Une classe implémentant l'interface convertissableXml
      */
     public void envoyerEnveloppe(ConvertissableXml enveloppe) {
-        String xmlClientMessage = encrypter(enveloppe.convertirEnXml(), EncryptageType.ENCRYPTAGE_MESSAGE);
-        String xmlServer = encrypter(new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_MESSAGES,
-                        new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_MESSAGE, xmlClientMessage)),
-                EncryptageType.ENCRYPTAGE_SERVER);
+        String xmlClientMessage = enveloppe.convertirEnXml();
+        String xmlServer = new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_MESSAGES,
+                        new EnveloppeBalisesComm(BalisesCommServeur.BALISE_MESSAGE,
+                                xmlClientMessage));
 
         gestionnaireSocket.envoyerMessage(xmlServer);
     }
@@ -105,15 +102,15 @@ public class GestionnaireConnexion {
     public ResultatsConnexion seConnecter(String user, String pass) {
         XMLWriter xmlWriter = new XMLWriter();
 
-        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurNom
-                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, user);
-        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurPass
-                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, pass);
-        GestionnaireBalisesCommServeur gestionnaireBalisesCommServeurIsTelephone
-                = new GestionnaireBalisesCommServeur(BalisesCommServeur.BALISE_IS_TELEPHONE, Boolean.toString(IS_TELEPHONE));
+        EnveloppeBalisesComm enveloppeBalisesCommNom
+                = new EnveloppeBalisesComm(BalisesCommServeur.BALISE_NOM_UTILISATEUR, user);
+        EnveloppeBalisesComm enveloppeBalisesCommPass
+                = new EnveloppeBalisesComm(BalisesCommServeur.BALISE_MOT_DE_PASSE, pass);
+        EnveloppeBalisesComm enveloppeBalisesCommIsTelephone
+                = new EnveloppeBalisesComm(BalisesCommServeur.BALISE_IS_TELEPHONE, Boolean.toString(IS_TELEPHONE));
 
-        String infoConnexionComm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, gestionnaireBalisesCommServeurNom,
-                gestionnaireBalisesCommServeurPass, gestionnaireBalisesCommServeurIsTelephone);
+        String infoConnexionComm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, enveloppeBalisesCommNom,
+                enveloppeBalisesCommPass, enveloppeBalisesCommIsTelephone);
 
         return gestionnaireSocket.commencerCommunication(infoConnexionComm);
     }

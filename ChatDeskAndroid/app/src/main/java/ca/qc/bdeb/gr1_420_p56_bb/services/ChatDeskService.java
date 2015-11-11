@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.telephony.SmsManager;
 import android.util.Log;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -58,7 +59,6 @@ public class ChatDeskService extends Service implements IService {
         return gestionnaireConnexion.seConnecter(nomUtilisateur, pass);
     }
 
-
     @Override
     public void envoyerMessageTelephone(EnveloppeMessage enveloppeMessage) {
         SmsManager smsManager = SmsManager.getDefault();
@@ -73,12 +73,12 @@ public class ChatDeskService extends Service implements IService {
     }
 
     @Override
-    public ArrayList<EnveloppeMessage> recupererTousMessage() {
+    public ArrayList<EnveloppeMessage> recupererTousMessages() {
         return RecuperateurInfo.lireTousMessage(this);
     }
 
     @Override
-    public ArrayList<EnveloppeContact> recupererTousContact() {
+    public ArrayList<EnveloppeContact> recupererTousContacts() {
         return RecuperateurInfo.lireTousContact(this);
     }
 

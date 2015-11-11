@@ -1,14 +1,17 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Contact;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage.convertirStringEnImage;
 import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireXmlDepuisContenu;
 
 /**
@@ -41,13 +44,21 @@ class XMLReader {
      * @return La commande client
      */
     public CommandesClient lireCommande() {
-        String commandeTexte;
+        return CommandesClient.getCommandeParString(lireContenuBalise(BalisesCommClient.BALISE_COMMANDE));
+    }
+
+    public String lireCle() {
+        return lireContenuBalise(BalisesCommClient.BALISE_PUBLIC_KEY);
+    }
+
+    private String lireContenuBalise(BalisesCommClient balisesCommClient) {
+        String contenu;
 
         NodeList nList = getNodesParBalise(BalisesCommClient.BALISE_COMM);
         Node node = nList.item(0);
-        commandeTexte = getElementParBalise(node, BalisesCommClient.BALISE_COMMANDE);
+        contenu = getElementParBalise(node, balisesCommClient);
 
-        return CommandesClient.getCommandeParString(commandeTexte);
+        return contenu;
     }
 
     /**
@@ -60,6 +71,7 @@ class XMLReader {
         Contact nouveauContact;
         long numeroTel;
         String nomContact;
+        ImageIcon image;
 
         NodeList nList = getNodesParBalise(BalisesCommClient.BALISE_CONTACTS);
 
@@ -68,7 +80,9 @@ class XMLReader {
                 Node node = nList.item(i);
                 numeroTel = Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_NUM_TEL));
                 nomContact = getElementParBalise(node, BalisesCommClient.BALISE_NOM);
-                nouveauContact = new Contact(numeroTel, nomContact);
+                image = convertirStringEnImage(getElementParBalise(node, BalisesCommClient.BALISE_IMAGE_CONTACT));
+
+                nouveauContact = new Contact(numeroTel, nomContact, image);
                 listeContacts.add(nouveauContact);
             } catch (NumberFormatException nfe) {
                 System.out.println(MESSAGE_ERREUR_TELEPHONE);

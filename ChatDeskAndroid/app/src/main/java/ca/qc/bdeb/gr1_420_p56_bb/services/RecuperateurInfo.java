@@ -1,19 +1,25 @@
 package ca.qc.bdeb.gr1_420_p56_bb.services;
 
 import android.app.Service;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
 import ca.qc.bdeb.gr1_420_p56_bb.connexion.EnveloppeContact;
 import ca.qc.bdeb.gr1_420_p56_bb.connexion.EnveloppeMessage;
-import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Formatage;
 
-import static android.provider.ContactsContract.CommonDataKinds.Phone.*;
+import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Formatage.convertirImageEnString;
 import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Formatage.convertirNumeroTelephoneEnLong;
 
 /**
@@ -47,20 +53,28 @@ public class RecuperateurInfo {
         ArrayList<EnveloppeContact> enveloppeContacts = new ArrayList<>();
 
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-        String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.NUMBER};
 
-        Cursor people = service.getContentResolver().query(uri, projection, null, null, null);
+        Cursor curContact = service.getContentResolver().query(uri, null, null, null, null);
 
-        int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-        int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        int indexName = curContact.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+        int indexNumber = curContact.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        int indexImage = curContact.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI);
 
-        people.moveToFirst();
+        curContact.moveToFirst();
         do {
-            String nom = people.getString(indexName);
-            long numero = convertirNumeroTelephoneEnLong(people.getString(indexNumber));
-            enveloppeContacts.add(new EnveloppeContact(numero, nom));
-        } while (people.moveToNext());
+            String nom = curContact.getString(indexName);
+            long numero = convertirNumeroTelephoneEnLong(curContact.getString(indexNumber));
+            String image = null;
+            try {
+                String image_uri = curContact.getString(indexImage);
+                if(image_uri != null) {
+                    image = convertirImageEnString(MediaStore.Images.Media.getBitmap(service.getContentResolver(), Uri.parse(image_uri)));
+                }
+            } catch (IOException e) {
+            }
+
+            enveloppeContacts.add(new EnveloppeContact(numero, nom, image));
+        } while (curContact.moveToNext());
 
         return enveloppeContacts;
     }

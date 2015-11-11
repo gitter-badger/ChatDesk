@@ -2,6 +2,8 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservableErreur;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,13 +13,14 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-
-import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage.encrypter;
+import java.util.ArrayList;
 
 /**
  * Gère les communications avec le serveur niveau socket.
  */
-class GestionnaireSocket implements Runnable {
+class GestionnaireSocket implements Runnable, ObservableErreur {
+
+    private static ArrayList<ObservateurErreur> listeObservableErreurs = new ArrayList<>();
 
     /**
      * Le port auquel se connecté sur le serveur
@@ -45,11 +48,6 @@ class GestionnaireSocket implements Runnable {
     private static final int TEMPS_CONNEXION_SOCKET = 1500;
 
     /**
-     * Indique si ce programme est un téléphone, dans notre cas évidemment non
-     */
-    private static final boolean IS_TELEPHONE = false;
-
-    /**
      * La position de la confirmation du login dans le tableau de contenu
      */
     private static final int POSITION_CONFIRMATION = 1;
@@ -73,6 +71,9 @@ class GestionnaireSocket implements Runnable {
      * Balises fermante contenant le nombre de lignes
      */
     private final String FIN_BALISE_LIGNES = "</lines>";
+
+    // Indicateur d'entier pour le formattage de string
+    private final String INDICATEUR_ENTIER = "%d";
 
     /**
      * Le socket de la communication avec le serveur
@@ -107,17 +108,14 @@ class GestionnaireSocket implements Runnable {
     /**
      * Envoi une demande de connexion au serveur
      *
-     * @param nom  Le nom d'utilisateur
-     * @param pass Le mot de passe
+     * @param infoConnexionComm Le string à envoyer au serveur
      * @return Une des valeurs de l'énum ResultatsConnexion : Valide, Invalide ou Impossible
      */
-    public ResultatsConnexion commencerCommunication(String nom, String pass) {
+    public ResultatsConnexion commencerCommunication(String infoConnexionComm) {
         ResultatsConnexion resultatsConnexion = ResultatsConnexion.IMPOSSIBLE;
 
         if (!socket.isConnected()) {
             try {
-                this.socket = new Socket();
-
                 this.socket.connect(new InetSocketAddress(HOST_NAME, PORT), TEMPS_CONNEXION_SOCKET);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -134,7 +132,7 @@ class GestionnaireSocket implements Runnable {
         }
 
         if (resultatsConnexion != ResultatsConnexion.IMPOSSIBLE) {
-            if (connecter(nom, pass)) {
+            if (connecter(infoConnexionComm)) {
                 new Thread(this).start();
                 resultatsConnexion = ResultatsConnexion.VALIDE;
             }
@@ -156,6 +154,7 @@ class GestionnaireSocket implements Runnable {
             } catch (SocketException e) {
                 e.printStackTrace();
             }
+
             contenu = readAllLines();
 
             gestionnaireConnexion.reception(contenu);
@@ -165,24 +164,11 @@ class GestionnaireSocket implements Runnable {
     /**
      * Envoi une requête de login au serveur
      *
-     * @param user Le nom d'utilisateur
-     * @param pass Le mot de passe
+     * @param infoConnexionComm Le string à envoyer au serveur
      * @return Boolean indiquant si les données sont valides
      */
-    private boolean connecter(String user, String pass) {
-        XMLWriter xmlWriter = new XMLWriter();
-
-        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurNom
-                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, user);
-        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurPass
-                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, pass);
-        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurIsTelephone
-                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_IS_TELEPHONE, Boolean.toString(IS_TELEPHONE));
-
-        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, enveloppeBalisesCommServeurNom,
-                enveloppeBalisesCommServeurPass, enveloppeBalisesCommServeurIsTelephone);
-        envoyerMessage(encrypter(comm, EncryptageType.ENCRYPTAGE_SERVER));
-
+    private boolean connecter(String infoConnexionComm) {
+        envoyerMessage(infoConnexionComm);
         return receptionReponseConnexion();
     }
 
@@ -196,7 +182,6 @@ class GestionnaireSocket implements Runnable {
         try {
             this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
             String contenu = readAllLines();
-            contenu = Encryptage.decrypter(contenu, EncryptageType.ENCRYPTAGE_SERVER);
             XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(contenu);
             if (xmlReaderServeur.lireCommande() == CommandesServeur.REQUETE_LOGIN) {
                 connecte = xmlReaderServeur.lireContenu()[POSITION_CONFIRMATION].getContenu().equals(Boolean.toString(!connecte));
@@ -204,7 +189,6 @@ class GestionnaireSocket implements Runnable {
         } catch (SocketException e) {
             e.printStackTrace();
         }
-
         return connecte;
     }
 
@@ -219,19 +203,18 @@ class GestionnaireSocket implements Runnable {
 
         try {
             this.socket.setSoTimeout(TEMPS_REPONSE_INFINI);
-            inputLine = in.readLine();
-            inputLine = inputLine.replace(DEBUT_BALISE_LIGNES, "");
-            inputLine = inputLine.replace(FIN_BALISE_LIGNES, "");
-            int nbrLigne = Integer.parseInt(inputLine);
 
-            for (int i = POSITION_DEBUT_DONNEES; i < nbrLigne; i++) {
+            do {
                 inputLine = in.readLine();
                 contenu += inputLine;
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
+            } while (inputLine.toCharArray()[inputLine.length() - 1] != '\0');
+
+            contenu = contenu.substring(0, contenu.length() - 1);
+
+            System.out.println(contenu);
+
         } catch (IOException e) {
-            e.printStackTrace();
+            aviserObservateurs();
         }
 
         return contenu;
@@ -251,7 +234,7 @@ class GestionnaireSocket implements Runnable {
      */
     void envoyerMessage(String communication) {
         if (out != null) {
-            out.println(mettreBaliseNombreLigne(communication));
+            out.println(communication + '\0');
             out.flush();
         }
     }
@@ -263,12 +246,8 @@ class GestionnaireSocket implements Runnable {
      * @return La communication avec les balises ajoutées
      */
     private String mettreBaliseNombreLigne(String communication) {
-        /*
-      Indicateur d'entier pour le formattage de string
-     */
-        String INDICATEUR_ENTIER = "%d";
         communication = DEBUT_BALISE_LIGNES + INDICATEUR_ENTIER + FIN_BALISE_LIGNES + "\n" + communication;
-        communication = String.format(communication, trouverNombreLignes(communication));
+        communication = communication.replace(communication, Integer.toString(trouverNombreLignes(communication)));
         return communication;
     }
 
@@ -288,5 +267,40 @@ class GestionnaireSocket implements Runnable {
         }
 
         return counter;
+    }
+
+    void terminerConnexion(){
+        try {
+            this.socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void ajouterObservateur(ObservateurErreur ob) {
+        listeObservableErreurs.add(ob);
+    }
+
+    @Override
+    public void retirerObservateur(ObservateurErreur ob) {
+        listeObservableErreurs.remove(ob);
+    }
+
+    @Override
+    public void retirerObservateur(int indice) {
+        listeObservableErreurs.remove(indice);
+    }
+
+    @Override
+    public void aviserObservateurs( ) {
+        for (ObservateurErreur observateurErreur : listeObservableErreurs) {
+            observateurErreur.aviserErreur();
+        }
+    }
+
+    @Override
+    public void aviserObservateur(int indice) {
+        listeObservableErreurs.get(indice).aviserErreur();
     }
 }

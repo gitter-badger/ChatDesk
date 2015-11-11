@@ -232,7 +232,9 @@ class OptionBar extends JPanel {
         options.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-
+                FenetreOption fenetreOption = new FenetreOption(fenetrePrincipale.getHeight(), fenetrePrincipale.getWidth(),
+                        fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesEnvoyees(),
+                        fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesRecues(), fenetrePrincipale);
             }
         });
         this.add(options);
@@ -247,12 +249,16 @@ class OptionBar extends JPanel {
         profile.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                 FenetreContacts fenetreContacts = new FenetreContacts(fenetrePrincipale, fenetrePrincipale.getFacadeModele());
+
                  JFrame jFrameContacts = new JFrame();
+                FenetreContacts fenetreContacts = new FenetreContacts(fenetrePrincipale, fenetrePrincipale.getFacadeModele(), jFrameContacts);
                 jFrameContacts.setLayout(null);
                 jFrameContacts.setBounds(fenetreContacts.getBounds());
+                jFrameContacts.setMinimumSize(fenetreContacts.getSize());
                 jFrameContacts.add(fenetreContacts);
+                jFrameContacts.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 jFrameContacts.setVisible(true);
+
             }
         });
         this.add(profile);

@@ -1,5 +1,7 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,11 +10,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-
-import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage;
-import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.EncryptageType;
-
-import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage.encrypter;
 
 /**
  * Gère les communications avec le serveur niveau socket.
@@ -23,10 +20,12 @@ class GestionnaireSocket implements Runnable {
      * Temps d'attente maximal lors d'une lecture obligatoire
      */
     private static final int TEMPS_ATTENTE_LECTURE = 500;
+
     /**
      * Temps d'attente infini
      */
     private static final int TEMPS_REPONSE_INFINI = 0;
+
     /**
      * Temps d'attente maximal lors de la connexion initale du socket
      */
@@ -36,39 +35,39 @@ class GestionnaireSocket implements Runnable {
      * La position de la confirmation du login dans le tableau de contenu
      */
     private static final int POSITION_CONFIRMATION = 1;
-    /**
-     * La position du début des données dans le tableau de contenu
-     */
-    private static final int POSITION_DEBUT_DONNEES = 1;
+
     /**
      * La première ligne du string
      */
     private static final int NOMBRE_LIGNES_INITIAL = 1;
+
     /**
      * Balises contenant le nombre de lignes qu'il faut lire dans la connexion
      */
     private final String DEBUT_BALISE_LIGNES = "<lines>", FIN_BALISE_LIGNES = "</lines>";
+
     /**
      * Indicateur d'entier pour le formattage de string
      */
     private final String INDICATEUR_ENTIER = "%d";
 
-
+    /**
+     * Le socket pour l'envoi d'un message ou la reception de message avec le serveur.
+     */
     private Socket socket;
+
     /**
      * Détermine si le socket devrait écouter en lecture, sa mise à false entrainerait la fin de la connexion
      */
     private boolean actif;
+
     private GestionnaireConnexion gestionnaireConnexion;
 
-    /**
-     * Host name à utilisé pour se connecter localement
-     */
-    private final String HOST_NAME_LOCAL = "127.0.0.1";
     /**
      * Host names auquel se connecté si le serveur est distant
      */
     private final String HOST_NAME = "chatdesk.ddns.net";
+
     /**
      * Le port auquel se connecté sur le serveur
      */
@@ -93,7 +92,6 @@ class GestionnaireSocket implements Runnable {
 
         if (!socket.isConnected()) {
             try {
-                this.socket = new Socket();
                 this.socket.connect(new InetSocketAddress(HOST_NAME, PORT), TEMPS_CONNEXION_SOCKET);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -145,14 +143,20 @@ class GestionnaireSocket implements Runnable {
      * @return Boolean indiquant si les données sont valides
      */
     private boolean connecter(String infoConnexionComm) {
+        envoyerMessage(infoConnexionComm);
+        return receptionReponseConnexion();
+    }
+
+    /**
+     * Attend la réponse du serveur à la demande de connexion
+     *
+     * @return Si la demande a fonctionné
+     */
+    private boolean receptionReponseConnexion() {
         boolean connecte = false;
-
-        envoyerMessage(encrypter(infoConnexionComm, EncryptageType.ENCRYPTAGE_SERVER));
-
         try {
             this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
             String contenu = readAllLines();
-            contenu = Encryptage.decrypter(contenu, EncryptageType.ENCRYPTAGE_SERVER);
             XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(contenu);
             if (xmlReaderServeur.lireCommande() == CommandesServeur.REQUETE_LOGIN) {
                 connecte = xmlReaderServeur.lireContenu()[POSITION_CONFIRMATION].getContenu().equals(Boolean.toString(!connecte));
@@ -166,6 +170,7 @@ class GestionnaireSocket implements Runnable {
 
     /**
      * Lis toutes les lignes d'une communication et les retournent dans un seul String
+     *
      * @return String des lignes concaténées
      */
     private synchronized String readAllLines() {
@@ -174,15 +179,14 @@ class GestionnaireSocket implements Runnable {
 
         try {
             this.socket.setSoTimeout(TEMPS_REPONSE_INFINI);
-            inputLine = in.readLine();
-            inputLine = inputLine.replace(DEBUT_BALISE_LIGNES, "");
-            inputLine = inputLine.replace(FIN_BALISE_LIGNES, "");
-            int nbrLigne = Integer.parseInt(inputLine);
 
-            for (int i = POSITION_DEBUT_DONNEES; i < nbrLigne; i++) {
+            do {
                 inputLine = in.readLine();
                 contenu += inputLine;
-            }
+            } while (inputLine.toCharArray()[inputLine.length() - 1] != '\0');
+
+            contenu = contenu.substring(0, contenu.length() - 1);
+
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -201,26 +205,33 @@ class GestionnaireSocket implements Runnable {
 
     /**
      * Envoi un message
+     *
      * @param communication
      */
     void envoyerMessage(String communication) {
-        out.println(mettreBaliseNombreLigne(communication));
-        out.flush();
+        if (communication != null) {
+            out.println(communication + '\0');
+            out.flush();
+        }
     }
 
     /**
      * Ajoute les balises contenant le nombre de lignes au début de la communication
+     *
      * @param communication La communication
      * @return La communication avec les balises ajoutées
      */
     private String mettreBaliseNombreLigne(String communication) {
         communication = DEBUT_BALISE_LIGNES + INDICATEUR_ENTIER + FIN_BALISE_LIGNES + "\n" + communication;
-        communication = String.format(communication, trouverNombreLignes(communication));
+        Log.i("GestionnaireSocket", communication);
+        Log.i("GestionnaireSocket", Integer.toString(trouverNombreLignes(communication)));
+        communication = communication.replace(INDICATEUR_ENTIER, Integer.toString(trouverNombreLignes(communication)));
         return communication;
     }
 
     /**
      * Trouve le nombre de lignes que fait la communication
+     *
      * @param communication La communication
      * @return Le nombre de lignes que fait la communication
      */

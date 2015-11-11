@@ -225,6 +225,10 @@ class PnlConversation extends JPanel {
         mettreAJour(numeroTelephone);
     }
 
+    public PnlBulles getPnlBulles() {
+        return pnlBulles;
+    }
+
     /**
      * Envoyer un message
      */
@@ -257,4 +261,6 @@ class PnlConversation extends JPanel {
     public long getNumeroTelephone() {
         return numeroTelephone;
     }
+
+
 }

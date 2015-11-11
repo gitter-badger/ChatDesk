@@ -1,10 +1,14 @@
 package ca.qc.bdeb.gr1_420_p56_bb.utilitaires;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.google.android.gms.wallet.fragment.Dimension;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,102 +17,31 @@ import java.util.Date;
  */
 public class Formatage {
 
-    /**
-     * Les jours de la semaine
-     */
-    public enum JourFormat {
-        DIMANCHE("dim."),
-        LUNDI("lun."),
-        MARDI("mar."),
-        MERCREDI("mer."),
-        JEUDI("jeu."),
-        VENDREDI("ven."),
-        SAMEDI("sam.");
-
-        /**
-         * La valeur de la journée de la semaine
-         */
-        private String valeur;
-
-        JourFormat(String valeur) {
-            this.valeur = valeur;
-        }
-
-        public String toString() {
-            return valeur;
-        }
-    }
-
-    /**
-     * Les format d'heure
-     */
-    public enum HeureFormat {
-        MAINTENANT("Maintenant"),
-        HEURE(" h"),
-        MINUTE(" m");
-
-        private String valeur;
-
-        HeureFormat(String valeur) {
-            this.valeur = valeur;
-        }
-
-        public String toString() {
-            return valeur;
-        }
-    }
-
-    /**
-     * Retourne une date formater selon le temps qui c'est écoulé entre la réception/envoie du message
-     * et le temps du système
-     *
-     * @param dateMsg La date d'un message
-     * @return La date formater
-     */
-    public static String formatageDate(Date dateMsg) {
-        Date dateSystem = new Date();
-
-        long valeurDif = dateSystem.getTime() - dateMsg.getTime();
-        long valeurSeconde = (long) (valeurDif * 0.001);
-        long valeurMinute = valeurSeconde / 60;
-        long valeurHeure = valeurMinute / 60;
-
-        Calendar calendrier = Calendar.getInstance();
-        calendrier.setTime(dateMsg);
-        int dayOfWeek = calendrier.get(Calendar.DAY_OF_WEEK);
-
-        if (valeurHeure < 24) {
-            if (valeurHeure == 0 && valeurMinute == 0) {
-                return HeureFormat.MAINTENANT.toString();
-            } else if (valeurHeure == 0) {
-                return Long.toString(valeurMinute) + HeureFormat.MINUTE.toString();
-            } else {
-                return Long.toString(valeurHeure) + HeureFormat.HEURE.toString();
-            }
-        } else {
-            switch (dayOfWeek) {
-                case 1:
-                    return JourFormat.DIMANCHE.toString();
-                case 2:
-                    return JourFormat.LUNDI.toString();
-                case 3:
-                    return JourFormat.MARDI.toString();
-                case 4:
-                    return JourFormat.MERCREDI.toString();
-                case 5:
-                    return JourFormat.JEUDI.toString();
-                case 6:
-                    return JourFormat.VENDREDI.toString();
-                case 7:
-                    return JourFormat.SAMEDI.toString();
-                default:
-                    return "";
-            }
-        }
-    }
+    private static char CARACTERE_DEBUT_NUMERO_TELEPHONE = '1';
 
     public static long convertirNumeroTelephoneEnLong(String numeroTelephone) {
         numeroTelephone = numeroTelephone.replaceAll("[\\D]", "");
+        if (numeroTelephone.getBytes()[0] != CARACTERE_DEBUT_NUMERO_TELEPHONE) {
+            numeroTelephone = CARACTERE_DEBUT_NUMERO_TELEPHONE + numeroTelephone;
+        }
         return Long.parseLong(numeroTelephone);
+    }
+
+    public static String convertirImageEnString(Bitmap image) {
+        String imageEnString;
+
+        int bytes = image.getByteCount();
+        ByteBuffer buffer = ByteBuffer.allocate(bytes);
+        image.copyPixelsToBuffer(buffer);
+        byte[] array = buffer.array();
+
+        StringBuilder toSave = new StringBuilder();
+        for (int i = 0; i < array.length - 1; i++) {
+            toSave.append(array[i]).append("/");
+        }
+        toSave.append(array[array.length - 1]);
+        imageEnString = toSave.toString();
+
+        return imageEnString;
     }
 }
