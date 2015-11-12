@@ -73,20 +73,14 @@ class Bulle {
      */
     private final String message;
 
-    public Bulle(Message message, int maxWidth) {
-        this.maxWidth = maxWidth;
-        this.message = message.getText();
-        initialisationChampMessage();
-        bulle = new BufferedImage(messageArea.getWidth(), messageArea.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        paintBulle(message.isEnvoyer());
-    }
-
     public Bulle(Message message, int maxWidth, Color couleurBulleEnvoyee, Color couleurBulleRecue) {
         this.maxWidth = maxWidth;
         this.message = message.getText();
         this.couleurBulleEnvoyee = couleurBulleEnvoyee;
         this.couleurBulleRecue = couleurBulleRecue;
+        initialisationChampMessage();
         bulle = new BufferedImage(messageArea.getWidth(), messageArea.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        paintBulle(message.isEnvoyer());
     }
 
     /**

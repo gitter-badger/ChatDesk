@@ -15,9 +15,15 @@ public class EnveloppeContact implements ConvertissableXml {
      */
     private String nom;
 
-    public EnveloppeContact(long numeroTelephone, String nom) {
+    /**
+     * L'image du profil en chaine de caractère
+     */
+    private String image;
+
+    public EnveloppeContact(long numeroTelephone, String nom, String image) {
         this.numeroTelephone = numeroTelephone;
         this.nom = nom;
+        this.image = image;
     }
 
     /**
@@ -32,6 +38,13 @@ public class EnveloppeContact implements ConvertissableXml {
      */
     public String getNom() {
         return nom;
+    }
+
+    /**
+     * @return L'image du profile en chaine de caractère
+     */
+    public String getImage(){
+        return image;
     }
 
     /**

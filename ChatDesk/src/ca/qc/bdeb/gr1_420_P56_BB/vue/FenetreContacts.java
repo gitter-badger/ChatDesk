@@ -8,6 +8,7 @@ import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -109,7 +110,6 @@ class FenetreContacts extends JPanel {
      */
     private int longuerMaxContact;
 
-
     private JFrame jFrameContacts;
 
     /**
@@ -118,8 +118,6 @@ class FenetreContacts extends JPanel {
      * @param fenetrePrincipale La fenetre principale
      * @param facadeModele      Le gestionnaire de contact
      */
-
-
     public FenetreContacts(FrmChatDesk fenetrePrincipale, FacadeModele facadeModele, JFrame jFrameContacts) {
         longuerMaxContact = 0;
         this.facadeModele = facadeModele;
@@ -127,7 +125,6 @@ class FenetreContacts extends JPanel {
         this.jFrameContacts = jFrameContacts;
         initialiserPanel();
         this.setDoubleBuffered(true);
-        jFrameContacts.setResizable(false);
     }
 
     /**
@@ -182,6 +179,11 @@ class FenetreContacts extends JPanel {
                     fenetrePrincipale.ouvrirConversation(new ConversationDTO(null, contactDTO.getNumeroTelephone()));
                     jFrameContacts.dispose();
                 }
+                dimLblDernierMessage = new Dimension((int) (longueurPnlcontactX * POURCENTAGE_LONGUEUR_LBL_DERNIER_MSG),
+                        (int) (hauteurPnlcontactY * POURCENTAGE_HAUTEUR_LBL_DERNIER_MSG));
+
+
+                borderVideSize = (int) (hauteurPnlcontactY * POURCENTAGE_COUTOUR_VIDE);
             }
         });
     }
@@ -196,12 +198,24 @@ class FenetreContacts extends JPanel {
         JLabel nom = new JLabel(contactDTO.getNom());
         nom.setFont(new Font(nom.getFont().getFontName(), Font.BOLD, (int) dimLblNom.getHeight()));
         nom.setSize(Formatage.calculerDimensionString(contactDTO.getNom(), nom.getFont()));
+    }
+
+    /**
+     * @param pnlConversation Le panneau d'une contact
+     * @param contactDTO      Une contact
+     */
+    private void initialiserPanneauNom(JPanel pnlConversation, ContactDTO contactDTO) {
+        //JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getNumeroTelephone()).getNom());
+        JLabel nom = new JLabel(facadeModele.getContact(contactDTO.getNumeroTelephone()).getNom());
+        nom.setFont(new Font(nom.getFont().getFontName(), Font.BOLD, (int) dimLblNom.getHeight()));
+        //nom.setSize(Formatage.calculerDimensionString(contactDTO.getNom(), new Font("raleway", Font.TRUETYPE_FONT, 12)));
+        nom.setSize(Formatage.calculerDimensionString(contactDTO.getNom(), nom.getFont()));
         if (nom.getWidth() > longuerMaxContact) {
             longuerMaxContact = nom.getWidth();
         }
-        nom.setLocation(borderVideSize, (int) (pnlcontact.getHeight() / 2 - (dimLblNom.getHeight() +
+        nom.setLocation(borderVideSize, (int) (pnlConversation.getHeight() / 2 - (dimLblNom.getHeight() +
                 dimLblDernierMessage.getHeight()) / 2));
-        pnlcontact.add(nom);
+        pnlConversation.add(nom);
     }
 
 
@@ -211,14 +225,12 @@ class FenetreContacts extends JPanel {
     public void initialiserContacts() {
         this.removeAll();
         contactCount = 0;
-        for (ContactDTO contactDTO : facadeModele.getContacts()) {
+        for (ContactDTO contactDTO : ContactsTest.asList()) {
             ajouterContact(contactDTO);
             contactCount++;
-
         }
         this.setBounds(0, 0, longuerMaxContact + 50, hauteurPnlcontactY * contactCount);
         this.repaint();
     }
-
 
 }

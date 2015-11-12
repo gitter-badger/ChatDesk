@@ -72,6 +72,9 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      */
     private final String FIN_BALISE_LIGNES = "</lines>";
 
+    // Indicateur d'entier pour le formattage de string
+    private final String INDICATEUR_ENTIER = "%d";
+
     /**
      * Le socket de la communication avec le serveur
      */
@@ -97,9 +100,6 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      */
     private BufferedReader in;
 
-    private static final Encryptage encryptageServeur = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_SERVEUR);
-    private static final Encryptage encryptageClient = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT);
-
     public GestionnaireSocket(GestionnaireConnexion gestionnaireConnexion) {
         this.gestionnaireConnexion = gestionnaireConnexion;
         this.socket = new Socket();
@@ -112,22 +112,16 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      * @return Une des valeurs de l'énum ResultatsConnexion : Valide, Invalide ou Impossible
      */
     public ResultatsConnexion commencerCommunication(String infoConnexionComm) {
-        ResultatsConnexion resultatsConnexion = ResultatsConnexion.IMPOSSIBLE;
+        ResultatsConnexion resultatsConnexion ;
 
         if (!socket.isConnected()) {
             try {
-                this.socket = new Socket();
                 this.socket.connect(new InetSocketAddress(HOST_NAME, PORT), TEMPS_CONNEXION_SOCKET);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
-                creationCleServeur();
                 resultatsConnexion = ResultatsConnexion.INVALIDE;
-            } catch (SocketException e) {
-                e.printStackTrace();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
+                resultatsConnexion = ResultatsConnexion.IMPOSSIBLE;
             }
         } else {
             resultatsConnexion = ResultatsConnexion.INVALIDE;
@@ -143,34 +137,6 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
         return resultatsConnexion;
     }
 
-    private void creationCleServeur() {
-        String clientPublicKey = encryptageServeur.createKeyToPair();
-        XMLWriter xmlWriter = new XMLWriter();
-        String messageEnv = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_ECHANGE_CLE,
-                new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_PUBLIC_KEY, clientPublicKey));
-        envoyerMessage(messageEnv, EncryptageType.ENCRYPTAGE_SERVEUR);
-
-        String messageRecu = readAllLines();
-
-        // TODO : Supprimer cette ligne lors du changement d'encryptage
-        messageRecu = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_SERVEUR).decrypter(messageRecu);
-        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageRecu);
-        String serveurPublicKey = xmlReaderServeur.lireContenu()[1].getContenu();
-        encryptageServeur.createKey(serveurPublicKey);
-    }
-
-    public void creationCleClient() {
-        String clientPublicKey = encryptageClient.createKeyToPair();
-        XMLWriter xmlWriter = new XMLWriter();
-        String messageEnv = xmlWriter.construireCleClient(clientPublicKey);
-        envoyerMessage(messageEnv, EncryptageType.ENCRYPTAGE_CLIENT);
-
-        String messageRecu = readAllLines();
-        XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(messageRecu);
-        String autreClientPublicKey = xmlReaderServeur.lireContenu()[1].getContenu();
-        encryptageClient.createKey(autreClientPublicKey);
-    }
-
     /**
      * Thread d'écoute en lecture des communications du serveur
      */
@@ -184,6 +150,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
             } catch (SocketException e) {
                 e.printStackTrace();
             }
+
             contenu = readAllLines();
 
             gestionnaireConnexion.reception(contenu);
@@ -197,7 +164,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      * @return Boolean indiquant si les données sont valides
      */
     private boolean connecter(String infoConnexionComm) {
-        envoyerMessage(infoConnexionComm, EncryptageType.ENCRYPTAGE_SERVEUR);
+        envoyerMessage(infoConnexionComm);
         return receptionReponseConnexion();
     }
 
@@ -211,7 +178,6 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
         try {
             this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
             String contenu = readAllLines();
-            contenu = encryptageServeur.decrypter(contenu);
             XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(contenu);
             if (xmlReaderServeur.lireCommande() == CommandesServeur.REQUETE_LOGIN) {
                 connecte = xmlReaderServeur.lireContenu()[POSITION_CONFIRMATION].getContenu().equals(Boolean.toString(!connecte));
@@ -233,15 +199,16 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
 
         try {
             this.socket.setSoTimeout(TEMPS_REPONSE_INFINI);
-            inputLine = in.readLine();
-            inputLine = inputLine.replace(DEBUT_BALISE_LIGNES, "");
-            inputLine = inputLine.replace(FIN_BALISE_LIGNES, "");
-            int nbrLigne = Integer.parseInt(inputLine);
 
-            for (int i = POSITION_DEBUT_DONNEES; i < nbrLigne; i++) {
+            do {
                 inputLine = in.readLine();
                 contenu += inputLine;
-            }
+            } while (inputLine.toCharArray()[inputLine.length() - 1] != '\0');
+
+            contenu = contenu.substring(0, contenu.length() - 1);
+
+            System.out.println(contenu);
+
         } catch (IOException e) {
             aviserObservateurs();
         }
@@ -261,9 +228,9 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      *
      * @param communication
      */
-    void envoyerMessage(String communication, EncryptageType encryptageType) {
+    void envoyerMessage(String communication) {
         if (out != null) {
-            out.println(mettreBaliseNombreLigne(Encryptage.getInstance(encryptageType).encrypter(communication)));
+            out.println(communication + '\0');
             out.flush();
         }
     }
@@ -275,10 +242,8 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      * @return La communication avec les balises ajoutées
      */
     private String mettreBaliseNombreLigne(String communication) {
-        // Indicateur d'entier pour le formattage de string
-        String INDICATEUR_ENTIER = "%d";
         communication = DEBUT_BALISE_LIGNES + INDICATEUR_ENTIER + FIN_BALISE_LIGNES + "\n" + communication;
-        communication = String.format(communication, trouverNombreLignes(communication));
+        communication = communication.replace(communication, Integer.toString(trouverNombreLignes(communication)));
         return communication;
     }
 
@@ -300,7 +265,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
         return counter;
     }
 
-    void terminerConnexion(){
+    void terminerConnexion() {
         try {
             this.socket.close();
         } catch (IOException e) {
@@ -324,7 +289,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
     }
 
     @Override
-    public void aviserObservateurs( ) {
+    public void aviserObservateurs() {
         for (ObservateurErreur observateurErreur : listeObservableErreurs) {
             observateurErreur.aviserErreur();
         }

@@ -1,8 +1,11 @@
 package ca.qc.bdeb.gr1_420_P56_BB.utilitaires;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -127,13 +130,29 @@ public class Formatage {
      * Permet de récupérer la longueur d'un string qui est affecté par un font
      *
      * @param texte Le string que l'on veut la longueur
-     * @param font Le font du texte
+     * @param font  Le font du texte
      * @return La longueur du string
      */
-    public static Dimension calculerDimensionString(String texte, Font font){
+    public static Dimension calculerDimensionString(String texte, Font font) {
         Canvas c = new Canvas();
         FontMetrics fontMetrics = c.getFontMetrics(font);
 
         return new Dimension(fontMetrics.stringWidth(texte), fontMetrics.getHeight());
+    }
+
+    public static ImageIcon convertirStringEnImage(String image) {
+        ImageIcon stringEnImage = null;
+
+        String[] bytes = image.split("/");
+        byte[] array = new byte[bytes.length];
+        for (int i = 0; i < bytes.length; i++) {
+            array[i] = Byte.decode(bytes[i]);
+        }
+        try {
+            stringEnImage = new ImageIcon(ImageIO.read(new ByteArrayInputStream(array)));
+        } catch (IOException ex) {
+        }
+
+        return stringEnImage;
     }
 }

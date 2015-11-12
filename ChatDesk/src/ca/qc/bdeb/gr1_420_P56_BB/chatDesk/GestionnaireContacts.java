@@ -58,7 +58,7 @@ class GestionnaireContacts {
         }
 
         if(contact == null){
-            contact = new Contact(numeroTelephone, "");
+            contact = new Contact(numeroTelephone, "", null);
         }
 
         return contact;
