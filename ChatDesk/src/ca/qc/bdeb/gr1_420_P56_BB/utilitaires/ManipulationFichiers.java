@@ -68,4 +68,23 @@ public class ManipulationFichiers {
 
         return document;
     }
+
+    public static void EcrireFichierAvecChemin(String chemin, String contenu) throws IOException {
+        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(chemin)));
+        out.write(contenu.getBytes());
+        out.flush();
+        out.close();
+    }
+
+    public static String LireFichierAvecChemin(String chemin) throws IOException {
+        BufferedReader in = new BufferedReader(new FileReader(new File(chemin)));
+        String retour = in.readLine();
+        while (retour != null ){
+            retour = in.readLine();
+        }
+        in.close();
+        return retour;
+    }
+
+
 }

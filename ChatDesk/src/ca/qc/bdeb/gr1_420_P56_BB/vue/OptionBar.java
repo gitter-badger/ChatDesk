@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.IOException;
 
 /**
  * La bar d'option/menu en haut de la fen�tre principale du programme.
@@ -232,9 +233,13 @@ class OptionBar extends JPanel {
         options.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                FenetreOption fenetreOption = new FenetreOption(fenetrePrincipale.getHeight(), fenetrePrincipale.getWidth(),
-                        fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesEnvoyees(),
-                        fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesRecues(), fenetrePrincipale);
+                try {
+                    FenetreOption fenetreOption = new FenetreOption(fenetrePrincipale.getHeight(), fenetrePrincipale.getWidth(),
+                            fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesEnvoyees(),
+                            fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesRecues(), fenetrePrincipale);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         this.add(options);

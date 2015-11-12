@@ -79,12 +79,12 @@ public class FenetreConnexion extends JFrame {
     /**
      * Pourcentage de l'écran que la fenêtre prend
      */
-    private static final double POURCENTAGE_ECRAN_GRANDEUR_FENETRE = 0.4;
+    private static final double POURCENTAGE_ECRAN_GRANDEUR_FENETRE = 0.5;
 
     /**
      * Pourcentage de la fenêtre que certains composants occupe
      */
-    private static final double POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT = 0.4;
+    private static final double POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT = 0.2;
 
     /**
      * Hauteur de chaque bouton
@@ -167,6 +167,17 @@ public class FenetreConnexion extends JFrame {
     private JLabel lblIcone;
 
     /**
+     * Label à guauche du champ d'utilisateur
+     */
+    private JLabel lblUtilisateur;
+
+    /**
+     * Label à gauche du champ de mot de passe
+     */
+
+    private JLabel lblChampDeMotDeMotPasse;
+
+    /**
      * Contructeur... Je sais pas quoi dire de plus
      */
     public FenetreConnexion() {
@@ -178,13 +189,13 @@ public class FenetreConnexion extends JFrame {
         pnlInformationEntres.setOpaque(false);
         ajouterElements();
         parametrerFenetre();
-    }
+     }
 
     /**
      * Paramétrage de la fenêtre au complet
      */
     private void parametrerFenetre() {
-        this.setResizable(false);
+        this.setResizable(true);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -193,9 +204,29 @@ public class FenetreConnexion extends JFrame {
      * Ajout des multiples éléments après leur initialisation et leur paramétrage
      */
     private void ajouterElements() {
-        this.add(lblIcone);
-        this.add(pnlInformationEntres);
-        this.add(pnlBoutonsActions);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.weightx = 0.5;
+        constraints.weighty = 1.0;
+        constraints.gridwidth = 2;
+        constraints.fill = GridBagConstraints.NONE;
+        this.add(lblIcone, constraints);
+        constraints = new GridBagConstraints();
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
+        constraints.fill = GridBagConstraints.VERTICAL;
+        this.add(pnlInformationEntres, constraints);
+        constraints = new GridBagConstraints();
+        constraints.gridx = 1;
+        constraints.gridy = 2;
+        constraints.weightx = 1.5;
+        constraints.weighty = 0.5;
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.insets = new Insets(0, 0, 15, 15);
+        this.add(pnlBoutonsActions, constraints);
     }
 
     /**
@@ -215,8 +246,8 @@ public class FenetreConnexion extends JFrame {
      */
     private void initialiserLayout() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLayout(new FlowLayout(FlowLayout.CENTER, (int) (this.getHeight() / MOITIE_ECRAN), (int) (this.getHeight() / MOITIE_ECRAN)));
-        this.setSize((int) (dimension.width * POURCENTAGE_ECRAN_GRANDEUR_FENETRE),
+        this.setLayout(new GridBagLayout());
+       this.setSize((int) (dimension.width * POURCENTAGE_ECRAN_GRANDEUR_FENETRE),
                 (int) (dimension.getHeight() * POURCENTAGE_ECRAN_GRANDEUR_FENETRE));
         this.setLocationRelativeTo(null);
     }
@@ -227,7 +258,7 @@ public class FenetreConnexion extends JFrame {
     private void initialiserBoutons() {
         pnlBoutonsActions = new JPanel();
         pnlBoutonsActions.setSize(this.getWidth(), (int) (this.getHeight() * RATIO_80_ECRAN));
-        pnlBoutonsActions.setLayout(new GridLayout(0, COL_LAYOUT_GRID, (int) (this.getHeight() * RATIO_HAUTEUR_LAYOUT_BOUTON), (int) (this.getHeight() * RATIO_MOITIE_ECRAN)));
+        pnlBoutonsActions.setLayout(new GridLayout(0, COL_LAYOUT_GRID, (int) (this.getHeight() * 0.2), (int) (this.getHeight() * 0.2)));
         btnConnexion = new JButton(TEXTE_BOUTON_CONNEXION);
         JButton btnInscription = new JButton(TEXT_BOUTON_INSCRIPTION);
         btnInscription.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT), HAUTEUR_BOUTON));
@@ -271,38 +302,54 @@ public class FenetreConnexion extends JFrame {
      */
     private void initialiserChamps() {
         pnlInformationEntres = new JPanel();
-
-        pnlInformationEntres.setPreferredSize(new Dimension(this.getWidth(), (int) (this.getHeight() * RATIO_MOITIE_ECRAN)));
-        pnlInformationEntres.setLayout(new FlowLayout(FlowLayout.CENTER, (int) (this.getWidth() * RATIO_MOITIE_ECRAN),
-                (int) (this.getHeight() * 0.15)));
+        lblUtilisateur = new JLabel();
+        lblUtilisateur.setFont(FONT_TEXTE_TRUE_TYPE);
+        lblChampDeMotDeMotPasse = new JLabel();
+        lblChampDeMotDeMotPasse.setFont(FONT_TEXTE_TRUE_TYPE);
+        pnlInformationEntres.setPreferredSize(new Dimension(this.getWidth(), (int) (this.getHeight())));
+        GridBagLayout layout = new GridBagLayout();
+        GridBagConstraints constraints = new GridBagConstraints();
+        pnlInformationEntres.setLayout(layout);
         champDeNomUsager = new JTextArea();
         champDeMotDePasse = new JTextArea();
         champDeMotDePasse.setFont(FONT_TEXTE_TRUE_TYPE);
         champDeNomUsager.setFont(FONT_TEXTE_TRUE_TYPE);
-        pnlInformationEntres.add(champDeNomUsager);
-        pnlInformationEntres.add(champDeMotDePasse);
+        lblUtilisateur.setText(TEXT_CHAMP_USAGER);
+       // lblUtilisateur.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT * .01),
+            //    HAUTEUR_CHAMP));
+       // lblChampDeMotDeMotPasse.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT * .01),
+          //      HAUTEUR_CHAMP));
         champDeNomUsager.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT),
                 HAUTEUR_CHAMP));
         champDeMotDePasse.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT),
-                HAUTEUR_CHAMP));
+               HAUTEUR_CHAMP));
         champDeMotDePasse.setBounds(0, 0, champDeNomUsager.getWidth(), champDeNomUsager.getHeight());
+        lblChampDeMotDeMotPasse.setText(TEXT_CHAMP_MOTDEPASSE);
+       constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 0.01;
+        constraints.weighty = 0.5;
+        constraints.fill = GridBagConstraints.NONE;
+        pnlInformationEntres.add(lblUtilisateur, constraints);
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.weightx = 3;
+        constraints.weighty = 0.5;
+        constraints.fill = GridBagConstraints.NONE;
+        pnlInformationEntres.add(champDeNomUsager,constraints);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.weightx = 0.01;
+        constraints.weighty = 0.5;
+        constraints.fill = GridBagConstraints.NONE;
+        pnlInformationEntres.add(lblChampDeMotDeMotPasse, constraints);
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        constraints.weightx = 3;
+        constraints.weighty = 0.5;
+        constraints.fill = GridBagConstraints.NONE;
+        pnlInformationEntres.add(champDeMotDePasse, constraints);
 
-    }
 
-    @Override
-    public void paint(Graphics g) {
-        super.paintComponents(g);
-        Graphics2D g2 = (Graphics2D) g;
-        RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2.setRenderingHints(qualityHints);
-
-        g2.setFont(FONT_TEXTE_TRUE_TYPE);
-        g2.setColor(Color.BLACK);
-        g2.drawString(TEXT_CHAMP_USAGER, (int) (this.getWidth() * RATIO_LONGEUR_CHAINE),
-                champDeNomUsager.getY() + lblIcone.getHeight() + HAUTEUR_STRING);
-        g2.drawString(TEXT_CHAMP_MOTDEPASSE, (int) (this.getWidth() * RATIO_LONGEUR_CHAINE),
-                champDeMotDePasse.getY() + lblIcone.getHeight() + HAUTEUR_STRING);
     }
 }
