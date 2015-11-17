@@ -31,7 +31,6 @@ public class Formatage {
     }
 
     public static String convertirImageEnString(Bitmap image) {
-
         Bitmap immagex=image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);

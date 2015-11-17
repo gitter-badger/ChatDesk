@@ -17,7 +17,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Looper;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -33,7 +32,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import ca.qc.bdeb.gr1_420_p56_bb.connexion.ResultatsConnexion;
 import ca.qc.bdeb.gr1_420_p56_bb.services.ChatDeskService;
@@ -48,7 +46,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      */
     private UserLoginTask mAuthTask = null;
 
-    // UI references.
     private AutoCompleteTextView mNomUtilView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -146,8 +143,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -155,10 +152,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         // Check for a valid email address.
         if (TextUtils.isEmpty(nomUtil)) {
             mNomUtilView.setError(getString(R.string.error_field_required));
-            focusView = mNomUtilView;
-            cancel = true;
-        } else if (!isNomUtilValid(nomUtil)) {
-            mNomUtilView.setError(getString(R.string.error_invalid_email));
             focusView = mNomUtilView;
             cancel = true;
         }
@@ -174,14 +167,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mAuthTask = new UserLoginTask(nomUtil, password);
             mAuthTask.execute((Void) null);
         }
-    }
-
-    private boolean isNomUtilValid(String email) {
-        return true;
-    }
-
-    private boolean isPasswordValid(String password) {
-        return true;
     }
 
     /**
@@ -294,19 +279,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             ResultatsConnexion result = chatDeskService.seConnecter(mUserName, mPassword);
             switch (result) {
                 case VALIDE:
-                    message = "Vous êtes connecté " + mUserName;
+                    message = getString(R.string.connexion_reusit) + mUserName;
                     estConnecte = true;
                     break;
                 case INVALIDE:
-                    message = "Mauvais identifiant de connection";
+                    message = getString(R.string.error_identifiants_invalide);
                     estConnecte = false;
                     break;
                 case IMPOSSIBLE:
-                    message = "Impossible de se connecter";
+                    message = getString(R.string.error_impossible_connexion_serveur);
                     estConnecte = false;
                     break;
                 default:
-                    message = "Résultat de connection non connu";
+                    message = getString(R.string.error_resultat_connexion_inconnu);
                     estConnecte = false;
             }
 
@@ -326,9 +311,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
             }
         }
 
