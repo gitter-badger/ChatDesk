@@ -133,12 +133,12 @@ public class Formatage {
     }
 
     /**
-     * Permet de rondir les cotés d'une image. Pour que l'image soit un cercle. Met un contour noir autour de l'image
+     * Permet d'arrondir les cotés d'une image. Pour que l'image soit un cercle. Met un contour noir autour de l'image
      *
-     * @param image L'image que l'on veut rondir
-     * @return L'image rondi
+     * @param image L'image que l'on veut arrondir
+     * @return L'image arrondi
      */
-    public static ImageIcon rondirImage(ImageIcon image){
+    public static ImageIcon arrondirImage(ImageIcon image){
         BufferedImage bi = new BufferedImage(
                 image.getIconWidth(),
                 image.getIconHeight(),

@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 /**
  * Created by 47 on 2015-10-31.
  */
-public class FenetreOption extends JFrame{
+public class FrmOption extends JFrame{
     /**
      *  Panneau contenant toutes les options
      */
@@ -74,7 +74,7 @@ public class FenetreOption extends JFrame{
 
 
 
-    public FenetreOption(int dimensionHauteurFenetre, int dimensionLargeurFenetre, Color couleurBullesEnvoye, Color couleurBullesRecues, FrmChatDesk fenetrePrinciple) throws HeadlessException, IOException {
+    public FrmOption(int dimensionHauteurFenetre, int dimensionLargeurFenetre, Color couleurBullesEnvoye, Color couleurBullesRecues, FrmChatDesk fenetrePrinciple) throws HeadlessException, IOException {
         panneauConteneur = new JPanel();
         
         panneauConteneur.setLayout(new FlowLayout(FlowLayout.LEADING, dimensionHauteurFenetre / 100, dimensionLargeurFenetre / 100));

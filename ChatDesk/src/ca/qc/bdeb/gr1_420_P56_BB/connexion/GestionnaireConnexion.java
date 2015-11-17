@@ -6,10 +6,6 @@ import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 /**
  * Gère la connexion entre l'Android et l'ordinateur
  */
@@ -119,7 +115,7 @@ public class GestionnaireConnexion {
         XMLWriter xmlWriter = new XMLWriter();
         String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIEN,
                 new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_ID_APPAREIL, Integer.toString(idAppareil)));
-        this.gestionnaireSocket.envoyerMessage(comm);
+        this.gestionnaireSocket.envoyer(comm);
     }
 
     /**
@@ -128,7 +124,7 @@ public class GestionnaireConnexion {
     public void demanderAppareils() {
         XMLWriter xmlWriter = new XMLWriter();
         String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIENS);
-        this.gestionnaireSocket.envoyerMessage(comm);
+        this.gestionnaireSocket.envoyer(comm);
     }
 
     /**
@@ -171,7 +167,7 @@ public class GestionnaireConnexion {
         String xmlServer = new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_COMM_CLIENT,
                 new EnveloppeBalisesCommServeur(BalisesCommServeur.PARTIE_CLIENT, xmlClientMessage));
 
-        gestionnaireSocket.envoyerMessage(xmlServer);
+        gestionnaireSocket.envoyer(xmlServer);
     }
 
     /**

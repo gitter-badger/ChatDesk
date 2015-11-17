@@ -217,7 +217,7 @@ class PnlConversations extends JPanel {
             imageIcon = IMAGE_CONTACT_DEFAUT;
         }
 
-        JLabel lblImage = new JLabel(Formatage.rondirImage(Formatage.redimensionnerImage(imageIcon, (int) dimLblImageContact.getWidth(),
+        JLabel lblImage = new JLabel(Formatage.arrondirImage(Formatage.redimensionnerImage(imageIcon, (int) dimLblImageContact.getWidth(),
                 (int) dimLblImageContact.getHeight())));
         lblImage.setSize(dimLblImageContact);
         lblImage.setLocation(borderVideSize, (pnlConversation.getHeight() / 2 - lblImage.getHeight() / 2));

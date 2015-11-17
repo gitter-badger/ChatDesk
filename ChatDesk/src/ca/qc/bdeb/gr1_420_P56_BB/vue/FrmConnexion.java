@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * La fen�tre de connexion pour se connecter.
  */
-public class FenetreConnexion extends JFrame {
+public class FrmConnexion extends JFrame {
 
     /**
      * Message lorsque les informations entrées sont invalides
@@ -180,7 +180,7 @@ public class FenetreConnexion extends JFrame {
     /**
      * Contructeur... Je sais pas quoi dire de plus
      */
-    public FenetreConnexion() {
+    public FrmConnexion() {
         this.facadeModele = new FacadeModele();
         initialiserIcone();
         initialiserLayout();
@@ -284,7 +284,7 @@ public class FenetreConnexion extends JFrame {
                 case VALIDE:
                     FrmChatDesk frmChatDesk = new FrmChatDesk(facadeModele);
                     frmChatDesk.setVisible(true);
-                    FenetreConnexion.this.dispose();
+                    FrmConnexion.this.dispose();
                     facadeModele.demanderAppareils();
                     break;
                 case INVALIDE:

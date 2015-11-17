@@ -1,7 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservableErreur;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
@@ -12,7 +10,6 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
@@ -51,29 +48,6 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      * La position de la confirmation du login dans le tableau de contenu
      */
     private static final int POSITION_CONFIRMATION = 1;
-
-    /**
-     * La position du début des données dans le tableau de contenu
-     */
-    private static final int POSITION_DEBUT_DONNEES = 1;
-
-    /**
-     * La première ligne du string
-     */
-    private static final int NOMBRE_LIGNES_INITIAL = 1;
-
-    /**
-     * Balises ouvrante contenant le nombre de lignes
-     */
-    private final String DEBUT_BALISE_LIGNES = "<lines>";
-
-    /**
-     * Balises fermante contenant le nombre de lignes
-     */
-    private final String FIN_BALISE_LIGNES = "</lines>";
-
-    // Indicateur d'entier pour le formattage de string
-    private final String INDICATEUR_ENTIER = "%d";
 
     /**
      * Le socket de la communication avec le serveur
@@ -138,33 +112,13 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
     }
 
     /**
-     * Thread d'écoute en lecture des communications du serveur
-     */
-    @Override
-    public synchronized void run() {
-        String contenu;
-        this.actif = true;
-        while (actif) {
-            try {
-                this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
-            } catch (SocketException e) {
-                e.printStackTrace();
-            }
-
-            contenu = readAllLines();
-
-            gestionnaireConnexion.reception(contenu);
-        }
-    }
-
-    /**
      * Envoi une requête de login au serveur
      *
      * @param infoConnexionComm Le string à envoyer au serveur
      * @return Boolean indiquant si les données sont valides
      */
     private boolean connecter(String infoConnexionComm) {
-        envoyerMessage(infoConnexionComm);
+        envoyer(infoConnexionComm);
         return receptionReponseConnexion();
     }
 
@@ -186,6 +140,26 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
             e.printStackTrace();
         }
         return connecte;
+    }
+
+    /**
+     * Thread d'écoute en lecture des communications du serveur
+     */
+    @Override
+    public synchronized void run() {
+        String contenu;
+        this.actif = true;
+        while (actif) {
+            try {
+                this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
+            } catch (SocketException e) {
+                e.printStackTrace();
+            }
+
+            contenu = readAllLines();
+
+            gestionnaireConnexion.reception(contenu);
+        }
     }
 
     /**
@@ -226,41 +200,11 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      *
      * @param communication
      */
-    void envoyerMessage(String communication) {
+    void envoyer(String communication) {
         if (out != null) {
             out.println(communication + '\0');
             out.flush();
         }
-    }
-
-    /**
-     * Ajoute les balises contenant le nombre de lignes au début de la communication
-     *
-     * @param communication La communication
-     * @return La communication avec les balises ajoutées
-     */
-    private String mettreBaliseNombreLigne(String communication) {
-        communication = DEBUT_BALISE_LIGNES + INDICATEUR_ENTIER + FIN_BALISE_LIGNES + "\n" + communication;
-        communication = communication.replace(communication, Integer.toString(trouverNombreLignes(communication)));
-        return communication;
-    }
-
-    /**
-     * Trouve le nombre de lignes que fait la communication
-     *
-     * @param communication La communication
-     * @return Le nombre de lignes que fait la communication
-     */
-    private int trouverNombreLignes(String communication) {
-        int counter = NOMBRE_LIGNES_INITIAL;
-
-        for (int i = 0; i < communication.length(); i++) {
-            if (communication.charAt(i) == '\n') {
-                counter++;
-            }
-        }
-
-        return counter;
     }
 
     void terminerConnexion() {

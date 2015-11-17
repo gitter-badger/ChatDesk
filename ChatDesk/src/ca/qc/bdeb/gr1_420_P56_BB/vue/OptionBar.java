@@ -234,7 +234,7 @@ class OptionBar extends JPanel {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 try {
-                    FenetreOption fenetreOption = new FenetreOption(fenetrePrincipale.getHeight(), fenetrePrincipale.getWidth(),
+                    FrmOption frmOption = new FrmOption(fenetrePrincipale.getHeight(), fenetrePrincipale.getWidth(),
                             fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesEnvoyees(),
                             fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesRecues(), fenetrePrincipale);
                 } catch (IOException e) {
@@ -256,11 +256,11 @@ class OptionBar extends JPanel {
             public void mouseClicked(MouseEvent mouseEvent) {
 
                  JFrame jFrameContacts = new JFrame();
-                FenetreContacts fenetreContacts = new FenetreContacts(fenetrePrincipale, fenetrePrincipale.getFacadeModele(), jFrameContacts);
+                FrmContacts frmContacts = new FrmContacts(fenetrePrincipale, fenetrePrincipale.getFacadeModele(), jFrameContacts);
                 jFrameContacts.setLayout(null);
-                jFrameContacts.setBounds(fenetreContacts.getBounds());
-                jFrameContacts.setMinimumSize(fenetreContacts.getSize());
-                jFrameContacts.add(fenetreContacts);
+                jFrameContacts.setBounds(frmContacts.getBounds());
+                jFrameContacts.setMinimumSize(frmContacts.getSize());
+                jFrameContacts.add(frmContacts);
                 jFrameContacts.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 jFrameContacts.setVisible(true);
 

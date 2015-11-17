@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
  * Panneau qui affiche toutes les contacts que l'utilisateur ?. Le dernier message recu/envoy?
  * pour chaque contact et la date de reception/envoie du dernier message pour chaque contact
  */
-class FenetreContacts extends JPanel {
+class FrmContacts extends JPanel {
 
     /**
      * Ratio du panneau selon la fenêtre principale
@@ -118,7 +118,7 @@ class FenetreContacts extends JPanel {
      * @param fenetrePrincipale La fenetre principale
      * @param facadeModele      Le gestionnaire de contact
      */
-    public FenetreContacts(FrmChatDesk fenetrePrincipale, FacadeModele facadeModele, JFrame jFrameContacts) {
+    public FrmContacts(FrmChatDesk fenetrePrincipale, FacadeModele facadeModele, JFrame jFrameContacts) {
         longuerMaxContact = 0;
         this.facadeModele = facadeModele;
         this.fenetrePrincipale = fenetrePrincipale;
