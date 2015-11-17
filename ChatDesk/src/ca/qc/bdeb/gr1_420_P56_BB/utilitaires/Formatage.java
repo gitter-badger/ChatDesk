@@ -6,6 +6,7 @@ import com.sun.org.apache.xml.internal.security.utils.Base64;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -18,8 +19,6 @@ import java.util.Date;
  * Toutes les méthodes de formatage.
  */
 public class Formatage {
-
-    private static final String SEPARATEUR = "/";
 
     /**
      * Les jours de la semaine
@@ -127,8 +126,33 @@ public class Formatage {
         Image img = imageIcon.getImage();
 
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = bi.createGraphics();
+        Graphics2D g = bi.createGraphics();
         g.drawImage(img, 0, 0, width, height, null);
+
+        return new ImageIcon(bi);
+    }
+
+    /**
+     * Permet de rondir les cotés d'une image. Pour que l'image soit un cercle. Met un contour noir autour de l'image
+     *
+     * @param image L'image que l'on veut rondir
+     * @return L'image rondi
+     */
+    public static ImageIcon rondirImage(ImageIcon image){
+        BufferedImage bi = new BufferedImage(
+                image.getIconWidth(),
+                image.getIconHeight(),
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bi.createGraphics();
+
+        g.setClip(new Ellipse2D.Float(0, 0, image.getIconWidth(), image.getIconHeight()));
+        image.paintIcon(null, g, 0, 0);
+
+        g.setColor(Color.BLACK);
+        g.setStroke(new BasicStroke(2));
+        g.drawOval(1, 1, image.getIconWidth() - 2, image.getIconHeight() - 2);
+
+        g.dispose();
 
         return new ImageIcon(bi);
     }
@@ -147,10 +171,16 @@ public class Formatage {
         return new Dimension(fontMetrics.stringWidth(texte), fontMetrics.getHeight());
     }
 
+    /**
+     * Permet de convertir un string encoder d'une image en image affichable
+     *
+     * @param imageString Le string de l'image
+     * @return L'image du string
+     */
     public static ImageIcon convertirStringEnImage(String imageString) {
         ImageIcon stringEnImage = null;
         if (imageString != null && !imageString.isEmpty()) {
-            byte[] btDataFile = new byte[0];
+            byte[] btDataFile;
             try {
                 btDataFile = Base64.decode(imageString);
                 stringEnImage = new ImageIcon(btDataFile);
@@ -161,22 +191,23 @@ public class Formatage {
         return stringEnImage;
     }
 
+    /**
+     * Permet de convertir une image en un string encoder en base 64
+     *
+     * @param image L'image à convertir
+     * @return L'image encoder en string
+     */
     public static String convertirImageEnString(ImageIcon image) {
         String imageEnString = "";
         if (image != null) {
             try {
                 File imgPath = new File(image.getDescription());
                 byte[] array = Files.readAllBytes(imgPath.toPath());
-
-                StringBuilder toSave = new StringBuilder();
-                for (int i = 0; i < array.length - 1; i++) {
-                    toSave.append(array[i]).append("/");
-                }
-                toSave.append(array[array.length - 1]);
-                imageEnString = toSave.toString();
+                imageEnString = Base64.encode(array);
             } catch (IOException ex) {
             }
         }
+
         return imageEnString;
     }
 }

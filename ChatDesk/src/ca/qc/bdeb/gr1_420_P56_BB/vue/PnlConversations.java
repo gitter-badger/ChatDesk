@@ -19,7 +19,7 @@ class PnlConversations extends JPanel {
     /**
      * Image de profile vide
      */
-    private static final ImageIcon IMAGE_PROFILE = new ImageIcon("resources/images/profile.png");
+    private static final ImageIcon IMAGE_CONTACT_DEFAUT = new ImageIcon("resources/images/contact_defaut.png");
 
     /**
      * Ratio du panneau selon la fenêtre principale
@@ -214,11 +214,11 @@ class PnlConversations extends JPanel {
     private void initialiserPanneauConversationImage(JPanel pnlConversation, ConversationDTO conversationDTO) {
         ImageIcon imageIcon = facadeModele.getContact(conversationDTO.getNumeroTelephone()).getImage();
         if (imageIcon == null) {
-            imageIcon = IMAGE_PROFILE;
+            imageIcon = IMAGE_CONTACT_DEFAUT;
         }
 
-        JLabel lblImage = new JLabel(Formatage.redimensionnerImage(imageIcon, (int) dimLblImageContact.getWidth(),
-                (int) dimLblImageContact.getHeight()));
+        JLabel lblImage = new JLabel(Formatage.rondirImage(Formatage.redimensionnerImage(imageIcon, (int) dimLblImageContact.getWidth(),
+                (int) dimLblImageContact.getHeight())));
         lblImage.setSize(dimLblImageContact);
         lblImage.setLocation(borderVideSize, (pnlConversation.getHeight() / 2 - lblImage.getHeight() / 2));
         pnlConversation.add(lblImage);
