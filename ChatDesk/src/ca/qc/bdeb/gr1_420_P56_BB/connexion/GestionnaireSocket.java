@@ -207,8 +207,6 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
 
             contenu = contenu.substring(0, contenu.length() - 1);
 
-            System.out.println(contenu);
-
         } catch (IOException e) {
             aviserObservateurs();
         }

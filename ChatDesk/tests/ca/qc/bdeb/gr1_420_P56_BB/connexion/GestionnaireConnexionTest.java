@@ -14,8 +14,8 @@ import static org.junit.Assert.assertTrue;
  * Created by 47 on 2015-10-13.
  */
 public class GestionnaireConnexionTest {
-     FacadeModele facadeModele;
-     GestionnaireConnexion gestionnaireConnexionTest;
+    FacadeModele facadeModele;
+    GestionnaireConnexion gestionnaireConnexionTest;
 
     @Before
     public void setUp() throws Exception {
@@ -36,7 +36,6 @@ public class GestionnaireConnexionTest {
                 "    <nom>Téléphone de Alexandre</nom>\n" +
                 "</serveur>";
 
-        xmlAjoutAppareil = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).encrypter(xmlAjoutAppareil);
         Appareil[] expected = new Appareil[2];
         expected[0] = new Appareil("Téléphone de Louis", 0);
         expected[1] = new Appareil("Téléphone de Alexandre", 1);

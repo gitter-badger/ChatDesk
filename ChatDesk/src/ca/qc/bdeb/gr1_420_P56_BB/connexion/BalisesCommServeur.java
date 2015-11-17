@@ -9,44 +9,53 @@ enum BalisesCommServeur implements Balises {
      * Balise générale toujours présente et qui englobe toute la communication avec le serveur
      */
     BALISE_SERVEUR("serveur"),
+
     /**
      * Balise requete, précisant quel est le but de la communication
      */
     BALISE_REQUETE("requete"),
+
     /**
      * Contient le nom d'utilisateur dans le cas d'un login ou de la création d'un compte
      */
     BALISE_NOM_UTILISATEUR("nom_utilisateur"),
+
     /**
      * Contient le mot de passe dans le cas d'un login ou de la création d'un compte
      */
     BALISE_MOT_DE_PASSE("mot_de_passe"),
+
     /**
      * Contient le nom d'un appareil
      */
     BALISE_NOM_APPAREIL("nom_appareil"),
+
     /**
      * Contient l'id d'un appareil
      */
     BALISE_ID_APPAREIL("id_appareil"),
+
     /**
      * Contient le type d'un appareil
      */
     BALISE_TYPE_APPAREIL("type_appareil"),
+
     /**
      * Contient l'indicateur de la validité des informations lors du login
      */
     BALISE_VALIDITE_CONNEXION("validite_connexion"),
+
     /**
      * Précise si un appareil est un téléphone ou autre
      */
     BALISE_IS_TELEPHONE("is_telephone"),
-    /**
-     * Contient un message
-     */
-    BALISE_MESSAGE("message"),
 
-    BALISE_PUBLIC_KEY("public_key");
+    BALISE_PUBLIC_KEY("public_key"),
+
+    /**
+     * Balise pour indiquer la partie de la communication qui appartient au client
+     */
+    PARTIE_CLIENT("partie_client");
 
     private final String balise;
 
@@ -83,14 +92,14 @@ enum BalisesCommServeur implements Balises {
             case "validite_connexion":
                 baliseServeur = BALISE_VALIDITE_CONNEXION;
                 break;
-            case "message":
-                baliseServeur = BALISE_MESSAGE;
-                break;
             case "is_telephone":
                 baliseServeur = BALISE_IS_TELEPHONE;
                 break;
             case "public_key":
                 baliseServeur = BALISE_PUBLIC_KEY;
+                break;
+            case "partie_client":
+                baliseServeur = PARTIE_CLIENT;
                 break;
             default:
                 baliseServeur = null;

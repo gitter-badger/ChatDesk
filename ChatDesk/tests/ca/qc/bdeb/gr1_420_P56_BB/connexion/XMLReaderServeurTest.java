@@ -25,7 +25,7 @@ public class XMLReaderServeurTest extends TestCase {
     }
 
     public void testLireCommande() throws Exception {
-        CommandesServeur expected = CommandesServeur.REQUETE_MESSAGES;
+        CommandesServeur expected = CommandesServeur.REQUETE_COMM_CLIENT;
 
         String PATH_FICHIER_TEST_COMMANDE_MESSAGES = "resources\\fichiersTest\\testCommandeXmlServeurCommandeMessages.xml";
         xmlReaderServeur = new XMLReaderServeur(lireFichierDepuisChemin(PATH_FICHIER_TEST_COMMANDE_MESSAGES));

@@ -107,7 +107,6 @@ class XMLReader {
         boolean envoye;
 
         NodeList nList = getNodesParBalise(BalisesCommClient.BALISE_ENVELOPPES);
-
         for (int i = 0; i < nList.getLength(); i++) {
             try {
                 Node node = nList.item(i);

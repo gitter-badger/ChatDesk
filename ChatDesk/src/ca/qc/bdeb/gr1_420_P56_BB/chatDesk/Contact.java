@@ -37,7 +37,7 @@ public class Contact{
     }
 
     /**
-     * @return Le numï¿½ro de tï¿½lï¿½phone du contact
+     * @return Le numéro de téléphone du contact
      */
     public long getNumeroTelephone() {
         return numeroTelephone;

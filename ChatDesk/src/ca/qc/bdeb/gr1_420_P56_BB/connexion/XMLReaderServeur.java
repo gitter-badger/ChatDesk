@@ -1,12 +1,17 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
+import static ca.qc.bdeb.gr1_420_P56_BB.connexion.BalisesCommServeur.PARTIE_CLIENT;
 import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireXmlDepuisContenu;
 
 /**
@@ -55,12 +60,25 @@ class XMLReaderServeur {
                 String nodeName = node.getNodeName();
                 BalisesCommServeur balisesServeur = BalisesCommServeur.getBaliseParString(nodeName);
                 String contenu = node.getTextContent();
+
                 EnveloppeBalisesCommServeur enveloppeBalisesCommServeur = new EnveloppeBalisesCommServeur(balisesServeur, contenu);
                 listeGest.add(enveloppeBalisesCommServeur);
             }
         }
 
         return listeGest.toArray(new EnveloppeBalisesCommServeur[listeGest.size()]);
+    }
+
+    private String nodeToString(Node node) {
+        StringWriter sw = new StringWriter();
+        try {
+            Transformer t = TransformerFactory.newInstance().newTransformer();
+            t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            t.transform(new DOMSource(node), new StreamResult(sw));
+        } catch (TransformerException te) {
+            System.out.println("nodeToString Transformer Exception");
+        }
+        return sw.toString();
     }
 
     /**
@@ -90,5 +108,14 @@ class XMLReaderServeur {
     private String getElementParBalise(Node node, String balise) {
         Element eElement = (Element) node;
         return eElement.getElementsByTagName(balise).item(0).getTextContent().trim();
+    }
+
+    public String lirePartieClient(String messageRecu) {
+        int positionDebut = messageRecu.indexOf("<"+ PARTIE_CLIENT.getBalise() +">") + ("<"+ PARTIE_CLIENT.getBalise() +">").length();
+        int positionFin = messageRecu.indexOf("</"+ PARTIE_CLIENT.getBalise() +">");
+
+        String partieClient = messageRecu.substring(positionDebut, positionFin);
+
+        return partieClient;
     }
 }

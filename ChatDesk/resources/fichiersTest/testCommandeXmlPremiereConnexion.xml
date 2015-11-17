@@ -1,13 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<comm>
-    <commande>premiere_connexion</commande>
-    <contact>
-        <nom>jacques</nom>
-        <numeroTelephone>9367457456</numeroTelephone>
-    </contact>
-    <enveloppe>
-        <numeroTelephone>9367457456</numeroTelephone>
-        <message>blahblahblah</message>
-        <date>1367457456</date>
-    </enveloppe>
-</comm>
+<comm><commande>premiere_connexion</commande><contact><nom>jacques</nom><numeroTelephone>9367457456</numeroTelephone><imageContact></imageContact></contact><enveloppe><numeroTelephone>9367457456</numeroTelephone><message>blahblahblah</message><date>1367457456</date><estEnvoye>true</estEnvoye></enveloppe></comm>

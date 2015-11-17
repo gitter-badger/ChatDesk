@@ -28,7 +28,7 @@ public class ManipulationFichiers {
             String ligne;
             ligne = lecteurFichier.readLine();
             while (ligne != null) {
-                contenu += ligne + "\n";
+                contenu += ligne;
                 ligne = lecteurFichier.readLine();
             }
         } catch (FileNotFoundException e) {

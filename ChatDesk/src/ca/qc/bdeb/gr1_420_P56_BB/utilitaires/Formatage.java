@@ -1,11 +1,16 @@
 package ca.qc.bdeb.gr1_420_P56_BB.utilitaires;
 
+import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,6 +18,8 @@ import java.util.Date;
  * Toutes les méthodes de formatage.
  */
 public class Formatage {
+
+    private static final String SEPARATEUR = "/";
 
     /**
      * Les jours de la semaine
@@ -140,19 +147,36 @@ public class Formatage {
         return new Dimension(fontMetrics.stringWidth(texte), fontMetrics.getHeight());
     }
 
-    public static ImageIcon convertirStringEnImage(String image) {
+    public static ImageIcon convertirStringEnImage(String imageString) {
         ImageIcon stringEnImage = null;
-
-        String[] bytes = image.split("/");
-        byte[] array = new byte[bytes.length];
-        for (int i = 0; i < bytes.length; i++) {
-            array[i] = Byte.decode(bytes[i]);
+        if (imageString != null && !imageString.isEmpty()) {
+            byte[] btDataFile = new byte[0];
+            try {
+                btDataFile = Base64.decode(imageString);
+                stringEnImage = new ImageIcon(btDataFile);
+            } catch (Base64DecodingException e) {
+                e.printStackTrace();
+            }
         }
-        try {
-            stringEnImage = new ImageIcon(ImageIO.read(new ByteArrayInputStream(array)));
-        } catch (IOException ex) {
-        }
-
         return stringEnImage;
+    }
+
+    public static String convertirImageEnString(ImageIcon image) {
+        String imageEnString = "";
+        if (image != null) {
+            try {
+                File imgPath = new File(image.getDescription());
+                byte[] array = Files.readAllBytes(imgPath.toPath());
+
+                StringBuilder toSave = new StringBuilder();
+                for (int i = 0; i < array.length - 1; i++) {
+                    toSave.append(array[i]).append("/");
+                }
+                toSave.append(array[array.length - 1]);
+                imageEnString = toSave.toString();
+            } catch (IOException ex) {
+            }
+        }
+        return imageEnString;
     }
 }

@@ -6,6 +6,10 @@ import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
  * Gère la connexion entre l'Android et l'ordinateur
  */
@@ -55,11 +59,8 @@ public class GestionnaireConnexion {
                     EnveloppeBalisesCommServeur[] tabAppareils = xmlReaderServeur.lireContenu();
                     lireAppareils(tabAppareils);
                     break;
-                case REQUETE_MESSAGES:
-                    EnveloppeBalisesCommServeur[] tabMessages = xmlReaderServeur.lireContenu();
-                    for (int i = 1; i < tabMessages.length; i++) {
-                        lireFichierXmlClient(tabMessages[i].getContenu());
-                    }
+                case REQUETE_COMM_CLIENT:
+                    lireFichierXmlClient(xmlReaderServeur.lirePartieClient(messageRecu));
                     break;
                 case REQUETE_ECHANGE_CLE:
                     changementCleServeur(xmlReaderServeur.lireContenu()[1].getContenu());
@@ -78,7 +79,6 @@ public class GestionnaireConnexion {
     private void lireAppareils(EnveloppeBalisesCommServeur[] tabCommAppareils) {
         //Soustrait 1 au length parce qu'une ligne est occupée par la balise de commande
         Appareil[] tabAppareils = new Appareil[(tabCommAppareils.length - 1) / NOMBRE_CHAMPS_APPAREIL];
-
 
         for (int indiceDonnees = 1, indiceTableauAppareils = 0; indiceDonnees < tabCommAppareils.length;
              indiceDonnees += NOMBRE_CHAMPS_APPAREIL, indiceTableauAppareils++) {
@@ -168,8 +168,8 @@ public class GestionnaireConnexion {
      */
     public void envoyerEnveloppe(ConvertissableXml enveloppe) {
         String xmlClientMessage = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).encrypter(enveloppe.convertirEnXml());
-        String xmlServer = new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_MESSAGES,
-                new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MESSAGE, xmlClientMessage));
+        String xmlServer = new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_COMM_CLIENT,
+                new EnveloppeBalisesCommServeur(BalisesCommServeur.PARTIE_CLIENT, xmlClientMessage));
 
         gestionnaireSocket.envoyerMessage(xmlServer);
     }

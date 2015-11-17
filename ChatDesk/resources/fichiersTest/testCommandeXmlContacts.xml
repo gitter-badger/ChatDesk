@@ -1,8 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<comm>
-    <commande>contacts</commande>
-    <contact>
-        <nom>jacques</nom>
-        <numeroTelephone>9367457456</numeroTelephone>
-    </contact>
-</comm>
+<comm><commande>contacts</commande><contact><nom>jacques</nom><numeroTelephone>9367457456</numeroTelephone><imageContact></imageContact></contact></comm>

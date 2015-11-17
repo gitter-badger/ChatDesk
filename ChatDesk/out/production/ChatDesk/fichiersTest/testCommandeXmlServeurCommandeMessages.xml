@@ -1,4 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<serveur>
-    <requete>messages</requete>
-</serveur>
+<serveur><requete>comm_client</requete></serveur>

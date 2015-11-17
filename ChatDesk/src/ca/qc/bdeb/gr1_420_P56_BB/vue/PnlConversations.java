@@ -29,12 +29,12 @@ class PnlConversations extends JPanel {
     /**
      * Ratio de la longueur de l'image selon la longueur du panneau d'une conversation
      */
-    private static final double POURCENTAGE_LONGUEUR_IMAGE_CONTACT = 0.4;
+    private static final double POURCENTAGE_LONGUEUR_IMAGE_CONTACT = 0.35;
 
     /**
      * Ratio de la longueur de l'image selon la longueur du panneau d'une conversation
      */
-    private static final double POURCENTAGE_HAUTEUR_IMAGE_CONTACT = 0.4;
+    private static final double POURCENTAGE_HAUTEUR_IMAGE_CONTACT = 0.35;
 
     /**
      * Ratio de la longueur du label du nom selon la longueur du panneau d'une conversation
@@ -69,7 +69,7 @@ class PnlConversations extends JPanel {
     /**
      * Ratio du contour vide autour du panneau d'une conversation
      */
-    private static final double POURCENTAGE_COUTOUR_VIDE = 0.15;
+    private static final double POURCENTAGE_COUTOUR_VIDE = 0.1;
 
     /**
      * Nombre de click maximum pour ouvrir une conversation
@@ -159,7 +159,7 @@ class PnlConversations extends JPanel {
         longueurPnlConversationX = this.getWidth();
         hauteurPnlConversationY = fenetrePrincipale.getHeight() / LONGUEUR_SELON_FENETRE_PRINCIPALE;
 
-        dimLblImageContact = new Dimension((int) (longueurPnlConversationX * POURCENTAGE_LONGUEUR_IMAGE_CONTACT),
+        dimLblImageContact = new Dimension((int) (hauteurPnlConversationY * POURCENTAGE_LONGUEUR_IMAGE_CONTACT),
                 (int) (hauteurPnlConversationY * POURCENTAGE_HAUTEUR_IMAGE_CONTACT));
 
         dimLblNom = new Dimension((int) (longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_NOM),
@@ -178,7 +178,7 @@ class PnlConversations extends JPanel {
     /**
      * Ajoute une conversation au panneau
      *
-     * @param conversationDTO La conversation � ajouter
+     * @param conversationDTO La conversation à ajouter
      */
     private void ajouterConversation(ConversationDTO conversationDTO) {
         JPanel pnlConversation = new JPanel();
@@ -220,7 +220,7 @@ class PnlConversations extends JPanel {
         JLabel lblImage = new JLabel(Formatage.redimensionnerImage(imageIcon, (int) dimLblImageContact.getWidth(),
                 (int) dimLblImageContact.getHeight()));
         lblImage.setSize(dimLblImageContact);
-        lblImage.setLocation(borderVideSize, borderVideSize);
+        lblImage.setLocation(borderVideSize, (pnlConversation.getHeight() / 2 - lblImage.getHeight() / 2));
         pnlConversation.add(lblImage);
     }
 
@@ -234,7 +234,7 @@ class PnlConversations extends JPanel {
         JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getNumeroTelephone()).getNom());
         nom.setFont(new Font(nom.getFont().getFontName(), Font.BOLD, (int) dimLblNom.getHeight()));
         nom.setSize(dimLblNom);
-        nom.setLocation(borderVideSize + (int) dimLblImageContact.getWidth(), (int) (pnlConversation.getHeight() / 2 - (dimLblNom.getHeight() +
+        nom.setLocation(borderVideSize + 10 + (int) dimLblImageContact.getWidth(), (int) (pnlConversation.getHeight() / 2 - (dimLblNom.getHeight() +
                 dimLblDernierMessage.getHeight()) / 2));
         pnlConversation.add(nom);
     }
@@ -259,7 +259,7 @@ class PnlConversations extends JPanel {
         dernierMessage.setFont(new Font(dernierMessage.getFont().getFontName(), Font.PLAIN,
                 (int) dimLblDernierMessage.getHeight()));
         dernierMessage.setSize(dimLblDernierMessage);
-        dernierMessage.setLocation(borderVideSize + (int) dimLblImageContact.getWidth(), (int) (pnlConversation.getHeight() / 2 -
+        dernierMessage.setLocation(borderVideSize + 10 + (int) dimLblImageContact.getWidth(), (int) (pnlConversation.getHeight() / 2 -
                 (dimLblNom.getHeight() + dimLblDernierMessage.getHeight()) / 2 + dimLblNom.getHeight()));
         pnlConversation.add(dernierMessage);
     }
