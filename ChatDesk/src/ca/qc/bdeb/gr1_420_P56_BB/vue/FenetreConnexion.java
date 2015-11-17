@@ -315,15 +315,8 @@ public class FenetreConnexion extends JFrame {
         champDeMotDePasse.setFont(FONT_TEXTE_TRUE_TYPE);
         champDeNomUsager.setFont(FONT_TEXTE_TRUE_TYPE);
         lblUtilisateur.setText(TEXT_CHAMP_USAGER);
-       // lblUtilisateur.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT * .01),
-            //    HAUTEUR_CHAMP));
-       // lblChampDeMotDeMotPasse.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT * .01),
-          //      HAUTEUR_CHAMP));
-        champDeNomUsager.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT),
-                HAUTEUR_CHAMP));
-        champDeMotDePasse.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT),
-               HAUTEUR_CHAMP));
-        champDeMotDePasse.setBounds(0, 0, champDeNomUsager.getWidth(), champDeNomUsager.getHeight());
+
+
         lblChampDeMotDeMotPasse.setText(TEXT_CHAMP_MOTDEPASSE);
        constraints.gridx = 0;
         constraints.gridy = 0;
@@ -331,23 +324,30 @@ public class FenetreConnexion extends JFrame {
         constraints.weighty = 0.5;
         constraints.fill = GridBagConstraints.NONE;
         pnlInformationEntres.add(lblUtilisateur, constraints);
+        constraints = new GridBagConstraints();
         constraints.gridx = 1;
         constraints.gridy = 0;
         constraints.weightx = 3;
-        constraints.weighty = 0.5;
-        constraints.fill = GridBagConstraints.NONE;
+        constraints.weighty = 5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.insets = new Insets(0, 100, 0, 0);
+        constraints.ipadx = 250;
         pnlInformationEntres.add(champDeNomUsager,constraints);
+        constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.weightx = 0.01;
         constraints.weighty = 0.5;
         constraints.fill = GridBagConstraints.NONE;
         pnlInformationEntres.add(lblChampDeMotDeMotPasse, constraints);
+       constraints = new GridBagConstraints();
         constraints.gridx = 1;
         constraints.gridy = 1;
         constraints.weightx = 3;
-        constraints.weighty = 0.5;
-        constraints.fill = GridBagConstraints.NONE;
+        constraints.weighty = 5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.insets = new Insets(0, 100, 0, 0);
+        constraints.ipadx = 250;
         pnlInformationEntres.add(champDeMotDePasse, constraints);
 
 

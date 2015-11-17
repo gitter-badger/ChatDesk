@@ -166,4 +166,8 @@ public class FrmChatDesk extends JFrame implements Observateur, ObservateurErreu
         this.dispose();
         JOptionPane.showMessageDialog(this, MESSAGE_ERREUR_CONNEXION_INTERROMPUE);
     }
+
+    public void changerCouleurBulleRecue(Color background) {
+        pnlConversation.getPnlBulles().setCouleurBullesRecues(background);
+    }
 }
