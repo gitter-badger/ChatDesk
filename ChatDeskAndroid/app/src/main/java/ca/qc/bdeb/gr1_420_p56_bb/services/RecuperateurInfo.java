@@ -64,7 +64,7 @@ public class RecuperateurInfo {
         do {
             String nom = curContact.getString(indexName);
             long numero = convertirNumeroTelephoneEnLong(curContact.getString(indexNumber));
-            String image = null;
+            String image = "";
             try {
                 String image_uri = curContact.getString(indexImage);
                 if(image_uri != null) {

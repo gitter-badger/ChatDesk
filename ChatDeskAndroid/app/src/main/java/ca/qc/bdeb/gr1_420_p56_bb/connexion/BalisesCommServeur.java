@@ -42,12 +42,10 @@ enum BalisesCommServeur implements Balises {
      * Précise si un appareil est un téléphone ou autre
      */
     BALISE_IS_TELEPHONE("is_telephone"),
-    /**
-     * Contient un message
-     */
-    BALISE_MESSAGE("message"),
 
-    BALISE_PUBLIC_KEY("public_key");
+    BALISE_PUBLIC_KEY("public_key"),
+
+    PARTIE_CLIENT("partie_client");
 
     private String balise;
 
@@ -84,11 +82,11 @@ enum BalisesCommServeur implements Balises {
             case "validite_connexion":
                 baliseServeur = BALISE_VALIDITE_CONNEXION;
                 break;
-            case "message":
-                baliseServeur = BALISE_MESSAGE;
-                break;
             case "is_telephone":
                 baliseServeur = BALISE_IS_TELEPHONE;
+                break;
+            case "partie_client":
+                baliseServeur = PARTIE_CLIENT;
                 break;
             default:
                 baliseServeur = null;

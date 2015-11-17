@@ -8,7 +8,7 @@ enum CommandesServeur {
 
     REQUETE_LIEN("lien"),
     REQUETE_LIENS("liens"),
-    REQUETE_MESSAGES("messages"),
+    REQUETE_COMM_CLIENT("comm_client"),
     REQUETE_LOGIN("login"),
     REQUETE_NOUVEAU_COMPTE("compte"),
     REQUETE_ECHANGE_CLE("echange_cle");
@@ -33,8 +33,8 @@ enum CommandesServeur {
             case "liens":
                 commande = REQUETE_LIENS;
                 break;
-            case "messages":
-                commande = REQUETE_MESSAGES;
+            case "comm_client":
+                commande = REQUETE_COMM_CLIENT;
                 break;
             case "login":
                 commande = REQUETE_LOGIN;

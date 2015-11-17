@@ -1,5 +1,7 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
+import android.util.Log;
+
 import ca.qc.bdeb.gr1_420_p56_bb.services.IService;
 
 /**
@@ -38,7 +40,7 @@ public class GestionnaireConnexion {
                 //echangerClePremiereFois();
                 envoyerMessagesContacts();
                 break;
-            case REQUETE_MESSAGES:
+            case REQUETE_COMM_CLIENT:
                 EnveloppeBalisesComm[] tabMessages = xmlReaderServeur.lireContenu();
                 for (int i = 1; i < tabMessages.length; i++) {
                     lireFichierXmlClient(tabMessages[i].getContenu());
@@ -85,8 +87,8 @@ public class GestionnaireConnexion {
      */
     public void envoyerEnveloppe(ConvertissableXml enveloppe) {
         String xmlClientMessage = enveloppe.convertirEnXml();
-        String xmlServer = new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_MESSAGES,
-                        new EnveloppeBalisesComm(BalisesCommServeur.BALISE_MESSAGE,
+        String xmlServer = new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_COMM_CLIENT,
+                        new EnveloppeBalisesComm(BalisesCommServeur.PARTIE_CLIENT,
                                 xmlClientMessage));
 
         gestionnaireSocket.envoyerMessage(xmlServer);

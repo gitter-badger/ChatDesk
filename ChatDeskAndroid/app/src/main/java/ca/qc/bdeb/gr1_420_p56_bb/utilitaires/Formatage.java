@@ -3,9 +3,12 @@ package ca.qc.bdeb.gr1_420_p56_bb.utilitaires;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Base64;
+import android.util.Log;
 
 import com.google.android.gms.wallet.fragment.Dimension;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -28,20 +31,13 @@ public class Formatage {
     }
 
     public static String convertirImageEnString(Bitmap image) {
-        String imageEnString;
 
-        int bytes = image.getByteCount();
-        ByteBuffer buffer = ByteBuffer.allocate(bytes);
-        image.copyPixelsToBuffer(buffer);
-        byte[] array = buffer.array();
+        Bitmap immagex=image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
-        StringBuilder toSave = new StringBuilder();
-        for (int i = 0; i < array.length - 1; i++) {
-            toSave.append(array[i]).append("/");
-        }
-        toSave.append(array[array.length - 1]);
-        imageEnString = toSave.toString();
-
-        return imageEnString;
+        return imageEncoded;
     }
 }

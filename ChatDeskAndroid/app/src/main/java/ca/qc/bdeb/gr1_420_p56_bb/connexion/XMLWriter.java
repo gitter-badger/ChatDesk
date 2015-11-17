@@ -1,19 +1,6 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import java.io.StringWriter;
+import android.util.Log;
 
 /**
  * Créer un nouveau fichier XML et y écris les informations demandés
@@ -24,6 +11,11 @@ class XMLWriter {
     private final static String DEBUT_BALISE = "<";
     private final static String DEBUT_FERMETURE_BALISE = "</";
     private final static String FIN_BALISE = ">";
+    private final static String CARAC_ET = "&";
+
+    private final static String DEBUT_BALISE_TO_XML = "&lt;";
+    private final static String FIN_BALISE_TO_XML = "&gt;";
+    private final static String CARAC_ET_TO_XML = "&amp;";
 
     private static int VIDE = 0;
 
@@ -110,12 +102,14 @@ class XMLWriter {
      * @param tabContacts            Le tableau de contacts à convertir en XML
      */
     private void construireEnveloppesContacts(StringBuilder informationCommBuilder, EnveloppeContact[] tabContacts) {
+
+
         for (int i = 0; i < tabContacts.length; i++) {
             StringBuilder informationContactBuilder = new StringBuilder();
 
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NOM, tabContacts[i].getNom()));
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabContacts[i].getNumeroTelephone())));
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_IMAGE_CONTACT, tabContacts[i].getImage()));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NOM, remplacerCaracXml(tabContacts[i].getNom())));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, remplacerCaracXml(Long.toString(tabContacts[i].getNumeroTelephone()))));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_IMAGE_CONTACT, remplacerCaracXml(tabContacts[i].getImage())));
 
             informationCommBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_CONTACTS, informationContactBuilder.toString()));
         }
@@ -131,13 +125,17 @@ class XMLWriter {
         for (int i = 0; i < tabEnveloppes.length; i++) {
             StringBuilder informationContactBuilder = new StringBuilder();
 
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabEnveloppes[i].getNumeroTelephone())));
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_MESSAGE, tabEnveloppes[i].getMessage()));
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_DATE, Long.toString(tabEnveloppes[i].getDate().getTime())));
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_EST_ENVOYE, Boolean.toString(tabEnveloppes[i].isEnvoye())));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, remplacerCaracXml(Long.toString(tabEnveloppes[i].getNumeroTelephone()))));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_MESSAGE, remplacerCaracXml(tabEnveloppes[i].getMessage())));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_DATE, remplacerCaracXml(Long.toString(tabEnveloppes[i].getDate().getTime()))));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_EST_ENVOYE, remplacerCaracXml(Boolean.toString(tabEnveloppes[i].isEnvoye()))));
 
             informationCommBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_ENVELOPPES, informationContactBuilder.toString()));
         }
+    }
+
+    private String remplacerCaracXml(String message) {
+        return message.replaceAll(DEBUT_BALISE, DEBUT_BALISE_TO_XML).replaceAll(FIN_BALISE, FIN_BALISE_TO_XML).replaceAll(CARAC_ET, CARAC_ET_TO_XML);
     }
 
     /**
