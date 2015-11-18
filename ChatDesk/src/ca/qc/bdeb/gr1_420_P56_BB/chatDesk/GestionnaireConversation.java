@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Gère les conversations
  */
-public class GestionnaireConversation implements ObservableMessage {
+class GestionnaireConversation implements ObservableMessage {
 
     /**
      * Liste des observateurMessages
@@ -21,12 +21,6 @@ public class GestionnaireConversation implements ObservableMessage {
     private final ArrayList<Conversation> conversations = new ArrayList<>();
 
     private boolean premiereAjout = true;
-
-    /**
-     * Le constructeur du gestionnaire de conversation
-     */
-    GestionnaireConversation() {
-    }
 
     void ajouterMessages(ArrayList<Message> listeMessages) {
         for (Message message : listeMessages) {
