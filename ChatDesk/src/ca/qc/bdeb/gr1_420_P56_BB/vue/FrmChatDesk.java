@@ -51,6 +51,9 @@ public class FrmChatDesk extends JFrame implements Observateur, ObservateurErreu
         initialiserFenetre();
         this.facadeModele.ajouterObservateur(this);
         this.facadeModele.ajouterObservateurErreur(this);
+
+        FrmLoading frmLoading = new FrmLoading(this);
+        frmLoading.commencerChargement();
     }
 
     /**

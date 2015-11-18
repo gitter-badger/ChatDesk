@@ -9,22 +9,27 @@ enum BalisesCommClient implements Balises {
      * Balise générale toujours présente et qui englobe toute la communication avec le client
      */
     BALISE_COMM("comm"),
+
     /**
      * Balise commande, précisant quel est le but de la communication
      */
     BALISE_COMMANDE("commande"),
+
     /**
      * Contient un enveloppe, c'est à dire un message et le numéro de son envoyeur
      */
-    BALISE_ENVELOPPES("enveloppe"),
+    BALISE_MESSAGE("message"),
+
     /**
      * Contient un contact
      */
     BALISE_CONTACTS("contact"),
+
     /**
      * Contient le nom d'un contact
      */
     BALISE_NOM("nom"),
+
     /**
      * Contient le numéro de tél d'un contact
      */
@@ -39,10 +44,12 @@ enum BalisesCommClient implements Balises {
      * Contient la date d'envoi d'un message
      */
     BALISE_DATE("date"),
+
     /**
      * Le contenu d'un message
      */
-    BALISE_MESSAGE("message"),
+    BALISE_TEXTE("texte"),
+
     /**
      * Si c'est un message envoyé ou reçu
      */

@@ -14,7 +14,7 @@ public class EnveloppeMessageTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
         numTeleophone = 5145435578l;
-        enveloppeMessage = new EnveloppeMessage(MESSAGE, numTeleophone,new Date(), true);
+        enveloppeMessage = new EnveloppeMessage(numTeleophone, MESSAGE,new Date(), true);
     }
     public void testConvertirEnXml() throws Exception {
         String expected =

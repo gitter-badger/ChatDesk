@@ -30,8 +30,8 @@ class GestionnaireContacts {
         listeContacts.remove(contact);
     }
 
-    void supprimerContact() {
-        listeContacts.remove(0);
+    void supprimerContact(int position) {
+        listeContacts.remove(position);
     }
 
     ArrayList getContacts() {
@@ -39,7 +39,8 @@ class GestionnaireContacts {
     }
 
     /**
-     * Trouve un contact par son numéro de téléphone
+     * Trouve un contact par son numéro de téléphone. Si le contact n'existe pas, crée un contact sans nom et sans photo.
+     * Se contact pourra, par la suite, être ajouté à la liste de contact.
      *
      * @param numeroTelephone Le numéro de téléphone du contact à retourner
      * @return Le contact possédant ce numéro de téléphone

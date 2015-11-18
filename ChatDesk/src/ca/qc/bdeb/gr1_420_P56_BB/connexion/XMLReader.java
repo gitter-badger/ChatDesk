@@ -1,7 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
-import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Contact;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -66,9 +64,9 @@ class XMLReader {
      *
      * @return La liste des nouveaux contacts
      */
-    public ArrayList<Contact> lireContacts() {
-        ArrayList<Contact> listeContacts = new ArrayList();
-        Contact nouveauContact;
+    public ArrayList<EnveloppeContact> lireContacts() {
+        ArrayList<EnveloppeContact> listeContacts = new ArrayList();
+        EnveloppeContact nouveauContact;
         long numeroTel;
         String nomContact;
         ImageIcon image;
@@ -82,7 +80,7 @@ class XMLReader {
                 nomContact = getElementParBalise(node, BalisesCommClient.BALISE_NOM);
                 image = convertirStringEnImage(getElementParBalise(node, BalisesCommClient.BALISE_IMAGE_CONTACT));
 
-                nouveauContact = new Contact(numeroTel, nomContact, image);
+                nouveauContact = new EnveloppeContact(numeroTel, nomContact, image);
                 listeContacts.add(nouveauContact);
             } catch (NumberFormatException nfe) {
                 System.out.println(MESSAGE_ERREUR_TELEPHONE);
@@ -106,16 +104,16 @@ class XMLReader {
         Date dateMessage;
         boolean envoye;
 
-        NodeList nList = getNodesParBalise(BalisesCommClient.BALISE_ENVELOPPES);
+        NodeList nList = getNodesParBalise(BalisesCommClient.BALISE_MESSAGE);
         for (int i = 0; i < nList.getLength(); i++) {
             try {
                 Node node = nList.item(i);
                 numeroTel = Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_NUM_TEL));
-                message = getElementParBalise(node, BalisesCommClient.BALISE_MESSAGE);
+                message = getElementParBalise(node, BalisesCommClient.BALISE_TEXTE);
                 dateMessage = new Date(Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_DATE)));
                 envoye = Boolean.parseBoolean(getElementParBalise(node, BalisesCommClient.BALISE_EST_ENVOYE));
 
-                nouvelEnveloppe = new EnveloppeMessage(message, numeroTel, dateMessage, envoye);
+                nouvelEnveloppe = new EnveloppeMessage(numeroTel, message, dateMessage, envoye);
                 listeEnveloppes.add(nouvelEnveloppe);
             } catch (NumberFormatException nfe) {
                 System.out.println(MESSAGE_ERREUR_TELEPHONE_OU_DATE);

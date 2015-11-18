@@ -25,9 +25,9 @@ public class ConversationTest {
 
     @Test
     public void testGetLastMessage() {
-        Message messageTest = new Message("Allo", new Date(), false);
-        Message messageTest2 = new Message("Bonjour", new Date(), false);
-        Message messageTest3 = new Message("Salut", new Date(), false);
+        Message messageTest = new Message(1, "Allo", new Date(), false);
+        Message messageTest2 = new Message(1, "Bonjour", new Date(), false);
+        Message messageTest3 = new Message(1, "Salut", new Date(), false);
 
         conversation.ajouterMessage(messageTest3);
         conversation.ajouterMessage(messageTest2);

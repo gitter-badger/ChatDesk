@@ -1,6 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeMessage;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -11,10 +10,10 @@ import java.util.Date;
  */
 public class FacadeModeleTest extends TestCase {
     private FacadeModele facadeModeleTest;
-    private final EnveloppeMessage ENVELOPPE_1 = new EnveloppeMessage("A", 1, new Date(), true);
-    private final EnveloppeMessage ENVELOPPE_2 = new EnveloppeMessage("B", 1, new Date(), true);
-    private final EnveloppeMessage ENVELOPPE_3 = new EnveloppeMessage("C", 2, new Date(), true);
-    private final EnveloppeMessage ENVELOPPE_4 = new EnveloppeMessage("D", 2, new Date(), true);
+    private final Message ENVELOPPE_1 = new Message(1, "A", new Date(), true);
+    private final Message ENVELOPPE_2 = new Message(1, "B", new Date(), true);
+    private final Message ENVELOPPE_3 = new Message(2, "C", new Date(), true);
+    private final Message ENVELOPPE_4 = new Message(2, "D", new Date(), true);
 
     public void setUp() throws Exception {
         super.setUp();
@@ -31,7 +30,7 @@ public class FacadeModeleTest extends TestCase {
      * @throws Exception
      */
     public void testAjouterMessages() throws Exception {
-        ArrayList<EnveloppeMessage> listEnveloppes = new ArrayList<>();
+        ArrayList<Message> listEnveloppes = new ArrayList<>();
         listEnveloppes.add(ENVELOPPE_1);
         listEnveloppes.add(ENVELOPPE_2);
         listEnveloppes.add(ENVELOPPE_3);
@@ -39,7 +38,7 @@ public class FacadeModeleTest extends TestCase {
 
         facadeModeleTest.ajouterMessages(listEnveloppes);
 
-        ArrayList<EnveloppeMessage> expected = new ArrayList<>();
+        ArrayList<Message> expected = new ArrayList<>();
         expected.add(ENVELOPPE_3);
         expected.add(ENVELOPPE_4);
 
@@ -50,11 +49,11 @@ public class FacadeModeleTest extends TestCase {
         assertTrue(VerifierMessages(expected, actual));
     }
 
-    private boolean VerifierMessages(ArrayList<EnveloppeMessage> expected, ArrayList<Message> actual) {
+    private boolean VerifierMessages(ArrayList<Message> expected, ArrayList<Message> actual) {
         boolean listeIdentique = true;
         if (actual.size() == expected.size()) {
             for (int i = 0; i < expected.size() && listeIdentique; ++i) {
-                listeIdentique = actual.get(i).getText().equals(expected.get(i).getMessage());
+                listeIdentique = actual.get(i).getText().equals(expected.get(i).getText());
             }
 
         } else {

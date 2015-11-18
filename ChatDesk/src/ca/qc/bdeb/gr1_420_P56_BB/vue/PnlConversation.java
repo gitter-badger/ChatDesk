@@ -34,7 +34,7 @@ class PnlConversation extends JPanel {
     /**
      * Font dans le panel
      */
-    private final Font font = new Font(NOM_POLICE, Font.BOLD, GRANDEUR_TEXTE);
+    private final Font FONT = new Font(NOM_POLICE, Font.BOLD, GRANDEUR_TEXTE);
 
     /**
      * Variable pour exprimer l'abscence de numéro de téléphone
@@ -128,7 +128,7 @@ class PnlConversation extends JPanel {
         int PNL_INFO_CONVO_HAUTEUR = 60;
         pnlInfoConvo.setSize(this.getWidth(), PNL_INFO_CONVO_HAUTEUR);
         pnlInfoConvo.setLayout(null);
-        nom.setFont(font);
+        nom.setFont(FONT);
         pnlInfoConvo.add(nom);
     }
 
@@ -203,7 +203,7 @@ class PnlConversation extends JPanel {
     /**
      * Permet le changement de conversation
      *
-     * @param numeroTelephone Le num�ro de t�l�phone de la nouvelle conversation
+     * @param numeroTelephone Le numéro de téléphone de la nouvelle conversation
      */
     public void changerConversation(long numeroTelephone) {
         this.numeroTelephone = numeroTelephone;
@@ -212,7 +212,7 @@ class PnlConversation extends JPanel {
         } catch (NullPointerException ex) {
             nom.setText(TEXTE_VIDE);
         }
-        Dimension dimensionNom = Formatage.calculerDimensionString(nom.getText(), font);
+        Dimension dimensionNom = Formatage.calculerDimensionString(nom.getText(), FONT);
         nom.setSize(dimensionNom);
         int VALEUR_CENTRER = 2;
         nom.setLocation(pnlInfoConvo.getWidth() / VALEUR_CENTRER - nom.getWidth() / VALEUR_CENTRER,
@@ -234,16 +234,15 @@ class PnlConversation extends JPanel {
      */
     private void envoyerMessage() {
         if (!champAjoutMessage.getText().equals(TEXTE_VIDE) && numeroTelephone != AUCUN_NUMERO_TELEPHONE) {
-            facadeModele.envoyerMessage(numeroTelephone,
-                    new Message(champAjoutMessage.getText(), new Date(System.currentTimeMillis()), true));
+            facadeModele.envoyerMessage(new Message(numeroTelephone, champAjoutMessage.getText(), new Date(System.currentTimeMillis()), true));
             champAjoutMessage.setText(TEXTE_VIDE);
         }
     }
 
     /**
-     * Mettre � jour les messages de la conversation si le message re�u fait partie de la conversation.
+     * Mettre é jour les messages de la conversation si le message reéu fait partie de la conversation.
      *
-     * @param numeroTelephone Le num�ro de t�l�phone du nouveau message re�u
+     * @param numeroTelephone Le numéro de téléphone du nouveau message reéu
      */
     public void mettreAJour(long numeroTelephone) {
         if (this.numeroTelephone == numeroTelephone) {

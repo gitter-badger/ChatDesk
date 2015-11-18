@@ -1,1 +1,1 @@
-<comm><commande>messages</commande><enveloppe><numeroTelephone>9367457456</numeroTelephone><message>blahblahblah</message><date>1367457456</date><estEnvoye>true</estEnvoye></enveloppe></comm>
+<comm><commande>messages</commande><message><numeroTelephone>9367457456</numeroTelephone><texte>blahblahblah</texte><date>1367457456</date><estEnvoye>true</estEnvoye></message></comm>

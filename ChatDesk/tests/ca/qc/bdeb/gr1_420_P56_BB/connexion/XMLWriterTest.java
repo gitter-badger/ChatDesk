@@ -19,7 +19,7 @@ public class XMLWriterTest extends TestCase {
     final static String PATH_FICHIER_TEST_DEMANDE_APPAREILS = "resources\\fichiersTest\\testCommandeXmlServeurDemandeAppareils.xml";
 
 
-    private final EnveloppeMessage[] TAB_ENVELOPPES = {new EnveloppeMessage("blahblahblah", 9367457456l, new Date(1367457456), true)};
+    private final EnveloppeMessage[] TAB_ENVELOPPES = {new EnveloppeMessage(9367457456l, "blahblahblah", new Date(1367457456), true)};
     private final EnveloppeContact[] TAB_CONTACTS = {new EnveloppeContact(9367457456l, "jacques", null)};
 
     private XMLWriter xmlWriter;

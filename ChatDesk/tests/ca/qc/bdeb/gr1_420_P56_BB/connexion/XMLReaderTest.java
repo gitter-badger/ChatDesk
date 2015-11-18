@@ -1,9 +1,6 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Contact;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.CommandesClient;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeMessage;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.XMLReader;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -47,7 +44,7 @@ public class XMLReaderTest {
     public void testLireUnContact() {
         String PATH_FICHIER_TEST_CONTACTS = "resources\\fichiersTest\\testCommandeXmlPremiereConnexion.xml";
         xmlH = new XMLReader(lireFichierDepuisChemin(PATH_FICHIER_TEST_CONTACTS));
-        ArrayList<Contact> listeContacts = xmlH.lireContacts();
+        ArrayList<EnveloppeContact> listeContacts = xmlH.lireContacts();
         assertNotNull(listeContacts);
         assertEquals("jacques", listeContacts.get(0).getNom());
     }
@@ -55,7 +52,7 @@ public class XMLReaderTest {
     @Test
     public void testLireAucunContact() {
         xmlH = new XMLReader(lireFichierDepuisChemin(PATH_FICHIER_TEST_MESSAGES));
-        ArrayList<Contact> listeContacts = xmlH.lireContacts();
+        ArrayList<EnveloppeContact> listeContacts = xmlH.lireContacts();
         assertNotNull(listeContacts);
         assertEquals(0, listeContacts.size());
     }
@@ -65,7 +62,7 @@ public class XMLReaderTest {
         xmlH = new XMLReader(lireFichierDepuisChemin(PATH_FICHIER_TEST_MESSAGES));
         ArrayList<EnveloppeMessage> listeEnveloppes = xmlH.lireMessages();
         assertNotNull(listeEnveloppes);
-        assertEquals("blahblahblah", listeEnveloppes.get(0).getMessage());
+        assertEquals("blahblahblah", listeEnveloppes.get(0).getText());
     }
 
     @Test

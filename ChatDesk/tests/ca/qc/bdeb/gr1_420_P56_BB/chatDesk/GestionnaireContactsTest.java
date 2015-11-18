@@ -28,9 +28,13 @@ public class GestionnaireContactsTest {
     }
 
     @Test
-    public void testRecupererContactParNumero() {
+    public void testRecupererContactParNumeroNonExistant() {
+        Assert.assertEquals("", gestionnaireContacts.getContact(5).getNom());
+    }
+
+    @Test
+    public void testRecupererContactParNumeroExistant() {
         Assert.assertEquals(CONTACT_2, gestionnaireContacts.getContact(2));
-        Assert.assertNull(gestionnaireContacts.getContact(5));
     }
 
     @Test
@@ -51,7 +55,7 @@ public class GestionnaireContactsTest {
 
     @Test
     public void testSupprimerContactPosition(){
-        gestionnaireContacts.supprimerContact();
+        gestionnaireContacts.supprimerContact(0);
 
         Assert.assertEquals(3, gestionnaireContacts.getContacts().size());
         Assert.assertEquals(CONTACT_2, gestionnaireContacts.getContacts().get(0));

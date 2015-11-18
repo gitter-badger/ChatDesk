@@ -19,10 +19,10 @@ public class FrmChatDeskTest {
     private ConversationDTO conversationDTOTest;
     private ArrayList<Message> listeMessageTest;
     private static final long NUM_TEST = 5141234567l;
-    private static final Message MESSAGE_1 = new Message("A", new Date(), false);
-    private static final Message MESSAGE_2 = new Message("B", new Date(), true);
-    private static final Message MESSAGE_3 = new Message("C", new Date(), false);
-    private static final Message MESSAGE_4 = new Message("D", new Date(), true);
+    private static final Message MESSAGE_1 = new Message(1, "A", new Date(), false);
+    private static final Message MESSAGE_2 = new Message(1, "B", new Date(), true);
+    private static final Message MESSAGE_3 = new Message(1, "C", new Date(), false);
+    private static final Message MESSAGE_4 = new Message(1, "D", new Date(), true);
     private FrmChatDesk frmChatDeskTest;
     private FacadeModele facadeModeleTest;
     @Before

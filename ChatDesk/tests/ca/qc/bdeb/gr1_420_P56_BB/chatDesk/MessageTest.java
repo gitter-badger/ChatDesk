@@ -15,12 +15,12 @@ public class MessageTest {
 
     @Test
     public void testIsEnvoyer() throws Exception {
-        Message messageTest = new Message("Bonjour", new Date(), false);
+        Message messageTest = new Message(1, "Bonjour", new Date(), false);
         assertFalse(messageTest.isEnvoyer());
     }
     @Test
     public void testNonEnvoyer(){
-        Message messageTest = new Message("Bonjour", new Date(), true);
+        Message messageTest = new Message(1, "Bonjour", new Date(), true);
         assertTrue(messageTest.isEnvoyer());
     }
 }

@@ -1,6 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeMessage;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,11 +14,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class GestionnaireConversationTest {
 
-    private final EnveloppeMessage ENVELOPPE_1 = new EnveloppeMessage("A", 1, new Date(), true);
-    private final EnveloppeMessage ENVELOPPE_2 = new EnveloppeMessage("B", 1, new Date(), true);
-    private final EnveloppeMessage ENVELOPPE_3 = new EnveloppeMessage("C", 2, new Date(), true);
-    private final EnveloppeMessage ENVELOPPE_4 = new EnveloppeMessage("D", 2, new Date(), true);
-    private ArrayList<EnveloppeMessage> listEnveloppes;
+    private final Message ENVELOPPE_1 = new Message(1, "A", new Date(), true);
+    private final Message ENVELOPPE_2 = new Message(1, "B", new Date(), true);
+    private final Message ENVELOPPE_3 = new Message(2, "C", new Date(), true);
+    private final Message ENVELOPPE_4 = new Message(2, "D", new Date(), true);
+    private ArrayList<Message> listEnveloppes;
     private GestionnaireConversation gestionnaireConversation;
 
     @Before
@@ -53,9 +52,9 @@ public class GestionnaireConversationTest {
 
         assertEquals(2, gestionnaireConversation.getConversationsDTO().size());
         assertEquals(ENVELOPPE_1.getNumeroTelephone(), gestionnaireConversation.getConversationsDTO().get(1).getNumeroTelephone());
-        assertEquals(ENVELOPPE_2.getMessage(), gestionnaireConversation.getConversationsDTO().get(1).getLastMessage().getText());
+        assertEquals(ENVELOPPE_2.getText(), gestionnaireConversation.getConversationsDTO().get(1).getLastMessage().getText());
         assertEquals(ENVELOPPE_3.getNumeroTelephone(), gestionnaireConversation.getConversationsDTO().get(0).getNumeroTelephone());
-        assertEquals(ENVELOPPE_4.getMessage(), gestionnaireConversation.getConversationsDTO().get(0).getLastMessage().getText());
+        assertEquals(ENVELOPPE_4.getText(), gestionnaireConversation.getConversationsDTO().get(0).getLastMessage().getText());
     }
 
     @Test
@@ -67,7 +66,7 @@ public class GestionnaireConversationTest {
 
         gestionnaireConversation.ajouterMessages(listEnveloppes);
 
-        ArrayList<EnveloppeMessage> expected = new ArrayList<>();
+        ArrayList<Message> expected = new ArrayList<>();
         expected.add(ENVELOPPE_1);
         expected.add(ENVELOPPE_2);
 
@@ -77,11 +76,11 @@ public class GestionnaireConversationTest {
         assertTrue(VerifierMessages(expected, actual));
     }
 
-    private boolean VerifierMessages(ArrayList<EnveloppeMessage> expected, ArrayList<Message> actual) {
+    private boolean VerifierMessages(ArrayList<Message> expected, ArrayList<Message> actual) {
         boolean listeIdentique = true;
         if (actual.size() == expected.size()) {
             for (int i = 0; i < expected.size() && listeIdentique; ++i) {
-                listeIdentique = actual.get(i).getText().equals(expected.get(i).getMessage());
+                listeIdentique = actual.get(i).getText().equals(expected.get(i).getText());
             }
 
         } else {

@@ -1,8 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
-
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeContact;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeMessage;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.GestionnaireCommunication;
+import ca.qc.bdeb.gr1_420_P56_BB.connexion.FacadeConnexion;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.ResultatsConnexion;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observateur;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
@@ -14,7 +11,7 @@ import java.util.ArrayList;
  */
 public class FacadeModele {
 
-    private final GestionnaireCommunication gestionnaireCommunication;
+    private final FacadeConnexion facadeConnexion;
     private final GestionnaireConversation gestionnaireConversation;
     private final GestionnaireContacts gestionnaireContacts;
     private final GestionnaireAppareils gestionnaireAppareils;
@@ -23,7 +20,7 @@ public class FacadeModele {
      * Initialise les différents éléments du modèle
      */
     public FacadeModele() {
-        gestionnaireCommunication = new GestionnaireCommunication(this);
+        facadeConnexion = new FacadeConnexion(this);
         gestionnaireContacts = new GestionnaireContacts();
         gestionnaireConversation = new GestionnaireConversation();
         gestionnaireAppareils = new GestionnaireAppareils();
@@ -35,26 +32,41 @@ public class FacadeModele {
     public ArrayList<ContactDTO> getContacts(){
         return gestionnaireContacts.getContactsDTO();
     }
-    public void ajouterMessages(ArrayList<EnveloppeMessage> listeEnveloppes) {
-        gestionnaireConversation.ajouterMessages(listeEnveloppes);
+    public void ajouterMessages(ArrayList<Message> listeMessages) {
+        gestionnaireConversation.ajouterMessages(listeMessages);
     }
 
     /**
      * Ajout le message aux converstions de l'application et l'envoi au téléphone
-     * @param numeroTelephone le numéro de tél du destinataire
      * @param message Le contenu du message
      */
-    public void envoyerMessage(long numeroTelephone, Message message) {
-        gestionnaireConversation.ajouterMessage(numeroTelephone, message);
-        gestionnaireCommunication.envoyerEnveloppe(new EnveloppeMessage(message.getText(), numeroTelephone, message.getDate(), true));
+    public void envoyerMessage(Message message) {
+        gestionnaireConversation.ajouterMessage(message);
+        facadeConnexion.envoyerMessage(message);
+    }
+
+    public void envoyerContact(Contact contact) {
+        facadeConnexion.envoyerContact(contact);
+    }
+
+    public ResultatsConnexion seConnecter(String nom, String pass) {
+        return this.facadeConnexion.seConnecter(nom, pass);
     }
 
     public void demanderAppareils(){
-        this.gestionnaireCommunication.demanderAppareils();
+        this.facadeConnexion.demanderAppareils();
     }
 
     public void initierLien(int idAppareil){
-        gestionnaireCommunication.initierLien(idAppareil);
+        facadeConnexion.initierLien(idAppareil);
+    }
+
+    public void ajouterObservateurErreur(ObservateurErreur observateur) {
+        this.facadeConnexion.ajouterObservateurErreur(observateur);
+    }
+
+    public void arreterProgramme() {
+        facadeConnexion.arreterProgramme();
     }
 
     public ArrayList<ConversationDTO> getConversations() {
@@ -65,9 +77,6 @@ public class FacadeModele {
         gestionnaireContacts.ajouterContacts(listeContacts);
     }
 
-    public void envoyerContact(EnveloppeContact enveloppe) {
-        gestionnaireCommunication.envoyerEnveloppe(enveloppe);
-    }
 
     public Contact getContact(long numeroTelephone) {
         return gestionnaireContacts.getContact(numeroTelephone);
@@ -75,10 +84,6 @@ public class FacadeModele {
 
     public void ajouterObservateur(Observateur observateur) {
         this.gestionnaireConversation.ajouterObservateur(observateur);
-    }
-
-    public void ajouterObservateurErreur(ObservateurErreur observateur) {
-        this.gestionnaireCommunication.ajouterObservateurErreur(observateur);
     }
 
     public void supprimerObservateur(Observateur observateur) {
@@ -89,10 +94,6 @@ public class FacadeModele {
         return gestionnaireConversation.getConversationDTO(numeroTelephone);
     }
 
-    public ResultatsConnexion seConnecter(String nom, String pass) {
-        return this.gestionnaireCommunication.seConnecter(nom, pass);
-    }
-
     public void setAppareils(Appareil[] appareils) {
         gestionnaireAppareils.setAppareils(appareils);
     }
@@ -101,13 +102,10 @@ public class FacadeModele {
         return gestionnaireConversation;
     }
 
-    public void arreterProgramme() {
-        gestionnaireCommunication.arreterProgramme();
-    }
-
     public GestionnaireAppareils getGestionnaireAppareils() {
         return gestionnaireAppareils;
     }
+
     public Appareil[] getAppareils(){
         return gestionnaireAppareils.getAppareils();
     }

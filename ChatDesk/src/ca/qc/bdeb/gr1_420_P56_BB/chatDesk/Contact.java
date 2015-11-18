@@ -9,7 +9,7 @@ import javax.swing.*;
 public class Contact{
 
     /**
-     * Le numï¿½ro de tï¿½lï¿½phone du contact
+     * Le numéro de téléphone du contact
      */
     private final long numeroTelephone;
 
@@ -25,9 +25,9 @@ public class Contact{
 
 
     /**
-     * Constructeur qui permet de crï¿½e un contact
+     * Constructeur qui permet de crée un contact
      *
-     * @param numeroTelephone Le numï¿½ro de tï¿½lï¿½phone du contact
+     * @param numeroTelephone Le numéro de téléphone du contact
      * @param nom Le nom du contact
      */
     public Contact(long numeroTelephone, String nom, ImageIcon image){

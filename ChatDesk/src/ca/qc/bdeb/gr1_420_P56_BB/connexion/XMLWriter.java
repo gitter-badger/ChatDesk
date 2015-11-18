@@ -1,17 +1,7 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 
 /**
  * Créer un nouveau fichier XML et y écris les informations demandés
@@ -150,11 +140,11 @@ class XMLWriter {
             StringBuilder informationContactBuilder = new StringBuilder();
 
             informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabEnveloppes[i].getNumeroTelephone())));
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_MESSAGE, tabEnveloppes[i].getMessage()));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_TEXTE, tabEnveloppes[i].getText()));
             informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_DATE, Long.toString(tabEnveloppes[i].getDate().getTime())));
             informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_EST_ENVOYE, Boolean.toString(tabEnveloppes[i].isEnvoye())));
 
-            informationCommBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_ENVELOPPES, informationContactBuilder.toString()));
+            informationCommBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_MESSAGE, informationContactBuilder.toString()));
         }
     }
 

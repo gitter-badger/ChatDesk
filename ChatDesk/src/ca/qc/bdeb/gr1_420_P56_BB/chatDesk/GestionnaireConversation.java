@@ -1,6 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeMessage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observable;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observateur;
 
@@ -27,21 +26,17 @@ public class GestionnaireConversation implements Observable {
     GestionnaireConversation() {
     }
 
-    void ajouterMessages(ArrayList<EnveloppeMessage> listeEnveloppes) {
-        for (EnveloppeMessage enveloppe : listeEnveloppes) {
-            ajouterMessage(enveloppe.getNumeroTelephone(), creerMessage(enveloppe));
+    void ajouterMessages(ArrayList<Message> listeMessages) {
+        for (Message message : listeMessages) {
+            ajouterMessage(message);
         }
-    }
-
-    private Message creerMessage(EnveloppeMessage enveloppe) {
-        return new Message(enveloppe.getMessage(), enveloppe.getDate(), enveloppe.isEnvoye());
     }
 
     /**
      * Ajouter un message à la bonne conversation
      * Si aucune conversation, en créé une
      */
-    void ajouterMessage(long numeroTelephone, Message message) {
+    void ajouterMessage(Message message) {
         boolean trouver = false;
         int ligne = 0;
         Conversation conversation = null;
@@ -49,15 +44,17 @@ public class GestionnaireConversation implements Observable {
         while (!trouver && ligne < conversations.size()) {
             conversation = conversations.get(ligne);
             ligne++;
-            if (numeroTelephone == conversation.getNumeroTelephone()) {
+            if (message.getNumeroTelephone() == conversation.getNumeroTelephone()) {
                 faireMonterConversation(message, conversation);
                 trouver = true;
             }
         }
 
         if (!trouver) {
-            conversations.add(0, new Conversation(message, numeroTelephone));
+            conversation = new Conversation(message, message.getNumeroTelephone());
+            conversations.add(0, conversation);
         }
+
         if (conversation != null) {
             aviserObservateurs(conversation.getNumeroTelephone());
         }
@@ -125,7 +122,4 @@ public class GestionnaireConversation implements Observable {
     public void aviserObservateur(int indice, long num) {
         observateurs.get(indice).changementEtat(num);
     }
-
-
-
 }

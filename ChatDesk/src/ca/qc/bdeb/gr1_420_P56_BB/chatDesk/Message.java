@@ -8,6 +8,11 @@ import java.util.Date;
 public class Message {
 
     /**
+     * Le numero de téléphone de la personne qui a envoyé le message
+     */
+    private final long numeroTelephone;
+
+    /**
      * Le contenu du message
      */
     private final String text;
@@ -16,6 +21,7 @@ public class Message {
      * La date que le message à été recu ou envoyer
      */
     private final Date date;
+
 
     /**
      * Si le message est envoyé ou recu
@@ -27,11 +33,17 @@ public class Message {
      * @param date    La date que le text à été recu ou envoyer
      * @param envoyer Si le text est envoyé ou recu
      */
-    public Message(String text, Date date, boolean envoyer) {
+    public Message(long numeroTelephone, String text, Date date, boolean envoyer) {
+        this.numeroTelephone = numeroTelephone;
         this.text = text;
         this.date = date;
         this.envoyer = envoyer;
     }
+
+    public long getNumeroTelephone(){
+        return numeroTelephone;
+    }
+
     public String getText() {
         return text;
     }

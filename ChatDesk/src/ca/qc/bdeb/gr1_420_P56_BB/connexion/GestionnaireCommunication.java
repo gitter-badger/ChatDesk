@@ -9,7 +9,7 @@ import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 /**
  * Gère la connexion entre l'Android et l'ordinateur
  */
-public class GestionnaireCommunication {
+class GestionnaireCommunication {
 
     /**
      * Nombre de champs par appareils
@@ -19,7 +19,7 @@ public class GestionnaireCommunication {
     /**
      * La facade du modele pour accèder au modèle
      */
-    private final FacadeModele facadeModele;
+    private final FacadeConnexion facadeConnexion;
 
     /**
      * Le gestionnaire de socket.
@@ -31,8 +31,8 @@ public class GestionnaireCommunication {
      */
     private static final int POSITION_CONFIRMATION = 1;
 
-    public GestionnaireCommunication(FacadeModele facadeModele) {
-        this.facadeModele = facadeModele;
+    public GestionnaireCommunication(FacadeConnexion facadeConnexion) {
+        this.facadeConnexion = facadeConnexion;
         this.gestionnaireSocket = new GestionnaireSocket(this);
     }
 
@@ -82,7 +82,7 @@ public class GestionnaireCommunication {
                     tabCommAppareils[indiceDonnees + 1]);
         }
 
-        facadeModele.setAppareils(tabAppareils);
+        facadeConnexion.setAppareils(tabAppareils);
 
         /*
          * Lignes seulement présentes à fin de test, elles font se connecter le programme au premier appareil
@@ -131,12 +131,12 @@ public class GestionnaireCommunication {
         XMLReader xmlReader = new XMLReader(Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).decrypter(commClient));
         switch (xmlReader.lireCommande()) {
             case PREMIERE_CONNEXION:
-                facadeModele.ajouterContacts(xmlReader.lireContacts());
+                facadeConnexion.ajouterContacts(xmlReader.lireContacts());
             case MESSAGES:
-                facadeModele.ajouterMessages(xmlReader.lireMessages());
+                facadeConnexion.ajouterMessages(xmlReader.lireMessages());
                 break;
             case CONTACTS:
-                facadeModele.ajouterContacts(xmlReader.lireContacts());
+                facadeConnexion.ajouterContacts(xmlReader.lireContacts());
                 break;
             case REQUETE_ECHANGE_CLE:
                 changementCleClient(xmlReader.lireCle());
@@ -195,7 +195,7 @@ public class GestionnaireCommunication {
     }
 
     public FacadeModele getFacadeModele() {
-        return facadeModele;
+        return facadeConnexion.getFacadeModele();
     }
 
     public void ajouterObservateurErreur(ObservateurErreur observateurErreur) {
