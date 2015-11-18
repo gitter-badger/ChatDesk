@@ -1,7 +1,7 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.FacadeConnexion;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.ResultatsConnexion;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observateur;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurMessage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
 import java.util.ArrayList;
@@ -82,12 +82,12 @@ public class FacadeModele {
         return gestionnaireContacts.getContact(numeroTelephone);
     }
 
-    public void ajouterObservateur(Observateur observateur) {
-        this.gestionnaireConversation.ajouterObservateur(observateur);
+    public void ajouterObservateur(ObservateurMessage observateurMessage) {
+        this.gestionnaireConversation.ajouterObservateur(observateurMessage);
     }
 
-    public void supprimerObservateur(Observateur observateur) {
-        this.gestionnaireConversation.retirerObservateur(observateur);
+    public void supprimerObservateur(ObservateurMessage observateurMessage) {
+        this.gestionnaireConversation.retirerObservateur(observateurMessage);
     }
 
     public ConversationDTO getConversationDTO(long numeroTelephone) {

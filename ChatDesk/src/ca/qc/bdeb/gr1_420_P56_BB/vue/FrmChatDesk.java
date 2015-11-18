@@ -2,7 +2,7 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue;
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ConversationDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observateur;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurMessage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ import java.awt.event.ComponentEvent;
 /**
  * La fen�tre principale de l'application
  */
-public class FrmChatDesk extends JFrame implements Observateur, ObservateurErreur {
+public class FrmChatDesk extends JFrame implements ObservateurMessage, ObservateurErreur {
 
     private static final String MESSAGE_ERREUR_CONNEXION_INTERROMPUE = "La connexion avec le serveur a été interrompue";
     /**
@@ -46,13 +46,18 @@ public class FrmChatDesk extends JFrame implements Observateur, ObservateurErreu
      */
     private ScrollPanel scrollPanelConversations;
 
+    /**
+     * La fenetre de loading
+     */
+    private FrmLoading frmLoading;
+
     public FrmChatDesk(FacadeModele facadeModele) {
         this.facadeModele = facadeModele;
         initialiserFenetre();
         this.facadeModele.ajouterObservateur(this);
         this.facadeModele.ajouterObservateurErreur(this);
 
-        FrmLoading frmLoading = new FrmLoading(this);
+        frmLoading = new FrmLoading(this);
         frmLoading.commencerChargement();
     }
 
@@ -147,7 +152,8 @@ public class FrmChatDesk extends JFrame implements Observateur, ObservateurErreu
         this.dispose();
         facadeModele.arreterProgramme();
     }
-    public void changerCouleurBulleEnvoye(Color couleur){
+
+    public void changerCouleurBulleEnvoye(Color couleur) {
         pnlConversation.getPnlBulles().setCouleurBullesEnvoyees(couleur);
     }
 
@@ -155,12 +161,17 @@ public class FrmChatDesk extends JFrame implements Observateur, ObservateurErreu
         return facadeModele;
     }
 
-
     @Override
-    public void changementEtat(long num) {
+    public void receptionMessage(long num) {
         pnlConversation.mettreAJour(num);
         pnlConversations.mettreAJour();
         scrollPanelConversations.mettreAJour();
+    }
+
+    @Override
+    public void finReceptionConnexionInitiale() {
+        pnlConversations.mettreAJour();
+        frmLoading.arreterChargement();
     }
 
     @Override

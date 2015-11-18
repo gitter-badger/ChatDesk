@@ -1,24 +1,26 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observable;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observateur;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservableMessage;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurMessage;
 
 import java.util.ArrayList;
 
 /**
  * Gère les conversations
  */
-public class GestionnaireConversation implements Observable {
+public class GestionnaireConversation implements ObservableMessage {
 
     /**
-     * Liste des observateurs
+     * Liste des observateurMessages
      */
-    private final ArrayList<Observateur> observateurs = new ArrayList<>();
+    private final ArrayList<ObservateurMessage> observateurMessages = new ArrayList<>();
 
     /**
      * Liste des conversations
      */
     private final ArrayList<Conversation> conversations = new ArrayList<>();
+
+    private boolean premiereAjout = true;
 
     /**
      * Le constructeur du gestionnaire de conversation
@@ -29,6 +31,11 @@ public class GestionnaireConversation implements Observable {
     void ajouterMessages(ArrayList<Message> listeMessages) {
         for (Message message : listeMessages) {
             ajouterMessage(message);
+        }
+
+        if(premiereAjout){
+            aviserObservateursPremiereAjout();
+            premiereAjout = false;
         }
     }
 
@@ -55,13 +62,14 @@ public class GestionnaireConversation implements Observable {
             conversations.add(0, conversation);
         }
 
-        if (conversation != null) {
-            aviserObservateurs(conversation.getNumeroTelephone());
+        if (conversation != null && !premiereAjout) {
+            aviserObservateursMessageRecu(conversation.getNumeroTelephone());
         }
     }
 
     /**
      * Réordonne la liste de message pour mettre le plus récent en haut
+     *
      * @param message
      * @param conversation
      */
@@ -97,29 +105,26 @@ public class GestionnaireConversation implements Observable {
     }
 
     @Override
-    public void ajouterObservateur(Observateur ob) {
-        observateurs.add(ob);
+    public void ajouterObservateur(ObservateurMessage ob) {
+        observateurMessages.add(ob);
     }
 
     @Override
-    public void retirerObservateur(Observateur ob) {
-        observateurs.remove(ob);
+    public void retirerObservateur(ObservateurMessage ob) {
+        observateurMessages.remove(ob);
     }
 
     @Override
-    public void retirerObservateur(int indice) {
-        observateurs.remove(indice);
-    }
-
-    @Override
-    public void aviserObservateurs(long num) {
-        for (Observateur ob : observateurs) {
-            ob.changementEtat(num);
+    public void aviserObservateursMessageRecu(long num) {
+        for (ObservateurMessage ob : observateurMessages) {
+            ob.receptionMessage(num);
         }
     }
 
     @Override
-    public void aviserObservateur(int indice, long num) {
-        observateurs.get(indice).changementEtat(num);
+    public void aviserObservateursPremiereAjout(){
+        for (ObservateurMessage ob : observateurMessages) {
+            ob.finReceptionConnexionInitiale();
+        }
     }
 }
