@@ -11,7 +11,10 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -138,7 +141,7 @@ public class Formatage {
      * @param image L'image que l'on veut arrondir
      * @return L'image arrondi
      */
-    public static ImageIcon arrondirImage(ImageIcon image){
+    public static ImageIcon arrondirImage(ImageIcon image) {
         BufferedImage bi = new BufferedImage(
                 image.getIconWidth(),
                 image.getIconHeight(),
@@ -211,7 +214,14 @@ public class Formatage {
         return imageEnString;
     }
 
-    public static String hashPassWord(String passWord){
-
+    public static String hashMotDePasse(String pass, String salt) {
+        byte[] hashMotDePasse = new byte[0];
+        try {
+            MessageDigest mDigest = MessageDigest.getInstance("SHA-256");
+            hashMotDePasse = mDigest.digest((salt + pass).getBytes());
+        } catch (NoSuchAlgorithmException ex) {
+        }
+        
+        return new BigInteger(1, hashMotDePasse).toString(16);
     }
 }
