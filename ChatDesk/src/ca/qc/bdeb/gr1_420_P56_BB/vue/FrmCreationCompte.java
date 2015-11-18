@@ -24,11 +24,11 @@ public class FrmCreationCompte extends JFrame {
 
     private static final String MESSAGE_MOT_DE_PASSE = "Les mots de passe ne corresponde pas";
 
-    private static final String MESSAGE_CHAMPS_REMPLIS = "Les champs doivent tous être remplis";
+    private static final String MESSAGE_CHAMPS_REMPLIS = "Les champs doivent tous Ãªtre remplis";
 
-    private static final String MESSAGE_COMPTE_CREE = "Votre compte a été créé";
+    private static final String MESSAGE_COMPTE_CREE = "Votre compte a Ã©tÃ© crÃ©Ã©";
 
-    private static final String MESSAGE_NOM_UTIL_DEJA_EXISTANT = "Le nom d'utilisateur existe déjà";
+    private static final String MESSAGE_NOM_UTIL_DEJA_EXISTANT = "Le nom d'utilisateur existe dÃ©jÃ ";
 
     /**
      * Nom de la police dans le panel

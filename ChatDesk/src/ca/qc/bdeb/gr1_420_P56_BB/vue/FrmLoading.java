@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class FrmLoading extends JFrame implements Runnable {
 
-    private static final String MESSAGE = "Téléchargement de tous les messages et contact";
+    private static final String MESSAGE = "TÃ©lÃ©chargement de tous les messages et contact";
 
     /**
      * Nom de la police dans le panel
