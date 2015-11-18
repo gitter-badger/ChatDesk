@@ -1,10 +1,7 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
-import android.util.Log;
-
 /**
  * Créer un nouveau fichier XML et y écris les informations demandés
- * Created by Louis-Simon Mc Nicoll on 2015-09-16.
  */
 class XMLWriter {
 
@@ -32,21 +29,28 @@ class XMLWriter {
     /**
      * Envoie une commande et une liste de contacts
      *
-     * @param commande
      * @return Le xml en format String
      */
-    public String construireXmlCommunication(Balises commande, EnveloppeContact[] tabContacts) {
-        return construireXmlCommunication(commande, new EnveloppeMessage[VIDE], tabContacts);
+    public String construireXmlCommunication(EnveloppeContact[] tabContacts) {
+        return construireXmlCommunication(CommandesClient.CONTACTS, new EnveloppeMessage[VIDE], tabContacts);
     }
 
     /**
      * Envoie une commande et une liste de messages
      *
-     * @param commande
      * @return Le xml en format String
      */
-    public String construireXmlCommunication(Balises commande, EnveloppeMessage[] tabEnveloppes) {
-        return construireXmlCommunication(commande, tabEnveloppes, new EnveloppeContact[VIDE]);
+    public String construireXmlCommunication(EnveloppeMessage[] tabMessages) {
+        return construireXmlCommunication(CommandesClient.MESSAGES, tabMessages, new EnveloppeContact[VIDE]);
+    }
+
+    /**
+     * Envoie une commande et une liste de messages et de contact
+     *
+     * @return Le xml en format String
+     */
+    public String construireXmlCommunication(EnveloppeMessage[] tabMessages, EnveloppeContact[] tabContacts) {
+        return construireXmlCommunication(CommandesClient.PREMIERE_CONNEXION, tabMessages, tabContacts);
     }
 
     /**
@@ -160,12 +164,12 @@ class XMLWriter {
      * @param gestionnairesBalisesServeur tableau de gestionnairesBalisesServeur qui contiennent une balise et son contenu
      * @return Le xml en format String
      */
-    public String construireXmlServeur(CommandesServeur commandesServeur, EnveloppeBalisesComm... gestionnairesBalisesServeur) {
+    public String construireXmlServeur(CommandesServeur commandesServeur, EnveloppeBalisesCommServeur... gestionnairesBalisesServeur) {
         StringBuilder informationServeurBuilder = new StringBuilder();
 
         informationServeurBuilder.append(mettreInformationBalise(BalisesCommServeur.BALISE_REQUETE, commandesServeur.getRequete()));
 
-        for (EnveloppeBalisesComm gestionnaireBalisesServeur : gestionnairesBalisesServeur) {
+        for (EnveloppeBalisesCommServeur gestionnaireBalisesServeur : gestionnairesBalisesServeur) {
             informationServeurBuilder.append(mettreInformationBalise(gestionnaireBalisesServeur.getBalises(), gestionnaireBalisesServeur.getContenu()));
         }
 

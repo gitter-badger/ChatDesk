@@ -2,7 +2,6 @@ package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
 /**
  * Résualtats possibles d'une demande de connexion au serveur
- * Created by Louis-Simon on 10/10/2015.
  */
 public enum ResultatsConnexion {
     /**

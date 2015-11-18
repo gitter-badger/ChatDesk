@@ -7,19 +7,25 @@ import java.util.ArrayList;
  */
 class EnveloppeInitiale implements ConvertissableXml {
 
-    ArrayList<EnveloppeMessage> enveloppeMessages;
-    ArrayList<EnveloppeContact> enveloppeContacts;
+    EnveloppeMessage[] enveloppeMessages;
+    EnveloppeContact[] enveloppeContacts;
 
-    public EnveloppeInitiale(ArrayList<EnveloppeMessage> enveloppeMessages,
-                             ArrayList<EnveloppeContact> enveloppeContacts) {
+    public EnveloppeInitiale(EnveloppeMessage[] enveloppeMessages,
+                             EnveloppeContact[] enveloppeContacts) {
         this.enveloppeMessages = enveloppeMessages;
         this.enveloppeContacts = enveloppeContacts;
     }
 
+    public EnveloppeMessage[] getEnveloppeMessages() {
+        return enveloppeMessages;
+    }
+
+    public EnveloppeContact[] getEnveloppeContacts() {
+        return enveloppeContacts;
+    }
+
     @Override
     public String convertirEnXml() {
-        return new XMLWriter().construireXmlCommunication(CommandesClient.PREMIERE_CONNEXION,
-                enveloppeMessages.toArray(new EnveloppeMessage[enveloppeMessages.size()]),
-                enveloppeContacts.toArray(new EnveloppeContact[enveloppeContacts.size()]));
+        return CreateurXMLComm.creationXMLEnveloppe(this);
     }
 }

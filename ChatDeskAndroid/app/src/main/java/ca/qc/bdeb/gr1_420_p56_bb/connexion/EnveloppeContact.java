@@ -53,6 +53,6 @@ public class EnveloppeContact implements ConvertissableXml {
      */
     @Override
     public String convertirEnXml() {
-        return new XMLWriter().construireXmlCommunication(CommandesClient.CONTACTS, new EnveloppeContact[]{this});
+        return CreateurXMLComm.creationXMLEnveloppe(this);
     }
 }

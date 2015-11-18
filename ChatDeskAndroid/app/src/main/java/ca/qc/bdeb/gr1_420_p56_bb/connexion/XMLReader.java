@@ -13,7 +13,6 @@ import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.ManipulationFichiers.lireXml
 
 /**
  * Lis un document en format XML
- * Created by Louis-Simon Mc Nicoll on 2015-09-15.
  */
 class XMLReader {
     private static final String MESSAGE_ERREUR_TELEPHONE = "Numéro de téléphone invalide";
