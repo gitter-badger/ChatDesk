@@ -169,11 +169,11 @@ class GestionnaireCommunication {
      * @return Une des valeurs de l'énum ResultatsConnexion : Valide, Invalide ou Impossible
      */
     public ResultatsConnexion seConnecter(String nom, String pass) {
-        String comm = CreateurXMLComm.creationXMLConnexionServeur(nom, pass);
-
         ResultatsConnexion resultatsConnexion = gestionnaireSocket.connexionAuServeur();
 
         if (resultatsConnexion != ResultatsConnexion.IMPOSSIBLE) {
+            String comm = CreateurXMLComm.creationXMLConnexionServeur(nom, pass);
+
             String contenu = gestionnaireSocket.seConnecter(comm);
             XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(contenu);
             if (xmlReaderServeur.lireCommande() == CommandesServeur.REQUETE_LOGIN) {
@@ -185,6 +185,23 @@ class GestionnaireCommunication {
         }
 
         return resultatsConnexion;
+    }
+
+    public boolean sinscrire(String nom, String pass) {
+        boolean inscrit = false;
+        ResultatsConnexion resultatsConnexion = gestionnaireSocket.connexionAuServeur();
+
+        if (resultatsConnexion != ResultatsConnexion.IMPOSSIBLE) {
+            String comm = CreateurXMLComm.creationXMLSInscrire(nom, pass);
+
+            String contenu = gestionnaireSocket.sinscrire(comm);
+            XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(contenu);
+            if (xmlReaderServeur.lireCommande() == CommandesServeur.REQUETE_NOUVEAU_COMPTE) {
+                inscrit = xmlReaderServeur.lireContenu()[POSITION_CONFIRMATION].getContenu().equals(Boolean.toString(true));
+            }
+        }
+
+        return inscrit;
     }
 
     /**

@@ -33,6 +33,10 @@ public class FacadeConnexion {
         return this.gestionnaireCommunication.seConnecter(nom, pass);
     }
 
+    public boolean sinscrire(String nom, String pass) {
+        return gestionnaireCommunication.sinscrire(nom, pass);
+    }
+
     public void demanderAppareils() {
         this.gestionnaireCommunication.demanderAppareils();
     }
@@ -64,5 +68,4 @@ public class FacadeConnexion {
     public FacadeModele getFacadeModele() {
         return this.facadeModele;
     }
-
 }

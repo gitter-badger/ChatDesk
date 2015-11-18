@@ -108,7 +108,12 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      */
     public String seConnecter(String infoConnexionComm) {
         envoyer(infoConnexionComm);
-        return receptionReponseConnexion();
+        return receptionReponse();
+    }
+
+    public String sinscrire(String infoInscriptionComm){
+        envoyer(infoInscriptionComm);
+        return receptionReponse();
     }
 
     /**
@@ -116,7 +121,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      *
      * @return Si la demande a fonctionné
      */
-    private String receptionReponseConnexion() {
+    private String receptionReponse() {
         String contenu = "";
         try {
             this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);

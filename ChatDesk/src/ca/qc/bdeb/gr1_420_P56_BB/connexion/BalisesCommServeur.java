@@ -46,6 +46,11 @@ enum BalisesCommServeur implements Balises {
     BALISE_VALIDITE_CONNEXION("validite_connexion"),
 
     /**
+     * Contient l'indicateur de la validité de la création d'un compte
+     */
+    BALISE_VALIDITE_CREATION_COMPTE("validite_creation_compte"),
+
+    /**
      * Précise si un appareil est un téléphone ou autre
      */
     BALISE_IS_TELEPHONE("is_telephone"),
@@ -91,6 +96,9 @@ enum BalisesCommServeur implements Balises {
                 break;
             case "validite_connexion":
                 baliseServeur = BALISE_VALIDITE_CONNEXION;
+                break;
+            case "validite_creation_compte":
+                baliseServeur = BALISE_VALIDITE_CREATION_COMPTE;
                 break;
             case "is_telephone":
                 baliseServeur = BALISE_IS_TELEPHONE;

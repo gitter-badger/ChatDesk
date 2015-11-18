@@ -210,4 +210,8 @@ public class Formatage {
 
         return imageEnString;
     }
+
+    public static String hashPassWord(String passWord){
+
+    }
 }

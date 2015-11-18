@@ -53,6 +53,10 @@ public class FacadeModele {
         return this.facadeConnexion.seConnecter(nom, pass);
     }
 
+    public boolean sinscrire(String nom, String pass){
+        return facadeConnexion.sinscrire(nom, pass);
+    }
+
     public void demanderAppareils(){
         this.facadeConnexion.demanderAppareils();
     }

@@ -12,13 +12,6 @@ import java.io.IOException;
  * La bar d'option/menu en haut de la fen�tre principale du programme.
  */
 class OptionBar extends JPanel {
-
-    /**
-     *TODO ajouter le bouton d'ajout conversation
-     */
-
-
-
     /**
      * Image du bouton de fermeture
      */

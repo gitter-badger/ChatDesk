@@ -37,6 +37,17 @@ class CreateurXMLComm {
                 enveloppeBalisesCommServeurPass, enveloppeBalisesCommServeurIsTelephone);
     }
 
+    public static String creationXMLSInscrire(String nom, String pass) {
+
+        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurNom
+                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, nom);
+        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurPass
+                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, pass);
+
+        return XML_WRITER.construireXmlServeur(CommandesServeur.REQUETE_NOUVEAU_COMPTE, enveloppeBalisesCommServeurNom,
+                enveloppeBalisesCommServeurPass);
+    }
+
     static String creationXMLLien(int idAppareil) {
         return XML_WRITER.construireXmlServeur(CommandesServeur.REQUETE_LIEN,
                 new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_ID_APPAREIL, Integer.toString(idAppareil)));

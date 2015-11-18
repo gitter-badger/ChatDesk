@@ -306,7 +306,7 @@ public class FrmConnexion extends JFrame {
         btnInscription.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                new FrmCreationCompte();
+                new FrmCreationCompte(facadeModele);
             }
         });
     }
