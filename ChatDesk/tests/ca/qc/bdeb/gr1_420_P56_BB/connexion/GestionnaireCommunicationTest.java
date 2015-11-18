@@ -33,8 +33,8 @@ public class GestionnaireCommunicationTest {
                 "</serveur>";
 
         Appareil[] expected = new Appareil[2];
-        expected[0] = new Appareil("Téléphone de Louis", 0);
-        expected[1] = new Appareil("Téléphone de Alexandre", 1);
+        expected[0] = new Appareil("Téléphone de Louis", 0,"","");
+        expected[1] = new Appareil("Téléphone de Alexandre", 1,"","");
         gestionnaireCommunicationTest.reception(xmlAjoutAppareil);
         assertTrue(comparerTableau(expected, gestionnaireCommunicationTest.getFacadeModele().getAppareils()));
     }

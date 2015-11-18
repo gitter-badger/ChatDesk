@@ -18,13 +18,14 @@ public class FenetreSelectionAppareil extends JFrame {
     public FenetreSelectionAppareil(ArrayList<Appareil> listeAppareils) {
         super(NOM_FENETRE);
 
-        GridLayout layout = new GridLayout(1, 2);
+        GridBagLayout layout = new GridBagLayout();
         this.setLayout(layout);
 
         initialiserPanneauxMaitreDetail(listeAppareils);
 
-        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
@@ -32,7 +33,22 @@ public class FenetreSelectionAppareil extends JFrame {
         panneauDetail = new PanneauDetail();
         panneauMaster = new PanneauMaitre(listeAppareils, panneauDetail);
 
-        this.add(panneauMaster);
-        this.add(panneauDetail);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.insets = new Insets(50, 50, 50, 50);
+        this.add(panneauMaster, constraints);
+
+        constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.insets = new Insets(50, 50, 50, 50);
+        this.add(panneauDetail, constraints);
     }
 }
