@@ -181,7 +181,6 @@ class GestionnaireSocket implements Runnable {
      */
     void envoyer(String communication) {
         if (out != null && communication != null) {
-            System.out.println(communication);
             out.println(communication + CARAC_FIN_MESSAGE);
             out.flush();
         }
