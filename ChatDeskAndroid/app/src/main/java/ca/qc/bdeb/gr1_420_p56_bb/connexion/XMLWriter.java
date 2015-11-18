@@ -130,11 +130,11 @@ class XMLWriter {
             StringBuilder informationContactBuilder = new StringBuilder();
 
             informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, remplacerCaracXml(Long.toString(tabEnveloppes[i].getNumeroTelephone()))));
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_MESSAGE, remplacerCaracXml(tabEnveloppes[i].getMessage())));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_TEXTE, remplacerCaracXml(tabEnveloppes[i].getMessage())));
             informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_DATE, remplacerCaracXml(Long.toString(tabEnveloppes[i].getDate().getTime()))));
             informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_EST_ENVOYE, remplacerCaracXml(Boolean.toString(tabEnveloppes[i].isEnvoye()))));
 
-            informationCommBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_ENVELOPPES, informationContactBuilder.toString()));
+            informationCommBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_MESSAGE, informationContactBuilder.toString()));
         }
     }
 

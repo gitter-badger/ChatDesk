@@ -83,13 +83,13 @@ class XMLReader {
         String message;
         Date dateMessage;
 
-        NodeList nList = getNodesParBalise(BalisesCommClient.BALISE_ENVELOPPES);
+        NodeList nList = getNodesParBalise(BalisesCommClient.BALISE_MESSAGE);
 
         for (int i = 0; i < nList.getLength(); i++) {
             try {
                 Node node = nList.item(i);
                 numeroTel = Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_NUM_TEL));
-                message = getElementParBalise(node, BalisesCommClient.BALISE_MESSAGE);
+                message = getElementParBalise(node, BalisesCommClient.BALISE_TEXTE);
                 dateMessage = new Date(Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_DATE)));
                 nouvelEnveloppe = new EnveloppeMessage(message, numeroTel, dateMessage, true);
                 listeEnveloppes.add(nouvelEnveloppe);

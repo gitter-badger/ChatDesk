@@ -17,7 +17,7 @@ enum BalisesCommClient implements Balises {
     /**
      * Contient un enveloppe, c'est à dire un message et le numéro de son envoyeur
      */
-    BALISE_ENVELOPPES("enveloppe"),
+    BALISE_MESSAGE("message"),
     /**
      * Contient un contact
      */
@@ -43,7 +43,7 @@ enum BalisesCommClient implements Balises {
     /**
      * Le contenu d'un message
      */
-    BALISE_MESSAGE("message"),
+    BALISE_TEXTE("texte"),
     /**
      * Si c'est un message envoyé ou reçu
      */
