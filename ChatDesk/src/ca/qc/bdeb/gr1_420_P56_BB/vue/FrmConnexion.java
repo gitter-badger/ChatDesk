@@ -161,12 +161,12 @@ public class FrmConnexion extends JFrame {
     /**
      * Champ d'entrée pour le nom d'usager
      */
-    private JTextArea champDeNomUsager;
+    private JTextField champDeNomUsager;
 
     /**
      * Champ d'entrée pour le mot de passe utilisateur
      */
-    private JTextArea champDeMotDePasse;
+    private JPasswordField champDeMotDePasse;
 
     /**
      * Icone principale de la fenêtre
@@ -278,9 +278,9 @@ public class FrmConnexion extends JFrame {
         btnInscription.setFont(FONT_TEXTE_PLAIN);
 
         initialiserActionListenerBtn();
+
+        pnlBoutonsActions.add(btnInscription);
         pnlBoutonsActions.add(btnConnexion);
-        pnlBoutonsActions.add(btnInscription);
-        pnlBoutonsActions.add(btnInscription);
     }
 
     /**
@@ -324,8 +324,8 @@ public class FrmConnexion extends JFrame {
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
         pnlInformationEntres.setLayout(layout);
-        champDeNomUsager = new JTextArea();
-        champDeMotDePasse = new JTextArea();
+        champDeNomUsager = new JTextField();
+        champDeMotDePasse = new JPasswordField();
         champDeMotDePasse.setFont(FONT_TEXTE_TRUE_TYPE);
         champDeNomUsager.setFont(FONT_TEXTE_TRUE_TYPE);
         lblUtilisateur.setText(TEXT_CHAMP_USAGER);
