@@ -1,16 +1,17 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
-import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
 
 import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireFichierDepuisChemin;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Alexandre on 2015-09-16.
  */
-public class XMLWriterTest extends TestCase {
+public class XMLWriterTest {
 
     final static String PATH_FICHIER_TEST_CONTACTS_MESSAGES = "resources\\fichiersTest\\testCommandeXmlPremiereConnexion.xml";
     final static String PATH_FICHIER_TEST_MESSAGES = "resources\\fichiersTest\\testCommandeXmlMessages.xml";
@@ -24,7 +25,7 @@ public class XMLWriterTest extends TestCase {
 
     private XMLWriter xmlWriter;
 
-    @Override
+    @Before
     public void setUp() {
         xmlWriter = new XMLWriter();
     }

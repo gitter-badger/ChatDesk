@@ -2,6 +2,7 @@ package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
 import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Encryptage;
 import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.EncryptageType;
+import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Formatage;
 
 /**
  * Classe qui crer les xmls avec les bonnes informations pour l'envoie au serveur
@@ -29,7 +30,7 @@ class CreateurXMLComm {
         EnveloppeBalisesCommServeur enveloppeBalisesCommServeurNom
                 = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, nom);
         EnveloppeBalisesCommServeur enveloppeBalisesCommServeurPass
-                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, pass);
+                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, Formatage.hashMotDePasse(pass, nom));
         EnveloppeBalisesCommServeur enveloppeBalisesCommServeurIsTelephone
                 = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_IS_TELEPHONE, Boolean.toString(IS_TELEPHONE));
 

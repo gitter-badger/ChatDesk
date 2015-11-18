@@ -1,16 +1,11 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
-
-/**
- * Created by Alexandre on 2015-09-07.
- */
 
 /**
  * Created by Alexandre on 2015-09-07.

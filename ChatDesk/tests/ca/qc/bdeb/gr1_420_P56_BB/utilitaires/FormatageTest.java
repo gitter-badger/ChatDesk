@@ -1,12 +1,12 @@
 package ca.qc.bdeb.gr1_420_P56_BB.utilitaires;
 
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
-import org.junit.Assert;
 import org.junit.Test;
 
 import javax.swing.*;
 import java.util.Calendar;
 import java.util.Date;
+
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Created by Alexandre on 2015-09-09.
@@ -35,7 +35,7 @@ public class FormatageTest {
                 int PREMIER_JOUR = 1;
                 valeurJourSemaine = PREMIER_JOUR;
             }
-            Assert.assertEquals(Formatage.JourFormat.values()[valeurJourSemaine - 1].toString(), resultat);
+            assertEquals(Formatage.JourFormat.values()[valeurJourSemaine - 1].toString(), resultat);
             valeurJourSemaine++;
             valeurJourMois++;
 
@@ -50,7 +50,7 @@ public class FormatageTest {
 
         Date date = calendrier.getTime();
         String resultat = Formatage.formatageDate(date);
-        Assert.assertEquals(resultat, "2" + Formatage.HeureFormat.HEURE);
+        assertEquals(resultat, "2" + Formatage.HeureFormat.HEURE);
     }
 
     @Test
@@ -61,13 +61,13 @@ public class FormatageTest {
 
         Date date = calendrier.getTime();
         String resultat = Formatage.formatageDate(date);
-        Assert.assertEquals(resultat, "5" + Formatage.HeureFormat.MINUTE);
+        assertEquals(resultat, "5" + Formatage.HeureFormat.MINUTE);
     }
 
     @Test
     public void testFormatageDateMaintenant() {
         String resultat = Formatage.formatageDate(new Date());
-        Assert.assertEquals(resultat, "Maintenant");
+        assertEquals(resultat, "Maintenant");
     }
 
     @Test
@@ -77,7 +77,7 @@ public class FormatageTest {
         int tailleX = 20;
         ImageIcon imageBarModifiee = Formatage.redimensionnerImage(imageBar, tailleX, tailleY);
 
-        Assert.assertEquals(imageBarModifiee.getIconWidth(), tailleX);
-        Assert.assertEquals(imageBarModifiee.getIconHeight(), tailleY);
+        assertEquals(imageBarModifiee.getIconWidth(), tailleX);
+        assertEquals(imageBarModifiee.getIconHeight(), tailleY);
     }
 }

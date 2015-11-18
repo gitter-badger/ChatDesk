@@ -11,7 +11,10 @@ import com.google.android.gms.wallet.fragment.Dimension;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -31,12 +34,23 @@ public class Formatage {
     }
 
     public static String convertirImageEnString(Bitmap image) {
-        Bitmap immagex=image;
+        Bitmap immagex = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
         return imageEncoded;
+    }
+
+    public static String hashMotDePasse(String pass, String salt) {
+        byte[] hashMotDePasse = new byte[0];
+        try {
+            MessageDigest mDigest = MessageDigest.getInstance("SHA-256");
+            hashMotDePasse = mDigest.digest((salt + pass).getBytes());
+        } catch (NoSuchAlgorithmException ex) {
+        }
+
+        return new BigInteger(1, hashMotDePasse).toString(16);
     }
 }

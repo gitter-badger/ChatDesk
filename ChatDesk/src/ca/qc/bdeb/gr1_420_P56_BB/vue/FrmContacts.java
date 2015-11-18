@@ -21,7 +21,7 @@ import java.awt.event.MouseEvent;
 class FrmContacts extends JPanel {
 
     /**
-     * Ratio du panneau selon la fenêtre principale
+     * Ratio du panneau selon la fenÃªtre principale
      */
     private static final int LONGUEUR_SELON_FENETRE_PRINCIPALE = 7;
 
@@ -66,12 +66,12 @@ class FrmContacts extends JPanel {
     private static final int CLICK_COUNT = 1;
 
     /**
-     * La fenêtre principale du programme
+     * La fenÃªtre principale du programme
      */
     private final FrmChatDesk fenetrePrincipale;
 
     /**
-     * La facade du modèle pour accèder au modèle
+     * La facade du modÃ¨le pour accÃ¨der au modÃ¨le
      */
     private final FacadeModele facadeModele;
 
@@ -91,7 +91,7 @@ class FrmContacts extends JPanel {
     private Dimension dimLblNom;
 
     /**
-     * La dimension du label du dernier message qu'il soit reçu ou envoyé
+     * La dimension du label du dernier message qu'il soit reÃ§u ou envoyÃ©
      */
     private Dimension dimLblDernierMessage;
 
@@ -101,7 +101,7 @@ class FrmContacts extends JPanel {
     private int borderVideSize;
 
     /**
-     * Le nombre de contact qui sont affiché sur le panneau qui contient toutes les contacts
+     * Le nombre de contact qui sont affichÃ© sur le panneau qui contient toutes les contacts
      */
     private int contactCount;
 

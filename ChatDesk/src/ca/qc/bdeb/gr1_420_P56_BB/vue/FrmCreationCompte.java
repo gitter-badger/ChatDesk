@@ -16,7 +16,7 @@ public class FrmCreationCompte extends JFrame {
 
     public static final String TEXTE_MOT_DE_PASSE = "Mot de passe ";
 
-    public static final String TEXTE_REENTRER_MOT_DE_PASSE = "Entrez, de nouveau, le mot de passe ";
+    public static final String TEXTE_REENTRER_MOT_DE_PASSE = "Entrez le mot de passe à nouveau";
 
     public static final String TEXTE_SINSCRIRE = "S'inscrire";
 
@@ -28,7 +28,7 @@ public class FrmCreationCompte extends JFrame {
 
     private static final String MESSAGE_COMPTE_CREE = "Votre compte a été créé";
 
-    private static final String MESSAGE_NOM_UTIL_DEJA_EXISTANT = "Le nom d'utilisateur existe déjà";
+    private static final String MESSAGE_NOM_UTIL_DEJA_EXISTANT = "Le nom d'utilisateur existe déjà ";
 
     /**
      * Nom de la police dans le panel

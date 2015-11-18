@@ -1,6 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
-import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Contact;
 import org.junit.Test;
 
 import java.util.ArrayList;

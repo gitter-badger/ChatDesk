@@ -1,7 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.vue;
 
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
-
 import javax.swing.*;
 import java.awt.*;
 

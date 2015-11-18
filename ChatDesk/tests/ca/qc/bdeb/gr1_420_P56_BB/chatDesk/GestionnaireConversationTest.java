@@ -73,10 +73,10 @@ public class GestionnaireConversationTest {
         ConversationDTO conversationDTO = gestionnaireConversation.getConversationDTO(ENVELOPPE_1.getNumeroTelephone());
 
         ArrayList<Message> actual = conversationDTO.getMessages();
-        assertTrue(VerifierMessages(expected, actual));
+        assertTrue(verifierMessages(expected, actual));
     }
 
-    private boolean VerifierMessages(ArrayList<Message> expected, ArrayList<Message> actual) {
+    private boolean verifierMessages(ArrayList<Message> expected, ArrayList<Message> actual) {
         boolean listeIdentique = true;
         if (actual.size() == expected.size()) {
             for (int i = 0; i < expected.size() && listeIdentique; ++i) {

@@ -2,8 +2,6 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue;
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Message;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
-import ca.qc.bdeb.gr1_420_P56_BB.vue.*;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,6 +10,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by 47 on 2015-09-09.
@@ -37,7 +37,7 @@ public class BulleTest {
         method.setAccessible(true);
         method.invoke(bulle, message.toString());
         Dimension actual = (Dimension) dimensionTemp.get(bulle);
-        Assert.assertEquals(expected, actual);
+        assertEquals(expected, actual);
 
     }
 
@@ -53,7 +53,7 @@ public class BulleTest {
         method.setAccessible(true);
         method.invoke(bulle, message.toString());
         Dimension actual = (Dimension) dimensionTemp.get(bulle);
-        Assert.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
 

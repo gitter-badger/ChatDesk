@@ -3,12 +3,10 @@ package ca.qc.bdeb.gr1_420_P56_BB.utilitaires;
 import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -130,6 +128,9 @@ public class Formatage {
 
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = bi.createGraphics();
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g.setRenderingHints(rh);
+
         g.drawImage(img, 0, 0, width, height, null);
 
         return new ImageIcon(bi);
@@ -147,6 +148,8 @@ public class Formatage {
                 image.getIconHeight(),
                 BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = bi.createGraphics();
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g.setRenderingHints(rh);
 
         g.setClip(new Ellipse2D.Float(0, 0, image.getIconWidth(), image.getIconHeight()));
         image.paintIcon(null, g, 0, 0);
