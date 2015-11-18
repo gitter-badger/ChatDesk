@@ -42,6 +42,6 @@ public class EnveloppeMessage implements ConvertissableXml {
      */
     @Override
     public String convertirEnXml() {
-        return new XMLWriter().construireXmlCommunication(new EnveloppeMessage[]{this});
+        return CreateurXMLComm.creationXMLEnveloppe(this);
     }
 }

@@ -45,9 +45,9 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
     private static final int TEMPS_CONNEXION_SOCKET = 1500;
 
     /**
-     * La position de la confirmation du login dans le tableau de contenu
+     * Fin du message envoyé par le serveur
      */
-    private static final int POSITION_CONFIRMATION = 1;
+    private static final char CARAC_FIN_MESSAGE = '\0';
 
     /**
      * Le socket de la communication avec le serveur
@@ -60,9 +60,9 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
     private boolean actif;
 
     /**
-     * Le gestionnaire de connexion. Ge
+     * Le gestionnaire de connexion.
      */
-    private final GestionnaireConnexion gestionnaireConnexion;
+    private final GestionnaireCommunication gestionnaireCommunication;
 
     /**
      * Pour l'envoie de données au serveur
@@ -74,37 +74,26 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      */
     private BufferedReader in;
 
-    public GestionnaireSocket(GestionnaireConnexion gestionnaireConnexion) {
-        this.gestionnaireConnexion = gestionnaireConnexion;
+    public GestionnaireSocket(GestionnaireCommunication gestionnaireCommunication) {
+        this.gestionnaireCommunication = gestionnaireCommunication;
         this.socket = new Socket();
     }
 
     /**
      * Envoi une demande de connexion au serveur
      *
-     * @param infoConnexionComm Le string à envoyer au serveur
-     * @return Une des valeurs de l'énum ResultatsConnexion : Valide, Invalide ou Impossible
+     * @return Une des valeurs de l'énum ResultatsConnexion : Invalide ou Impossible
      */
-    public ResultatsConnexion commencerCommunication(String infoConnexionComm) {
-        ResultatsConnexion resultatsConnexion ;
+    public ResultatsConnexion connexionAuServeur() {
+        ResultatsConnexion resultatsConnexion = ResultatsConnexion.INVALIDE;
 
         if (!socket.isConnected()) {
             try {
                 this.socket.connect(new InetSocketAddress(HOST_NAME, PORT), TEMPS_CONNEXION_SOCKET);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
-                resultatsConnexion = ResultatsConnexion.INVALIDE;
             } catch (IOException e) {
                 resultatsConnexion = ResultatsConnexion.IMPOSSIBLE;
-            }
-        } else {
-            resultatsConnexion = ResultatsConnexion.INVALIDE;
-        }
-
-        if (resultatsConnexion != ResultatsConnexion.IMPOSSIBLE) {
-            if (connecter(infoConnexionComm)) {
-                new Thread(this).start();
-                resultatsConnexion = ResultatsConnexion.VALIDE;
             }
         }
 
@@ -115,9 +104,9 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      * Envoi une requête de login au serveur
      *
      * @param infoConnexionComm Le string à envoyer au serveur
-     * @return Boolean indiquant si les données sont valides
+     * @return String de la réponse du serveur à la connexion
      */
-    private boolean connecter(String infoConnexionComm) {
+    public String seConnecter(String infoConnexionComm) {
         envoyer(infoConnexionComm);
         return receptionReponseConnexion();
     }
@@ -127,19 +116,22 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
      *
      * @return Si la demande a fonctionné
      */
-    private boolean receptionReponseConnexion() {
-        boolean connecte = false;
+    private String receptionReponseConnexion() {
+        String contenu = "";
         try {
             this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
-            String contenu = readAllLines();
-            XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(contenu);
-            if (xmlReaderServeur.lireCommande() == CommandesServeur.REQUETE_LOGIN) {
-                connecte = xmlReaderServeur.lireContenu()[POSITION_CONFIRMATION].getContenu().equals(Boolean.toString(!connecte));
-            }
+            contenu = readAllLines();
         } catch (SocketException e) {
             e.printStackTrace();
         }
-        return connecte;
+        return contenu;
+    }
+
+    /**
+     * Commencer le thread qui écoute ce que le serveur envoie
+     */
+    public void commencerEcouteServeur() {
+        new Thread(this).start();
     }
 
     /**
@@ -158,7 +150,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
 
             contenu = readAllLines();
 
-            gestionnaireConnexion.reception(contenu);
+            gestionnaireCommunication.reception(contenu);
         }
     }
 
@@ -177,7 +169,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
             do {
                 inputLine = in.readLine();
                 contenu += inputLine;
-            } while (inputLine.toCharArray()[inputLine.length() - 1] != '\0');
+            } while (inputLine.toCharArray()[inputLine.length() - 1] != CARAC_FIN_MESSAGE);
 
             contenu = contenu.substring(0, contenu.length() - 1);
 
@@ -189,26 +181,23 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
     }
 
     /**
-     * Met un terme au thread d'écoute
-     */
-    void terminerCommuication() {
-        this.actif = false;
-    }
-
-    /**
      * Envoi un message
      *
      * @param communication
      */
     void envoyer(String communication) {
-        if (out != null) {
-            out.println(communication + '\0');
+        if (out != null && communication != null) {
+            out.println(communication + CARAC_FIN_MESSAGE);
             out.flush();
         }
     }
 
-    void terminerConnexion() {
+    /**
+     * Met un terme au thread d'écoute
+     */
+    void terminerCommunication() {
         try {
+            this.actif = false;
             this.socket.close();
         } catch (IOException e) {
             e.printStackTrace();

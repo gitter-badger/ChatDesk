@@ -5,6 +5,8 @@ import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Utilisateur;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * La fen�tre de connexion pour se connecter.
@@ -142,6 +144,11 @@ public class FrmConnexion extends JFrame {
     private JButton btnConnexion;
 
     /**
+     * Bouton pour s'inscrire
+     */
+    private JButton btnInscription;
+
+    /**
      * Panneau pour les informations d'utilisateur
      */
     private JPanel pnlInformationEntres;
@@ -185,11 +192,11 @@ public class FrmConnexion extends JFrame {
         initialiserIcone();
         initialiserLayout();
         initialiserChamps();
-        initialiserBoutons();
+        initialiserBtns();
         pnlInformationEntres.setOpaque(false);
         ajouterElements();
         parametrerFenetre();
-     }
+    }
 
     /**
      * Paramétrage de la fenêtre au complet
@@ -247,7 +254,7 @@ public class FrmConnexion extends JFrame {
     private void initialiserLayout() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLayout(new GridBagLayout());
-       this.setSize((int) (dimension.width * POURCENTAGE_ECRAN_GRANDEUR_FENETRE),
+        this.setSize((int) (dimension.width * POURCENTAGE_ECRAN_GRANDEUR_FENETRE),
                 (int) (dimension.getHeight() * POURCENTAGE_ECRAN_GRANDEUR_FENETRE));
         this.setLocationRelativeTo(null);
     }
@@ -255,21 +262,22 @@ public class FrmConnexion extends JFrame {
     /**
      * Initialise les boutons connexion et inscription
      */
-    private void initialiserBoutons() {
+    private void initialiserBtns() {
         pnlBoutonsActions = new JPanel();
         pnlBoutonsActions.setSize(this.getWidth(), (int) (this.getHeight() * RATIO_80_ECRAN));
         pnlBoutonsActions.setLayout(new GridLayout(0, COL_LAYOUT_GRID, (int) (this.getHeight() * 0.2), (int) (this.getHeight() * 0.2)));
         btnConnexion = new JButton(TEXTE_BOUTON_CONNEXION);
-        JButton btnInscription = new JButton(TEXT_BOUTON_INSCRIPTION);
-        btnInscription.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT), HAUTEUR_BOUTON));
         btnConnexion.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT), HAUTEUR_BOUTON));
-        connectionServeur();
         btnConnexion.setBorderPainted(false);
         btnConnexion.setFont(FONT_TEXTE_PLAIN);
         btnConnexion.setOpaque(false);
+        btnInscription = new JButton(TEXT_BOUTON_INSCRIPTION);
+        btnInscription.setPreferredSize(new Dimension((int) (this.getWidth() * POURCENTAGE_FENETRE_LONGUEUR_COMPOSANT), HAUTEUR_BOUTON));
         btnInscription.setOpaque(false);
         btnInscription.setBorderPainted(false);
         btnInscription.setFont(FONT_TEXTE_PLAIN);
+
+        initialiserActionListenerBtn();
         pnlBoutonsActions.add(btnConnexion);
         pnlBoutonsActions.add(btnInscription);
         pnlBoutonsActions.add(btnInscription);
@@ -278,7 +286,7 @@ public class FrmConnexion extends JFrame {
     /**
      * Initialisation du bouton de connexion au serveur
      */
-    private void connectionServeur() {
+    private void initialiserActionListenerBtn() {
         btnConnexion.addActionListener(e -> {
             switch (facadeModele.seConnecter(champDeNomUsager.getText(), champDeMotDePasse.getText())) {
                 case VALIDE:
@@ -293,6 +301,12 @@ public class FrmConnexion extends JFrame {
                 case IMPOSSIBLE:
                     JOptionPane.showMessageDialog(this, MESSAGE_CONNECTION_IMPOSSIBLE);
                     break;
+            }
+        });
+        btnInscription.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new FrmCreationCompte();
             }
         });
     }
@@ -318,7 +332,7 @@ public class FrmConnexion extends JFrame {
 
 
         lblChampDeMotDeMotPasse.setText(TEXT_CHAMP_MOTDEPASSE);
-       constraints.gridx = 0;
+        constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.weightx = 0.01;
         constraints.weighty = 0.5;
@@ -332,7 +346,7 @@ public class FrmConnexion extends JFrame {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.insets = new Insets(0, 100, 0, 0);
         constraints.ipadx = 250;
-        pnlInformationEntres.add(champDeNomUsager,constraints);
+        pnlInformationEntres.add(champDeNomUsager, constraints);
         constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -340,7 +354,7 @@ public class FrmConnexion extends JFrame {
         constraints.weighty = 0.5;
         constraints.fill = GridBagConstraints.NONE;
         pnlInformationEntres.add(lblChampDeMotDeMotPasse, constraints);
-       constraints = new GridBagConstraints();
+        constraints = new GridBagConstraints();
         constraints.gridx = 1;
         constraints.gridy = 1;
         constraints.weightx = 3;
@@ -349,7 +363,5 @@ public class FrmConnexion extends JFrame {
         constraints.insets = new Insets(0, 100, 0, 0);
         constraints.ipadx = 250;
         pnlInformationEntres.add(champDeMotDePasse, constraints);
-
-
     }
 }

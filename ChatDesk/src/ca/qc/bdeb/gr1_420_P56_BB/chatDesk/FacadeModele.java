@@ -2,7 +2,7 @@ package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeContact;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.EnveloppeMessage;
-import ca.qc.bdeb.gr1_420_P56_BB.connexion.GestionnaireConnexion;
+import ca.qc.bdeb.gr1_420_P56_BB.connexion.GestionnaireCommunication;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.ResultatsConnexion;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Observateur;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class FacadeModele {
 
-    private final GestionnaireConnexion gestionnaireConnexion;
+    private final GestionnaireCommunication gestionnaireCommunication;
     private final GestionnaireConversation gestionnaireConversation;
     private final GestionnaireContacts gestionnaireContacts;
     private final GestionnaireAppareils gestionnaireAppareils;
@@ -23,7 +23,7 @@ public class FacadeModele {
      * Initialise les différents éléments du modèle
      */
     public FacadeModele() {
-        gestionnaireConnexion = new GestionnaireConnexion(this);
+        gestionnaireCommunication = new GestionnaireCommunication(this);
         gestionnaireContacts = new GestionnaireContacts();
         gestionnaireConversation = new GestionnaireConversation();
         gestionnaireAppareils = new GestionnaireAppareils();
@@ -46,15 +46,15 @@ public class FacadeModele {
      */
     public void envoyerMessage(long numeroTelephone, Message message) {
         gestionnaireConversation.ajouterMessage(numeroTelephone, message);
-        gestionnaireConnexion.envoyerEnveloppe(new EnveloppeMessage(message.getText(), numeroTelephone, message.getDate(), true));
+        gestionnaireCommunication.envoyerEnveloppe(new EnveloppeMessage(message.getText(), numeroTelephone, message.getDate(), true));
     }
 
     public void demanderAppareils(){
-        this.gestionnaireConnexion.demanderAppareils();
+        this.gestionnaireCommunication.demanderAppareils();
     }
 
     public void initierLien(int idAppareil){
-        gestionnaireConnexion.initierLien(idAppareil);
+        gestionnaireCommunication.initierLien(idAppareil);
     }
 
     public ArrayList<ConversationDTO> getConversations() {
@@ -66,7 +66,7 @@ public class FacadeModele {
     }
 
     public void envoyerContact(EnveloppeContact enveloppe) {
-        gestionnaireConnexion.envoyerEnveloppe(enveloppe);
+        gestionnaireCommunication.envoyerEnveloppe(enveloppe);
     }
 
     public Contact getContact(long numeroTelephone) {
@@ -78,7 +78,7 @@ public class FacadeModele {
     }
 
     public void ajouterObservateurErreur(ObservateurErreur observateur) {
-        this.gestionnaireConnexion.ajouterObservateurErreur(observateur);
+        this.gestionnaireCommunication.ajouterObservateurErreur(observateur);
     }
 
     public void supprimerObservateur(Observateur observateur) {
@@ -90,7 +90,7 @@ public class FacadeModele {
     }
 
     public ResultatsConnexion seConnecter(String nom, String pass) {
-        return this.gestionnaireConnexion.seConnecter(nom, pass);
+        return this.gestionnaireCommunication.seConnecter(nom, pass);
     }
 
     public void setAppareils(Appareil[] appareils) {
@@ -102,7 +102,7 @@ public class FacadeModele {
     }
 
     public void arreterProgramme() {
-        gestionnaireConnexion.arreterProgramme();
+        gestionnaireCommunication.arreterProgramme();
     }
 
     public GestionnaireAppareils getGestionnaireAppareils() {

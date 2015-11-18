@@ -11,17 +11,21 @@ public class FrmCreationCompte extends JFrame {
     private JButton btnInscrite;
     private JButton btnAnnuler;
 
-    public FrmCreationCompte(){
+    public FrmCreationCompte() {
         panneauPrincipale = new JPanel();
         this.add(panneauPrincipale);
+
+        this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+
+        this.setVisible(true);
     }
 
-    public void mettreComposantes(){
+    public void mettreComposantes() {
         this.add(new JLabel("Nom d'utilisateur : "));
         this.add(new JLabel("Mot de passe : "));
         this.add(new JLabel("Entrez le mot de passe à nouveau : "));
 
 
     }
-
 }

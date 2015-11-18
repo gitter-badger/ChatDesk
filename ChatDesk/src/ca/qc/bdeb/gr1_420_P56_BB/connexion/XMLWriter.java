@@ -71,8 +71,8 @@ class XMLWriter {
      *
      * @return Le xml en format String
      */
-    public String construireXmlCommunication(EnveloppeMessage[] tabEnveloppes) {
-        return construireXmlCommunication(CommandesClient.MESSAGES, tabEnveloppes, new EnveloppeContact[VIDE]);
+    public String construireXmlCommunication(EnveloppeMessage[] tabMessages) {
+        return construireXmlCommunication(CommandesClient.MESSAGES, tabMessages, new EnveloppeContact[VIDE]);
     }
 
     /**

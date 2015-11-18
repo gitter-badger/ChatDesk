@@ -1,7 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
-import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ContactDTO;
-
 import javax.swing.*;
 
 /**
@@ -24,11 +22,10 @@ public class EnveloppeContact implements ConvertissableXml {
      */
     private final ImageIcon image;
 
-
     /**
-     * Constructeur qui permet de crï¿½e un contact
+     * Constructeur qui permet de crée un contact
      *
-     * @param numeroTelephone Le numï¿½ro de tï¿½lï¿½phone du contact
+     * @param numeroTelephone Le numéro de téléphone du contact
      * @param nom Le nom du contact
      */
     public EnveloppeContact(long numeroTelephone, String nom, ImageIcon image){
@@ -51,6 +48,9 @@ public class EnveloppeContact implements ConvertissableXml {
         return nom;
     }
 
+    /**
+     * @return L'image de l'utilisateur
+     */
     public ImageIcon getImage(){
         return image;
     }
@@ -61,6 +61,6 @@ public class EnveloppeContact implements ConvertissableXml {
      */
     @Override
     public String convertirEnXml() {
-        return new XMLWriter().construireXmlCommunication(new EnveloppeContact[]{this});
+        return CreateurXMLComm.creationXMLEnveloppe(this);
     }
 }

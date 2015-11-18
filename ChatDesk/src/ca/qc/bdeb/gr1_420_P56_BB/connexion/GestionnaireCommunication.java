@@ -9,17 +9,12 @@ import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 /**
  * Gère la connexion entre l'Android et l'ordinateur
  */
-public class GestionnaireConnexion {
+public class GestionnaireCommunication {
 
     /**
      * Nombre de champs par appareils
      */
     private static final int NOMBRE_CHAMPS_APPAREIL = 2;
-
-    /**
-     * Indique si ce programme est un téléphone, dans notre cas évidemment non
-     */
-    private static final boolean IS_TELEPHONE = false;
 
     /**
      * La facade du modele pour accèder au modèle
@@ -31,7 +26,12 @@ public class GestionnaireConnexion {
      */
     private final GestionnaireSocket gestionnaireSocket;
 
-    public GestionnaireConnexion(FacadeModele facadeModele) {
+    /**
+     * La position de la confirmation du login dans le tableau de contenu
+     */
+    private static final int POSITION_CONFIRMATION = 1;
+
+    public GestionnaireCommunication(FacadeModele facadeModele) {
         this.facadeModele = facadeModele;
         this.gestionnaireSocket = new GestionnaireSocket(this);
     }
@@ -63,7 +63,7 @@ public class GestionnaireConnexion {
                     break;
             }
         } else {
-            gestionnaireSocket.terminerCommuication();
+            gestionnaireSocket.terminerCommunication();
         }
     }
 
@@ -112,28 +112,23 @@ public class GestionnaireConnexion {
      * @param idAppareil L'id de l'appareil auquel se connecter
      */
     public void initierLien(int idAppareil) {
-        XMLWriter xmlWriter = new XMLWriter();
-        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIEN,
-                new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_ID_APPAREIL, Integer.toString(idAppareil)));
-        this.gestionnaireSocket.envoyer(comm);
+        this.gestionnaireSocket.envoyer(CreateurXMLComm.creationXMLLien(idAppareil));
     }
 
     /**
      * Envoi une demande au serveur pour qu'il envoie tous les appareils auxquels il est possible de se connecter
      */
     public void demanderAppareils() {
-        XMLWriter xmlWriter = new XMLWriter();
-        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIENS);
-        this.gestionnaireSocket.envoyer(comm);
+        this.gestionnaireSocket.envoyer(CreateurXMLComm.creationXMLDemandeAppareils());
     }
 
     /**
      * Gère la lecture de la connexion addressée au client
      *
-     * @param communication Le xml de la connextion addressée au xlient
+     * @param commClient Le xml de la connextion addressée au xlient
      */
-    private void lireFichierXmlClient(String communication) {
-        XMLReader xmlReader = new XMLReader(communication);
+    private void lireFichierXmlClient(String commClient) {
+        XMLReader xmlReader = new XMLReader(Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).decrypter(commClient));
         switch (xmlReader.lireCommande()) {
             case PREMIERE_CONNEXION:
                 facadeModele.ajouterContacts(xmlReader.lireContacts());
@@ -163,41 +158,40 @@ public class GestionnaireConnexion {
      * @param enveloppe Une classe implémentant l'interface convertissableXml
      */
     public void envoyerEnveloppe(ConvertissableXml enveloppe) {
-        String xmlClientMessage = Encryptage.getInstance(EncryptageType.ENCRYPTAGE_CLIENT).encrypter(enveloppe.convertirEnXml());
-        String xmlServer = new XMLWriter().construireXmlServeur(CommandesServeur.REQUETE_COMM_CLIENT,
-                new EnveloppeBalisesCommServeur(BalisesCommServeur.PARTIE_CLIENT, xmlClientMessage));
-
-        gestionnaireSocket.envoyer(xmlServer);
+        gestionnaireSocket.envoyer(CreateurXMLComm.creationXMLEnvoieEnveloppe(enveloppe));
     }
 
     /**
      * Envoi une demande de connexion au serveur
      *
-     * @param nom  Le nom d'utilisateur
-     * @param pass Le mot de passe
+     * @param nom  Le nom d'utilisateur du compte
+     * @param pass Le mot de passe du compte
      * @return Une des valeurs de l'énum ResultatsConnexion : Valide, Invalide ou Impossible
      */
     public ResultatsConnexion seConnecter(String nom, String pass) {
-        XMLWriter xmlWriter = new XMLWriter();
+        String comm = CreateurXMLComm.creationXMLConnexionServeur(nom, pass);
 
-        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurNom
-                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, nom);
-        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurPass
-                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_MOT_DE_PASSE, pass);
-        EnveloppeBalisesCommServeur enveloppeBalisesCommServeurIsTelephone
-                = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_IS_TELEPHONE, Boolean.toString(IS_TELEPHONE));
+        ResultatsConnexion resultatsConnexion = gestionnaireSocket.connexionAuServeur();
 
-        String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LOGIN, enveloppeBalisesCommServeurNom,
-                enveloppeBalisesCommServeurPass, enveloppeBalisesCommServeurIsTelephone);
+        if (resultatsConnexion != ResultatsConnexion.IMPOSSIBLE) {
+            String contenu = gestionnaireSocket.seConnecter(comm);
+            XMLReaderServeur xmlReaderServeur = new XMLReaderServeur(contenu);
+            if (xmlReaderServeur.lireCommande() == CommandesServeur.REQUETE_LOGIN) {
+                if (xmlReaderServeur.lireContenu()[POSITION_CONFIRMATION].getContenu().equals(Boolean.toString(true))) {
+                    resultatsConnexion = ResultatsConnexion.VALIDE;
+                    gestionnaireSocket.commencerEcouteServeur();
+                }
+            }
+        }
 
-        return gestionnaireSocket.commencerCommunication(comm);
+        return resultatsConnexion;
     }
 
     /**
-     * Arrête le thread de la communication
+     * Arrête la communication avec le serveur
      */
     public void arreterProgramme() {
-        gestionnaireSocket.terminerCommuication();
+        gestionnaireSocket.terminerCommunication();
     }
 
     public FacadeModele getFacadeModele() {
