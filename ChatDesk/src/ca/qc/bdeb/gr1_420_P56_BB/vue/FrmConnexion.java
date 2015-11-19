@@ -26,7 +26,7 @@ public class FrmConnexion extends JFrame {
     /**
      * Chemin de l'icone principale de la fenêtre
      */
-    private static final String CHEMIN_ICONE = "resources\\images\\Mobile-Smartphone-icon.png";
+    private static final String CHEMIN_ICONE = "resources\\images\\chat_desk_icon.png";
 
     /**
      * Texte sur le bouton connexion

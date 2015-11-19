@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class PanneauMaitre extends JPanel {
 
-    private static final String CHEMIN_ICONE = "resources\\images\\Mobile-Smartphone-icon.png";
+    private static final String CHEMIN_ICONE = "resources\\images\\chat_desk_icon.png";
     private ArrayList<Appareil> listeAppareils;
     private Rappeleur rappeleur;
 
