@@ -2,8 +2,12 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue.selectionAppareils;
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -11,41 +15,55 @@ import java.util.ArrayList;
  */
 public class PanneauMaitre extends JPanel {
 
+    private static final String CHEMIN_ICONE = "resources\\images\\chat_desk_icon.png";
     private ArrayList<Appareil> listeAppareils;
     private Rappeleur rappeleur;
-    private JScrollPane scpListeAppareils;
-    private JList lstAppareils;
 
     public PanneauMaitre(ArrayList<Appareil> listeAppareils, Rappeleur rappeleur) {
         this.listeAppareils = listeAppareils;
         this.rappeleur = rappeleur;
 
-        initialiserListeAppareils();
-        initialiserScrollListeAppareil();
+        initialiserListeAppareil();
 
         sendCallback(1);
     }
 
-    private void initialiserListeAppareils() {
-        this.lstAppareils = new JList();
-
-        this.lstAppareils.setListData(listeAppareils.toArray(new Appareil[listeAppareils.size()]));
-        this.lstAppareils.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        this.lstAppareils.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        this.lstAppareils.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        this.lstAppareils.addListSelectionListener(listSelectionEvent -> {
-            sendCallback(lstAppareils.getSelectedIndex());
-        });
+    private void initialiserListeAppareil() {
+        try {
+            for (Appareil appareil : listeAppareils) {
+                this.add(initialiserPanel(appareil.getNom()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void initialiserScrollListeAppareil() {
-        this.scpListeAppareils = new JScrollPane();
+    private JPanel initialiserPanel(String nom) throws IOException {
+        JPanel panel = new JPanel();
 
-        this.scpListeAppareils.setViewportView(lstAppareils);
-        this.scpListeAppareils.setPreferredSize(new Dimension(250, 80));
-        this.scpListeAppareils.setHorizontalScrollBar(null);
-        this.add(scpListeAppareils);
+        panel.setBackground(Color.white);
+        panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        panel.setOpaque(true);
+        panel.setLayout(new GridBagLayout());
+        ajouterComposants(panel, nom);
+
+        return panel;
+    }
+
+    private void ajouterComposants(JPanel panel, String nom) throws IOException {
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        panel.add(new JLabel(new ImageIcon(ImageIO.read(new File(CHEMIN_ICONE)))), constraints);
+        constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.anchor = GridBagConstraints.NORTH;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        panel.add(new JLabel(nom), constraints);
     }
 
     private void sendCallback(int indice) {

@@ -103,7 +103,7 @@ class GestionnaireCommunication {
     private Appareil lireAppareil(EnveloppeBalisesCommServeur champId, EnveloppeBalisesCommServeur champNom) {
         int id = Integer.parseInt(champId.getContenu());
         String nom = champNom.getContenu();
-        return new Appareil(nom, id);
+        return new Appareil(nom, id,"","");
     }
 
     /**
