@@ -2,16 +2,17 @@ package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  * Un contact
  */
-public class Contact{
+public class Contact {
 
     /**
      * Le numéro de téléphone du contact
      */
-    private final long numeroTelephone;
+    private final ArrayList<Long> listeNumerosTelephone;
 
     /**
      * Le nom du contact
@@ -27,11 +28,28 @@ public class Contact{
     /**
      * Constructeur qui permet de crée un contact
      *
-     * @param numeroTelephone Le numéro de téléphone du contact
-     * @param nom Le nom du contact
+     * @param listeNumerosTelephone La liste des numero de téléphone Le numéro de téléphone du contact
+     * @param nom                  Le nom du contact
      */
-    public Contact(long numeroTelephone, String nom, ImageIcon image){
-        this.numeroTelephone = numeroTelephone;
+    public Contact(ArrayList<Long> listeNumerosTelephone, String nom, ImageIcon image) {
+        this.listeNumerosTelephone = listeNumerosTelephone;
+        System.out.println(nom + " : ");
+        for(long numero : listeNumerosTelephone){
+            System.out.println(numero);
+        }
+        this.nom = nom;
+        this.image = image;
+    }
+
+    /**
+     * Constructeur qui permet de crée un contact
+     *
+     * @param numeroTelephone Le numéro de téléphone du contact
+     * @param nom                  Le nom du contact
+     */
+    public Contact(long numeroTelephone, String nom, ImageIcon image) {
+        this.listeNumerosTelephone = new ArrayList<>();
+        this.listeNumerosTelephone.add(numeroTelephone);
         this.nom = nom;
         this.image = image;
     }
@@ -39,8 +57,12 @@ public class Contact{
     /**
      * @return Le numéro de téléphone du contact
      */
-    public long getNumeroTelephone() {
-        return numeroTelephone;
+    public ArrayList<Long> getListeNumeroTelephones() {
+        return listeNumerosTelephone;
+    }
+
+    public boolean isContactNumeroTelephone(long numeroTelephone) {
+        return listeNumerosTelephone.contains(numeroTelephone);
     }
 
     /**
@@ -50,11 +72,11 @@ public class Contact{
         return nom;
     }
 
-    public ImageIcon getImage(){
+    public ImageIcon getImage() {
         return image;
     }
 
-    public ContactDTO genererContactDTO(){
-        return new ContactDTO(nom, numeroTelephone, image);
+    public ContactDTO genererContactDTO() {
+        return new ContactDTO(nom, listeNumerosTelephone, image);
     }
 }

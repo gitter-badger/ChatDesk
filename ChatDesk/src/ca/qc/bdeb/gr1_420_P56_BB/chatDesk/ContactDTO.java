@@ -1,15 +1,16 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  * Created by Alexandre on 2015-10-30.
  */
 public class ContactDTO {
     /**
-     * Le num?ro de t?l?phone du contact
+     * Le numéro de téléphone du contact
      */
-    private final long numeroTelephone;
+    private final ArrayList<Long> listeNumerosTelephone;
 
     /**
      * Le nom du contact
@@ -21,21 +22,25 @@ public class ContactDTO {
      */
     private final ImageIcon image;
 
-    public ContactDTO(String nom, long numeroTelephone, ImageIcon image) {
+    public ContactDTO(String nom, ArrayList<Long> listeNumerosTelephone, ImageIcon image) {
         this.nom = nom;
-        this.numeroTelephone = numeroTelephone;
+        this.listeNumerosTelephone = listeNumerosTelephone;
         this.image = image;
+    }
+
+    public boolean isContactNumeroTelephone(long numeroTelephone) {
+        return listeNumerosTelephone.contains(numeroTelephone);
     }
 
     public String getNom() {
         return nom;
     }
 
-    public long getNumeroTelephone() {
-        return numeroTelephone;
+    public ArrayList<Long> getNumeroTelephone() {
+        return listeNumerosTelephone;
     }
 
-    public ImageIcon getImage(){
+    public ImageIcon getImage() {
         return image;
     }
 }

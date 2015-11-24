@@ -176,7 +176,7 @@ class FrmContacts extends JPanel {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() == CLICK_COUNT) {
-                    fenetrePrincipale.ouvrirConversation(new ConversationDTO(null, contactDTO.getNumeroTelephone()));
+                    fenetrePrincipale.ouvrirConversation(new ConversationDTO(null, contactDTO.getNumeroTelephone().get(0)));
                     jFrameContacts.dispose();
                 }
                 dimLblDernierMessage = new Dimension((int) (longueurPnlcontactX * POURCENTAGE_LONGUEUR_LBL_DERNIER_MSG),
@@ -205,8 +205,8 @@ class FrmContacts extends JPanel {
      * @param contactDTO      Une contact
      */
     private void initialiserPanneauNom(JPanel pnlConversation, ContactDTO contactDTO) {
-        //JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getNumeroTelephone()).getNom());
-        JLabel nom = new JLabel(facadeModele.getContact(contactDTO.getNumeroTelephone()).getNom());
+        //JLabel nom = new JLabel(facadeModele.getContact(conversationDTO.getListeNumeroTelephones()).getNom());
+        JLabel nom = new JLabel(facadeModele.getContact(contactDTO.getNumeroTelephone().get(0)).getNom());
         nom.setFont(new Font(nom.getFont().getFontName(), Font.BOLD, (int) dimLblNom.getHeight()));
         //nom.setSize(Formatage.calculerDimensionString(contactDTO.getNom(), new Font("raleway", Font.TRUETYPE_FONT, 12)));
         nom.setSize(Formatage.calculerDimensionString(contactDTO.getNom(), nom.getFont()));

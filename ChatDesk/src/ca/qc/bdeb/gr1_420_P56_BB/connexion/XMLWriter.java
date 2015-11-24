@@ -3,6 +3,8 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
 import org.w3c.dom.Document;
 
+import java.util.ArrayList;
+
 /**
  * Créer un nouveau fichier XML et y écris les informations demandés
  */
@@ -122,7 +124,14 @@ class XMLWriter {
             StringBuilder informationContactBuilder = new StringBuilder();
 
             informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NOM, tabContacts[i].getNom()));
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, Long.toString(tabContacts[i].getNumeroTelephone())));
+
+            StringBuilder informationNumerosTelephone = new StringBuilder();
+            ArrayList<Long> listeNumerosTelephone = tabContacts[i].getListeNumeroTelephones();
+            for (long numeroTelephone : listeNumerosTelephone) {
+                informationNumerosTelephone.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, Long.toString(numeroTelephone)));
+            }
+
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_LISTE_NUMS_TEL, informationNumerosTelephone.toString()));
             informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_IMAGE_CONTACT, Formatage.convertirImageEnString(tabContacts[i].getImage())));
 
             informationCommBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_CONTACTS, informationContactBuilder.toString()));
