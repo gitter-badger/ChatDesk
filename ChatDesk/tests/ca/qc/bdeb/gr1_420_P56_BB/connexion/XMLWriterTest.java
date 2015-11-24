@@ -3,7 +3,10 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ManipulationFichiers.lireFichierDepuisChemin;
 import static org.junit.Assert.assertEquals;
@@ -21,7 +24,20 @@ public class XMLWriterTest {
 
 
     private final EnveloppeMessage[] TAB_ENVELOPPES = {new EnveloppeMessage(9367457456l, "blahblahblah", new Date(1367457456), true)};
-    private final EnveloppeContact[] TAB_CONTACTS = {new EnveloppeContact(9367457456l, "jacques", null)};
+
+    private final static long[] tabNumeroTelephones = {9367457456l, 1461447151l};
+
+    public static ArrayList<Long> asList(final long[] tabNumeroTelephones) {
+        ArrayList<Long> listeNumeroTelephones = new ArrayList<>();
+
+        for (int i = 0; i < tabNumeroTelephones.length; i++) {
+            listeNumeroTelephones.add(tabNumeroTelephones[i]);
+        }
+
+        return listeNumeroTelephones;
+    }
+
+    private final EnveloppeContact[] TAB_CONTACTS = {new EnveloppeContact(asList(tabNumeroTelephones), "jacques", null)};
 
     private XMLWriter xmlWriter;
 
@@ -49,7 +65,7 @@ public class XMLWriterTest {
     }
 
     @Test
-    public void testConstruireXMLServerLogin(){
+    public void testConstruireXMLServerLogin() {
         EnveloppeBalisesCommServeur enveloppeBalisesCommServeurNom
                 = new EnveloppeBalisesCommServeur(BalisesCommServeur.BALISE_NOM_UTILISATEUR, "BeautifulUsername");
         EnveloppeBalisesCommServeur enveloppeBalisesCommServeurPass
@@ -63,10 +79,10 @@ public class XMLWriterTest {
     }
 
     @Test
-    public void testConstruireXMLServerDemandeAppareils(){
+    public void testConstruireXMLServerDemandeAppareils() {
         String comm = xmlWriter.construireXmlServeur(CommandesServeur.REQUETE_LIENS);
 
-        String resultatAtt =  lireFichierDepuisChemin(PATH_FICHIER_TEST_DEMANDE_APPAREILS);
+        String resultatAtt = lireFichierDepuisChemin(PATH_FICHIER_TEST_DEMANDE_APPAREILS);
 
         assertEquals(resultatAtt, comm);
     }

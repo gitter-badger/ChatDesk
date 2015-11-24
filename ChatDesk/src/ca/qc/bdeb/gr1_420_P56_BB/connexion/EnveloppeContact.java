@@ -11,9 +11,9 @@ import java.util.ArrayList;
 class EnveloppeContact implements ConvertissableXml {
 
     /**
-     * Le numï¿½ro de tï¿½lï¿½phone du contact
+     * Le numéro de téléphone du contact
      */
-    private final long numeroTelephone;
+    private final ArrayList<Long> listeNumerosTelephone;
 
     /**
      * Le nom du contact
@@ -28,17 +28,17 @@ class EnveloppeContact implements ConvertissableXml {
     /**
      * Constructeur qui permet de crée un contact
      *
-     * @param numeroTelephone Le numéro de téléphone du contact
+     * @param listeNumerosTelephone Le numéro de téléphone du contact
      * @param nom Le nom du contact
      */
-    public EnveloppeContact(long numeroTelephone, String nom, ImageIcon image){
-        this.numeroTelephone = numeroTelephone;
+    public EnveloppeContact(ArrayList<Long> listeNumerosTelephone, String nom, ImageIcon image){
+        this.listeNumerosTelephone = listeNumerosTelephone;
         this.nom = nom;
         this.image = image;
     }
 
     public EnveloppeContact(Contact contact){
-        this.numeroTelephone = contact.getNumeroTelephone();
+        this.listeNumerosTelephone = contact.getListeNumeroTelephones();
         this.nom = contact.getNom();
         this.image = contact.getImage();
     }
@@ -46,8 +46,8 @@ class EnveloppeContact implements ConvertissableXml {
     /**
      * @return Le numéro de téléphone du contact
      */
-    public long getNumeroTelephone() {
-        return numeroTelephone;
+    public ArrayList<Long> getListeNumeroTelephones() {
+        return listeNumerosTelephone;
     }
 
     /**
@@ -65,7 +65,7 @@ class EnveloppeContact implements ConvertissableXml {
     }
 
     public Contact genererContact(){
-        return new Contact(numeroTelephone, nom, image);
+        return new Contact(listeNumerosTelephone, nom, image);
     }
 
     public static ArrayList<Contact> ListeEnveloppeContactsAListeContacts(ArrayList<EnveloppeContact> enveloppeContacts){

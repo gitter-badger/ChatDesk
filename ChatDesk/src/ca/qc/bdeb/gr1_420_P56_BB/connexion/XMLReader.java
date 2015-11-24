@@ -67,7 +67,6 @@ class XMLReader {
     public ArrayList<EnveloppeContact> lireContacts() {
         ArrayList<EnveloppeContact> listeContacts = new ArrayList();
         EnveloppeContact nouveauContact;
-        long numeroTel;
         String nomContact;
         ImageIcon image;
 
@@ -76,11 +75,18 @@ class XMLReader {
         for (int i = 0; i < nList.getLength(); i++) {
             try {
                 Node node = nList.item(i);
-                numeroTel = Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_NUM_TEL));
+
+                ArrayList<Long> listeNumeroTelephones = new ArrayList<>();
+                NodeList nListNumero = getNodeElementParBalise(node, BalisesCommClient.BALISE_LISTE_NUMS_TEL);
+                for (int j = 0; j < nListNumero.getLength(); j++) {
+                    Node nodeNum = nListNumero.item(j);
+                    listeNumeroTelephones.add(Long.parseLong(getElementParBalise(nodeNum, BalisesCommClient.BALISE_NUM_TEL)));
+                }
+
                 nomContact = getElementParBalise(node, BalisesCommClient.BALISE_NOM);
                 image = convertirStringEnImage(getElementParBalise(node, BalisesCommClient.BALISE_IMAGE_CONTACT));
 
-                nouveauContact = new EnveloppeContact(numeroTel, nomContact, image);
+                nouveauContact = new EnveloppeContact(listeNumeroTelephones, nomContact, image);
                 listeContacts.add(nouveauContact);
             } catch (NumberFormatException nfe) {
                 System.out.println(MESSAGE_ERREUR_TELEPHONE);
@@ -132,6 +138,10 @@ class XMLReader {
      */
     private NodeList getNodesParBalise(Balises balise) {
         return document.getElementsByTagName(balise.getBalise());
+    }
+
+    private NodeList getNodeElementParBalise(Node node, Balises balise) {
+        return ((Element) node).getElementsByTagName(balise.getBalise());
     }
 
     /**

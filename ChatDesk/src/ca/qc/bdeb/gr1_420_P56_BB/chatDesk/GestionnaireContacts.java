@@ -35,7 +35,7 @@ class GestionnaireContacts {
     }
 
     ArrayList getContacts() {
-        return  listeContacts;
+        return listeContacts;
     }
 
     /**
@@ -51,14 +51,14 @@ class GestionnaireContacts {
         boolean trouve = false;
 
         while (position < listeContacts.size() && !trouve) {
-            if (listeContacts.get(position).getNumeroTelephone() == numeroTelephone) {
+            if (listeContacts.get(position).isContactNumeroTelephone(numeroTelephone)) {
                 contact = listeContacts.get(position);
                 trouve = true;
             }
             position++;
         }
 
-        if(contact == null){
+        if (contact == null) {
             contact = new Contact(numeroTelephone, "", null);
         }
 
@@ -67,6 +67,7 @@ class GestionnaireContacts {
 
     /**
      * Trouve un contact par son nom
+     *
      * @param nom Le nom du contact à retourner
      * @return Le contact possédant ce nom
      */
@@ -85,9 +86,10 @@ class GestionnaireContacts {
 
         return contact;
     }
-    public ArrayList<ContactDTO> getContactsDTO(){
+
+    public ArrayList<ContactDTO> getContactsDTO() {
         ArrayList<ContactDTO> contactDTOs = new ArrayList<>();
-        for (Contact contact: listeContacts) {
+        for (Contact contact : listeContacts) {
             contactDTOs.add(contact.genererContactDTO());
         }
         return contactDTOs;

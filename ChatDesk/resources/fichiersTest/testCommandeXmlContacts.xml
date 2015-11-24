@@ -1,1 +1,1 @@
-<comm><commande>contacts</commande><contact><nom>jacques</nom><numeroTelephone>9367457456</numeroTelephone><imageContact></imageContact></contact></comm>
+<comm><commande>contacts</commande><contact><nom>jacques</nom><listeNumerosTelephone><numeroTelephone>9367457456</numeroTelephone><numeroTelephone>1461447151</numeroTelephone></listeNumerosTelephone><imageContact></imageContact></contact></comm>

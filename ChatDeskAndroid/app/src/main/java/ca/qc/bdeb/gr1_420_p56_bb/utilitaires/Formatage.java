@@ -1,6 +1,7 @@
 package ca.qc.bdeb.gr1_420_p56_bb.utilitaires;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Base64;
@@ -34,13 +35,19 @@ public class Formatage {
     }
 
     public static String convertirImageEnString(Bitmap image) {
-        Bitmap immagex = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
         return imageEncoded;
+    }
+
+    public static Bitmap convertirStringEnImage(String imageString) {
+        Bitmap stringEnImage;
+        byte[] encodeByte = Base64.decode(imageString, Base64.DEFAULT);
+        stringEnImage = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        return stringEnImage;
     }
 
     public static String hashMotDePasse(String pass, String salt) {

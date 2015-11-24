@@ -1,5 +1,7 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
+import java.util.ArrayList;
+
 /**
  * Créer un nouveau fichier XML et y écris les informations demandés
  */
@@ -106,13 +108,18 @@ class XMLWriter {
      * @param tabContacts            Le tableau de contacts à convertir en XML
      */
     private void construireEnveloppesContacts(StringBuilder informationCommBuilder, EnveloppeContact[] tabContacts) {
-
-
         for (int i = 0; i < tabContacts.length; i++) {
             StringBuilder informationContactBuilder = new StringBuilder();
 
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NOM, remplacerCaracXml(tabContacts[i].getNom())));
-            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, remplacerCaracXml(Long.toString(tabContacts[i].getNumeroTelephone()))));
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_NOM, tabContacts[i].getNom()));
+
+            StringBuilder informationNumerosTelephone = new StringBuilder();
+            ArrayList<Long> listeNumerosTelephone = tabContacts[i].getListeNumeroTelephones();
+            for (long numeroTelephone : listeNumerosTelephone) {
+                informationNumerosTelephone.append(mettreInformationBalise(BalisesCommClient.BALISE_NUM_TEL, remplacerCaracXml(Long.toString(numeroTelephone))));
+            }
+
+            informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_LISTE_NUMS_TEL, informationNumerosTelephone.toString()));
             informationContactBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_IMAGE_CONTACT, remplacerCaracXml(tabContacts[i].getImage())));
 
             informationCommBuilder.append(mettreInformationBalise(BalisesCommClient.BALISE_CONTACTS, informationContactBuilder.toString()));

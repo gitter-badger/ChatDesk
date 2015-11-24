@@ -5,6 +5,8 @@ import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,11 +17,15 @@ import java.util.ArrayList;
  */
 public class PanneauMaitre extends JPanel {
 
+    private static final int ESPACEMENT_X = 20;
     private static final String CHEMIN_ICONE = "resources\\images\\chat_desk_icon.png";
+
     private ArrayList<Appareil> listeAppareils;
     private Rappeleur rappeleur;
 
     public PanneauMaitre(ArrayList<Appareil> listeAppareils, Rappeleur rappeleur) {
+        FlowLayout layoutCourant = (FlowLayout) this.getLayout();
+        layoutCourant.setHgap(ESPACEMENT_X);
         this.listeAppareils = listeAppareils;
         this.rappeleur = rappeleur;
 
@@ -30,22 +36,24 @@ public class PanneauMaitre extends JPanel {
 
     private void initialiserListeAppareil() {
         try {
-            for (Appareil appareil : listeAppareils) {
-                this.add(initialiserPanel(appareil.getNom()));
+            for (int i = 0; i < listeAppareils.size(); i++) {
+                this.add(initialiserPanel(listeAppareils.get(i)));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private JPanel initialiserPanel(String nom) throws IOException {
+    private JPanel initialiserPanel(Appareil appareil) throws IOException {
         JPanel panel = new JPanel();
 
         panel.setBackground(Color.white);
         panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         panel.setOpaque(true);
         panel.setLayout(new GridBagLayout());
-        ajouterComposants(panel, nom);
+        panel.addMouseListener(new PanneauAppareilListener(rappeleur, appareil));
+
+        ajouterComposants(panel, appareil.getNom());
 
         return panel;
     }

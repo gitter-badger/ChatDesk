@@ -1,5 +1,7 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
+import android.graphics.Bitmap;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -8,6 +10,8 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.Date;
 
+
+import ca.qc.bdeb.gr1_420_p56_bb.utilitaires.Formatage;
 
 import static ca.qc.bdeb.gr1_420_p56_bb.utilitaires.ManipulationFichiers.lireXmlDepuisContenu;
 
@@ -50,17 +54,26 @@ class XMLReader {
     public ArrayList<EnveloppeContact> lireContacts() {
         ArrayList<EnveloppeContact> listeContacts = new ArrayList();
         EnveloppeContact nouveauContact;
-        long numeroTel;
         String nomContact;
+        Bitmap image;
 
         NodeList nList = getNodesParBalise(BalisesCommClient.BALISE_CONTACTS);
 
         for (int i = 0; i < nList.getLength(); i++) {
             try {
                 Node node = nList.item(i);
-                numeroTel = Long.parseLong(getElementParBalise(node, BalisesCommClient.BALISE_NUM_TEL));
+
+                ArrayList<Long> listeNumeroTelephones = new ArrayList<>();
+                NodeList nListNumero = getNodesParBalise(BalisesCommClient.BALISE_LISTE_NUMS_TEL);
+                for (int j = 0; j < nListNumero.getLength(); j++) {
+                    Node nodeNum = nListNumero.item(j);
+                    listeNumeroTelephones.add(Long.parseLong(getElementParBalise(nodeNum, BalisesCommClient.BALISE_NUM_TEL)));
+                }
+
                 nomContact = getElementParBalise(node, BalisesCommClient.BALISE_NOM);
-                nouveauContact = new EnveloppeContact(numeroTel, nomContact, null);
+                image = Formatage.convertirStringEnImage(getElementParBalise(node, BalisesCommClient.BALISE_IMAGE_CONTACT));
+
+                nouveauContact = new EnveloppeContact(listeNumeroTelephones, nomContact, null);
                 listeContacts.add(nouveauContact);
             } catch (NumberFormatException nfe) {
                 System.out.println(MESSAGE_ERREUR_TELEPHONE);
