@@ -10,7 +10,8 @@ import java.util.ArrayList;
  * Created by 1372883 on 2015-11-03.
  */
 public class FenetreSelectionAppareil extends JFrame {
-    private final static String NOM_FENETRE = "Sélection d'appareils";
+    private static final Insets MARGES_PANNEAU = new Insets(50, 50, 50, 50);
+    private static final String NOM_FENETRE = "Sélection d'appareils";
 
     private PanneauMaitre panneauMaster;
     private PanneauDetail panneauDetail;
@@ -39,7 +40,7 @@ public class FenetreSelectionAppareil extends JFrame {
         constraints.weightx = 1;
         constraints.weighty = 1;
         constraints.fill = GridBagConstraints.NONE;
-        constraints.insets = new Insets(50, 50, 50, 50);
+        constraints.insets = MARGES_PANNEAU;
         this.add(panneauMaster, constraints);
 
         constraints = new GridBagConstraints();
@@ -48,7 +49,7 @@ public class FenetreSelectionAppareil extends JFrame {
         constraints.weightx = 1;
         constraints.weighty = 1;
         constraints.fill = GridBagConstraints.NONE;
-        constraints.insets = new Insets(50, 50, 50, 50);
+        constraints.insets = MARGES_PANNEAU;
         this.add(panneauDetail, constraints);
     }
 }
