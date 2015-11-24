@@ -1,5 +1,7 @@
 package ca.qc.bdeb.gr1_420_p56_bb.connexion;
 
+import java.util.ArrayList;
+
 /**
  * Contient les informations d'un contact et permet de le convertir en XML
  * Created by Alexandre on 2015-09-22.
@@ -8,20 +10,26 @@ public class EnveloppeContact implements ConvertissableXml {
     /**
      * Le numéro de téléphone du contact
      */
-    private long numeroTelephone;
+    private final ArrayList<Long> listeNumerosTelephone;
 
     /**
      * Le nom du contact
      */
-    private String nom;
+    private final String nom;
 
     /**
-     * L'image du profil en chaine de caractère
+     * L'image du contact
      */
-    private String image;
+    private final String image;
 
-    public EnveloppeContact(long numeroTelephone, String nom, String image) {
-        this.numeroTelephone = numeroTelephone;
+    /**
+     * Constructeur qui permet de crée un contact
+     *
+     * @param listeNumerosTelephone Le numéro de téléphone du contact
+     * @param nom Le nom du contact
+     */
+    public EnveloppeContact(ArrayList<Long> listeNumerosTelephone, String nom, String image){
+        this.listeNumerosTelephone = listeNumerosTelephone;
         this.nom = nom;
         this.image = image;
     }
@@ -29,8 +37,8 @@ public class EnveloppeContact implements ConvertissableXml {
     /**
      * @return Le numéro de téléphone du contact
      */
-    public long getNumeroTelephone() {
-        return numeroTelephone;
+    public ArrayList<Long> getListeNumeroTelephones() {
+        return listeNumerosTelephone;
     }
 
     /**
@@ -41,7 +49,7 @@ public class EnveloppeContact implements ConvertissableXml {
     }
 
     /**
-     * @return L'image du profile en chaine de caractère
+     * @return L'image de l'utilisateur
      */
     public String getImage(){
         return image;

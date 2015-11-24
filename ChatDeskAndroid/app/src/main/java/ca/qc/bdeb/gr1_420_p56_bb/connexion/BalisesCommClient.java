@@ -34,6 +34,11 @@ enum BalisesCommClient implements Balises {
     /**
      * Contient le numéro de tél d'un contact
      */
+    BALISE_LISTE_NUMS_TEL("listeNumerosTelephone"),
+
+    /**
+     * Contient le numéro de tél d'un contact
+     */
     BALISE_NUM_TEL("numeroTelephone"),
 
     /**
