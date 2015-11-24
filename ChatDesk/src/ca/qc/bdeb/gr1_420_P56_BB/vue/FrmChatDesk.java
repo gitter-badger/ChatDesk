@@ -7,32 +7,49 @@ import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 /**
- * La fen�tre principale de l'application
+ * La fen�tre principale de l"application
  */
 public class FrmChatDesk extends JFrame implements ObservateurMessage, ObservateurErreur {
 
     private static final String MESSAGE_ERREUR_CONNEXION_INTERROMPUE = "La connexion avec le serveur a été interrompue";
+
+    public static final int WIDTH_NOTIFICATION = 300;
+
+    public static final int HEIGHT_NOTIFICATION = 125;
+
+    public static final int INSETS_NOTIFICATION_HEADER = 5;
+
+    public static final Insets INSETS_NOTIFICATION_MESSAGE = new Insets(INSETS_NOTIFICATION_HEADER,
+            INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER);
+
+    public static final Insets INSETS_HEADER = new Insets(INSETS_NOTIFICATION_HEADER,
+            INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER);
+
+    public static final Insets MARGIN_BOUTON_FERMER = new Insets(1, 4, 1, 4);
+
+    public static final ImageIcon ICON_NOTIFICATION = new ImageIcon("resources\\images\\chat_desk_icon_mini.png");
     /**
      * Le panneau qui affiche la conversation en cours
      */
     private PnlConversation pnlConversation;
 
     /**
-     * Le panneau qui affiche toutes les conversation qu'� l'utilisateur
+     * Le panneau qui affiche toutes les conversation qu"� l"utilisateur
      */
     private PnlConversations pnlConversations;
 
     /**
-     * La bar d'option/menu en haut de la fen�tre
+     * La bar d"option/menu en haut de la fen�tre
      */
     private OptionBar optionBar;
 
     /**
-     * Le séparateur du panneau d'une conversation et des conversations.
+     * Le séparateur du panneau d"une conversation et des conversations.
      */
     private JSeparator separateurVertical;
 
@@ -56,13 +73,13 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
         initialiserFenetre();
         this.facadeModele.ajouterObservateur(this);
         this.facadeModele.ajouterObservateurErreur(this);
-
+        affichageNotification(null);
         frmLoading = new FrmLoading(this);
         frmLoading.commencerChargement();
     }
 
     /**
-     * Initialise la fen�tre de l'application et toutes ses composantes
+     * Initialise la fen�tre de l"application et toutes ses composantes
      */
     private void initialiserFenetre() {
         this.setLayout(null);
@@ -146,7 +163,7 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
     }
 
     /**
-     * Permet d'arr�ter le programme
+     * Permet d"arr�ter le programme
      */
     public void arreterProgramme() {
         this.dispose();
@@ -165,7 +182,58 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
     public void receptionMessage(long num) {
         pnlConversation.mettreAJour(num);
         pnlConversations.mettreAJour();
+        affichageNotification(facadeModele.getContact(num).getNom());
         scrollPanelConversations.mettreAJour();
+    }
+
+    private void affichageNotification(String nom) {
+        String message = "Nouveau message" ;
+        if (nom != null){
+            message += " de " + nom;
+        }
+        String header = "";
+        JFrame frame = new JFrame();
+        frame.setSize(WIDTH_NOTIFICATION, HEIGHT_NOTIFICATION);
+        frame.setUndecorated(true);
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 1.0f;
+        constraints.weighty = 1.0f;
+        constraints.insets = INSETS_HEADER;
+        constraints.fill = GridBagConstraints.BOTH;
+        JLabel headingLabel = new JLabel(header);
+        headingLabel.setIcon(ICON_NOTIFICATION);
+        headingLabel.setOpaque(false);
+        frame.add(headingLabel, constraints);
+        constraints.gridx++;
+        constraints.weightx = 0f;
+        constraints.weighty = 0f;
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.anchor = GridBagConstraints.NORTH;
+        JButton boutonFermer = new JButton(new AbstractAction("x") {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        boutonFermer.setMargin(MARGIN_BOUTON_FERMER);
+        boutonFermer.setFocusable(false);
+        frame.add(boutonFermer, constraints);
+        constraints.gridx = 0;
+        constraints.gridy++;
+        constraints.weightx = 1.0f;
+        constraints.weighty = 1.0f;
+        constraints.insets = INSETS_NOTIFICATION_MESSAGE;
+        constraints.fill = GridBagConstraints.BOTH;
+        JLabel messageLabel = new JLabel("<HTML>" + message);
+        frame.add(messageLabel, constraints);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets toolHeight = Toolkit.getDefaultToolkit().getScreenInsets(frame.getGraphicsConfiguration());
+        frame.setLocation(scrSize.width - frame.getWidth(), scrSize.height - toolHeight.bottom - frame.getHeight());
     }
 
     @Override

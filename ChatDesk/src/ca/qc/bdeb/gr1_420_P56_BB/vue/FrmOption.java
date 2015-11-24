@@ -72,12 +72,13 @@ public class FrmOption extends JFrame{
 
     private JButton boutonAppliquer;
 
-
+    private GridBagLayout layoutFenetre;
 
     public FrmOption(int dimensionHauteurFenetre, int dimensionLargeurFenetre, Color couleurBullesEnvoye, Color couleurBullesRecues, FrmChatDesk fenetrePrinciple) throws HeadlessException, IOException {
         panneauConteneur = new JPanel();
-        
-        panneauConteneur.setLayout(new FlowLayout(FlowLayout.LEADING, dimensionHauteurFenetre / 100, dimensionLargeurFenetre / 100));
+        layoutFenetre = new GridBagLayout();
+
+        panneauConteneur.setLayout(layoutFenetre);
         this.fenetrePrincipale = fenetrePrinciple;
         this.dimensionHauteurFenetre = dimensionHauteurFenetre;
         this.dimensionLargeurFenetre = dimensionLargeurFenetre;
@@ -99,10 +100,8 @@ public class FrmOption extends JFrame{
         });
         panneauConteneur.setMaximumSize(new Dimension(dimensionLargeurFenetre / 2, dimensionHauteurFenetre / 2));
         initialiserChampsDeChoixCouleur();
-
-        panneauConteneur.add(boutonAppliquer);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
 
@@ -156,18 +155,51 @@ public class FrmOption extends JFrame{
     }
 
     private void ajoutChamps() {
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        panneauConteneur.setLayout(layoutFenetre);
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        panneauConteneur.add(labelOptionCouleurEnvoye, constraints);
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        panneauConteneur.add(champsCouleurEnvoyeTab[0],constraints);
+        constraints.gridx = 2;
+        constraints.gridy = 0;
+        panneauConteneur.add(champsCouleurEnvoyeTab[1], constraints);
+        constraints.gridx = 3;
+        constraints.gridy = 0;
+        panneauConteneur.add(champsCouleurEnvoyeTab[2], constraints);
+        constraints.gridx = 5;
+        constraints.gridy = 0;
+        constraints.fill = GridBagConstraints.NONE;
+        panneauConteneur.add(couleurActuelOptionEnvoyees, constraints);
 
 
-        panneauConteneur.add(labelOptionCouleurEnvoye);
-        panneauConteneur.add(champsCouleurEnvoyeTab[0]);
-        panneauConteneur.add(champsCouleurEnvoyeTab[1]);
-        panneauConteneur.add(champsCouleurEnvoyeTab[2]);
-        panneauConteneur.add(couleurActuelOptionEnvoyees);
-        panneauConteneur.add(labelOptionCouleurRecu);
-        panneauConteneur.add(champsCouleurRecueTab[0]);
-        panneauConteneur.add(champsCouleurRecueTab[1]);
-        panneauConteneur.add(champsCouleurRecueTab[2]);
-        panneauConteneur.add(couleurActuelOptionRecues);
+
+
+
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        panneauConteneur.add(labelOptionCouleurRecu, constraints);
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        panneauConteneur.add(champsCouleurRecueTab[0], constraints);
+        constraints.gridx = 2;
+        constraints.gridy = 1;
+        panneauConteneur.add(champsCouleurRecueTab[1], constraints);
+        constraints.gridx = 3;
+        constraints.gridy = 1;
+        panneauConteneur.add(champsCouleurRecueTab[2], constraints);
+        constraints.gridx = 5;
+        constraints.gridy = 1;
+        constraints.fill = GridBagConstraints.NONE;
+        panneauConteneur.add(couleurActuelOptionRecues, constraints);
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        panneauConteneur.add(boutonAppliquer, constraints);
         this.add(panneauConteneur);
     }
 
