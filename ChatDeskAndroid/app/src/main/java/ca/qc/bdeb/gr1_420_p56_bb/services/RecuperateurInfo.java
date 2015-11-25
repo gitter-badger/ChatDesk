@@ -49,6 +49,7 @@ public class RecuperateurInfo {
         return enveloppeMessages.toArray(new EnveloppeMessage[enveloppeMessages.size()]);
     }
 
+    /**
     static EnveloppeContact[] lireTousContact(Service service) {
         ContentResolver cr = service.getContentResolver();
 
@@ -65,7 +66,7 @@ public class RecuperateurInfo {
                 String nom = curContact.getString(curContact.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 
                 Cursor curNum = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{ idContact }, null);
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{idContact}, null);
 
                 if (curNum.moveToFirst()) {
                     do {
@@ -101,6 +102,39 @@ public class RecuperateurInfo {
         }
 
         curContact.close();
+        return enveloppeContacts.toArray(new EnveloppeContact[enveloppeContacts.size()]);
+    }
+    **/
+
+    static EnveloppeContact[] lireTousContact(Service service) {
+        ArrayList<EnveloppeContact> enveloppeContacts = new ArrayList<>();
+
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+
+        Cursor curContact = service.getContentResolver().query(uri, null, null, null, null);
+
+        int indexName = curContact.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+        int indexNumber = curContact.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        int indexImage = curContact.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI);
+
+        curContact.moveToFirst();
+        do {
+            ArrayList<Long> listeNumerosTelephone = new ArrayList<>();
+            String nom = curContact.getString(indexName);
+            long numero = convertirNumeroTelephoneEnLong(curContact.getString(indexNumber));
+            listeNumerosTelephone.add(numero);
+            String image = "";
+            try {
+                String image_uri = curContact.getString(indexImage);
+                if (image_uri != null) {
+                    image = convertirImageEnString(MediaStore.Images.Media.getBitmap(service.getContentResolver(), Uri.parse(image_uri)));
+                }
+            } catch (IOException e) {
+            }
+
+            enveloppeContacts.add(new EnveloppeContact(listeNumerosTelephone, nom, image));
+        } while (curContact.moveToNext());
+
         return enveloppeContacts.toArray(new EnveloppeContact[enveloppeContacts.size()]);
     }
 }
