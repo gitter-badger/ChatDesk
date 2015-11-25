@@ -2,14 +2,16 @@ package ca.qc.bdeb.gr1_420_P56_BB.connexion;
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Encryptage;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.EncryptageType;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.*;
+
+import java.util.ArrayList;
 
 /**
  * Gère la connexion entre l'Android et l'ordinateur
  */
-class GestionnaireCommunication {
+
+class GestionnaireCommunication implements ObservableAppareils {
+    private static final ArrayList<ObservateurAppareils> LISTE_OBSERVATEURS = new ArrayList<>();
 
     /**
      * Nombre de champs par appareils
@@ -83,14 +85,7 @@ class GestionnaireCommunication {
         }
 
         facadeConnexion.setAppareils(tabAppareils);
-
-        /*
-         * Lignes seulement présentes à fin de test, elles font se connecter le programme au premier appareil
-         * de la liste s'il y en a un
-         */
-        if (tabAppareils.length > 0) {
-            initierLien(tabAppareils[0].getId());
-        }
+        this.aviserObservateurs();
     }
 
     /**
@@ -103,7 +98,7 @@ class GestionnaireCommunication {
     private Appareil lireAppareil(EnveloppeBalisesCommServeur champId, EnveloppeBalisesCommServeur champNom) {
         int id = Integer.parseInt(champId.getContenu());
         String nom = champNom.getContenu();
-        return new Appareil(nom, id,"","");
+        return new Appareil(nom, id, "", "");
     }
 
     /**
@@ -217,5 +212,32 @@ class GestionnaireCommunication {
 
     public void ajouterObservateurErreur(ObservateurErreur observateurErreur) {
         this.gestionnaireSocket.ajouterObservateur(observateurErreur);
+    }
+
+    @Override
+    public void ajouterObservateur(ObservateurAppareils ob) {
+        LISTE_OBSERVATEURS.add(ob);
+    }
+
+    @Override
+    public void retirerObservateur(ObservateurAppareils ob) {
+        LISTE_OBSERVATEURS.remove(ob);
+    }
+
+    @Override
+    public void retirerObservateur(int indice) {
+        LISTE_OBSERVATEURS.remove(indice);
+    }
+
+    @Override
+    public void aviserObservateurs() {
+        for (ObservateurAppareils ob : LISTE_OBSERVATEURS){
+            ob.aviserAppareils();
+        }
+    }
+
+    @Override
+    public void aviserObservateur(int indice) {
+        LISTE_OBSERVATEURS.get(indice).aviserAppareils();
     }
 }

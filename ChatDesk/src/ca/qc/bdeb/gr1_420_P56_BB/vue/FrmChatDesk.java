@@ -2,6 +2,7 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue;
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ConversationDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
+import ca.qc.bdeb.gr1_420_P56_BB.connexion.ErreursSocket;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurMessage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
@@ -187,8 +188,8 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
     }
 
     private void affichageNotification(String nom) {
-        String message = "Nouveau message" ;
-        if (nom != null){
+        String message = "Nouveau message";
+        if (nom != null) {
             message += " de " + nom;
         }
         String header = "";
@@ -208,8 +209,8 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
         headingLabel.setOpaque(false);
         frame.add(headingLabel, constraints);
         constraints.gridx++;
-        constraints.weightx = 0f;
-        constraints.weighty = 0f;
+        constraints.weightx = 0;
+        constraints.weighty = 0;
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.NORTH;
         JButton boutonFermer = new JButton(new AbstractAction("x") {
@@ -223,8 +224,8 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
         frame.add(boutonFermer, constraints);
         constraints.gridx = 0;
         constraints.gridy++;
-        constraints.weightx = 1.0f;
-        constraints.weighty = 1.0f;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
         constraints.insets = INSETS_NOTIFICATION_MESSAGE;
         constraints.fill = GridBagConstraints.BOTH;
         JLabel messageLabel = new JLabel("<HTML>" + message);
@@ -243,10 +244,10 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
     }
 
     @Override
-    public void aviserErreur() {
+    public void aviserErreur(ErreursSocket erreursSocket) {
         new FrmConnexion();
         this.dispose();
-        JOptionPane.showMessageDialog(this, MESSAGE_ERREUR_CONNEXION_INTERROMPUE);
+        JOptionPane.showMessageDialog(this, erreursSocket.getMessage(), MESSAGE_ERREUR_CONNEXION_INTERROMPUE, JOptionPane.ERROR_MESSAGE);
     }
 
     public void changerCouleurBulleRecue(Color background) {

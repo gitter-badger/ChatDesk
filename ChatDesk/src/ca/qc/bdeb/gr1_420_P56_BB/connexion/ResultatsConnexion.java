@@ -9,6 +9,10 @@ public enum ResultatsConnexion {
      */
     VALIDE,
     /**
+     * Indique qu'il y a plusieurs appareils et qu'un choix est nécessaire ou bien qu'il n'y a pas d'appareil
+     */
+    VALIDE_PLUSIEURS_OU_AUCUN_APPAREIL,
+    /**
      * Indique que les informations sont invalides et que la connexion n'est pas établie
      */
     INVALIDE,

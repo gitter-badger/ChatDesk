@@ -1,25 +1,26 @@
 package ca.qc.bdeb.gr1_420_P56_BB.utilitaires;
 
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.ErreursSocket;
 
 /**
- * Un élément qui est observé
+ * Created by 1372883 on 2015-11-25.
  */
-public interface ObservableErreur {
+public interface ObservableAppareils {
 
     /**
      * Ajout d'un observateur
      *
      * @param ob un observateur
      */
-    void ajouterObservateur(ObservateurErreur ob);
+    void ajouterObservateur(ObservateurAppareils ob);
 
     /**
      * Supprimer l'observateur passé en paramètre
      *
      * @param ob un observateur
      */
-    void retirerObservateur(ObservateurErreur ob);
+    void retirerObservateur(ObservateurAppareils ob);
 
     /**
      * Supprimer l'observateur à une certaine position
@@ -31,13 +32,12 @@ public interface ObservableErreur {
     /**
      * Aviser tous les observateurs
      */
-    void aviserObservateurs(ErreursSocket erreursSocket);
+    void aviserObservateurs();
 
     /**
      * Avise l'observateur à une certaine position
      *
      * @param indice La position
      */
-    void aviserObservateur(int indice, ErreursSocket erreursSocket);
-
+    void aviserObservateur(int indice);
 }

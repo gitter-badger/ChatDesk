@@ -5,12 +5,8 @@ import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by 1372883 on 2015-11-03.
@@ -20,13 +16,13 @@ public class PanneauMaitre extends JPanel {
     private static final int ESPACEMENT_X = 20;
     private static final String CHEMIN_ICONE = "resources\\images\\chat_desk_icon.png";
 
-    private ArrayList<Appareil> listeAppareils;
+    private Appareil[] tabAppareils;
     private Rappeleur rappeleur;
 
-    public PanneauMaitre(ArrayList<Appareil> listeAppareils, Rappeleur rappeleur) {
+    public PanneauMaitre(Appareil[] tabAppareils, Rappeleur rappeleur) {
         FlowLayout layoutCourant = (FlowLayout) this.getLayout();
         layoutCourant.setHgap(ESPACEMENT_X);
-        this.listeAppareils = listeAppareils;
+        this.tabAppareils = tabAppareils;
         this.rappeleur = rappeleur;
 
         initialiserListeAppareil();
@@ -36,8 +32,8 @@ public class PanneauMaitre extends JPanel {
 
     private void initialiserListeAppareil() {
         try {
-            for (int i = 0; i < listeAppareils.size(); i++) {
-                this.add(initialiserPanel(listeAppareils.get(i)));
+            for (int i = 0; i < tabAppareils.length; i++) {
+                this.add(initialiserPanel(tabAppareils[i]));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,6 +71,6 @@ public class PanneauMaitre extends JPanel {
     }
 
     private void sendCallback(int indice) {
-        rappeleur.rappeler(listeAppareils.get(indice));
+        rappeleur.rappeler(tabAppareils[indice]);
     }
 }
