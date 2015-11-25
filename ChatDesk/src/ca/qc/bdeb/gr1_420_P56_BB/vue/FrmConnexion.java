@@ -2,6 +2,7 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue;
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Utilisateur;
+import ca.qc.bdeb.gr1_420_P56_BB.vue.selectionAppareils.FenetreSelectionAppareil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -181,12 +182,8 @@ public class FrmConnexion extends JFrame {
     /**
      * Label à gauche du champ de mot de passe
      */
-
     private JLabel lblChampDeMotDeMotPasse;
 
-    /**
-     * Contructeur... Je sais pas quoi dire de plus
-     */
     public FrmConnexion() {
         this.facadeModele = new FacadeModele();
         initialiserIcone();
@@ -249,7 +246,7 @@ public class FrmConnexion extends JFrame {
     }
 
     /**
-     * D�fini les layouts pour la fen�tre et la positione
+     * Défini les layouts pour la fenêtre et la positione
      */
     private void initialiserLayout() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -290,10 +287,12 @@ public class FrmConnexion extends JFrame {
         btnConnexion.addActionListener(e -> {
             switch (facadeModele.seConnecter(champDeNomUsager.getText(), champDeMotDePasse.getText())) {
                 case VALIDE:
-                    FrmChatDesk frmChatDesk = new FrmChatDesk(facadeModele);
-                    frmChatDesk.setVisible(true);
-                    FrmConnexion.this.dispose();
                     facadeModele.demanderAppareils();
+                    FenetreSelectionAppareil fenetreSelectionAppareil = new FenetreSelectionAppareil(facadeModele);
+                    /*FrmChatDesk frmChatDesk = new FrmChatDesk(facadeModele);
+                    frmChatDesk.setVisible(true);
+                    */
+                    FrmConnexion.this.dispose();
                     break;
                 case INVALIDE:
                     JOptionPane.showMessageDialog(this, MESSAGE_CONNECTION_INVALIDE);

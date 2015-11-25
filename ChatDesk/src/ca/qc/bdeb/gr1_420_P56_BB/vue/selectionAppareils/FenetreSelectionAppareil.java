@@ -1,38 +1,111 @@
 package ca.qc.bdeb.gr1_420_P56_BB.vue.selectionAppareils;
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurAppareils;
+import ca.qc.bdeb.gr1_420_P56_BB.vue.FrmChatDesk;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
  * Created by 1372883 on 2015-11-03.
  */
-public class FenetreSelectionAppareil extends JFrame {
+public class FenetreSelectionAppareil extends JFrame implements ObservateurAppareils {
     private static final Insets MARGES_PANNEAU = new Insets(50, 50, 50, 50);
     private static final String NOM_FENETRE = "Sélection d'appareils";
+    private static final String MESSAGE_AUCUN_APPAREIL = "Aucun appareil";
+    private static final String MESSAGE_CHARGEMENT_APPAREILS = "Chargement des appareils";
+    private static final int SEULEMENT_UN_APPAREIL = 1;
 
+    private final FacadeModele facadeModele;
     private PanneauMaitre panneauMaster;
     private PanneauDetail panneauDetail;
+    private JButton btnRefresh;
 
-    public FenetreSelectionAppareil(ArrayList<Appareil> listeAppareils) {
+    public FenetreSelectionAppareil(FacadeModele facadeModele) {
         super(NOM_FENETRE);
+        this.facadeModele = facadeModele;
 
-        GridBagLayout layout = new GridBagLayout();
-        this.setLayout(layout);
-
-        initialiserPanneauxMaitreDetail(listeAppareils);
+        chargerTableauAppareils();
 
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.pack();
-        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
-    private void initialiserPanneauxMaitreDetail(ArrayList<Appareil> listeAppareils) {
+    private void resetLayout(){
+        this.setLayout(new GridBagLayout());
+        this.getContentPane().removeAll();
+    }
+
+    private void chargerTableauAppareils() {
+        Appareil[] tabAppareils = facadeModele.getAppareils();
+
+        resetLayout();
+        if (tabAppareils == null) {
+            initialiserChargementAppareils();
+        } else if (tabAppareils.length == SEULEMENT_UN_APPAREIL) {
+            initierLien(SEULEMENT_UN_APPAREIL);
+        } else if (tabAppareils.length > SEULEMENT_UN_APPAREIL) {
+            initialiserPanneauxMaitreDetail(tabAppareils);
+        } else {
+            initialiserAucunAppareils();
+        }
+
+        initialiserBoutonRefresh();
+        this.pack();
+        this.setLocationRelativeTo(null);
+    }
+
+    private void initialiserChargementAppareils() {
+        ajouterLabelSeul(MESSAGE_CHARGEMENT_APPAREILS);
+    }
+
+    private void initialiserBoutonRefresh() {
+        btnRefresh = new JButton();
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(actionEvent -> {
+            facadeModele.demanderAppareils();
+        });
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        this.add(btnRefresh);
+    }
+
+    private void initierLien(int indice) {
+        facadeModele.initierLien(indice);
+        FrmChatDesk frmChatDesk = new FrmChatDesk(facadeModele);
+        frmChatDesk.setVisible(true);
+        this.dispose();
+    }
+
+    private void initialiserAucunAppareils() {
+        ajouterLabelSeul(MESSAGE_AUCUN_APPAREIL);
+    }
+
+    private void ajouterLabelSeul(String message){
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.insets = MARGES_PANNEAU;
+        this.add(new JLabel(message), constraints);
+    }
+
+    private void initialiserPanneauxMaitreDetail(Appareil[] tabAppareils) {
         panneauDetail = new PanneauDetail();
-        panneauMaster = new PanneauMaitre(listeAppareils, panneauDetail);
+        panneauMaster = new PanneauMaitre(tabAppareils, panneauDetail);
+
+        System.out.println(tabAppareils.length);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
@@ -51,5 +124,10 @@ public class FenetreSelectionAppareil extends JFrame {
         constraints.fill = GridBagConstraints.NONE;
         constraints.insets = MARGES_PANNEAU;
         this.add(panneauDetail, constraints);
+    }
+
+    @Override
+    public void aviserAppareils() {
+        this.chargerTableauAppareils();
     }
 }

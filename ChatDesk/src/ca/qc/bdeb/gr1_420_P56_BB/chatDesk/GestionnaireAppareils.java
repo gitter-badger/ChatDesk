@@ -19,7 +19,6 @@ class GestionnaireAppareils {
     }
 
     public void setAppareils(Appareil[] appareils) {
-
         this.appareils = appareils;
     }
 }
