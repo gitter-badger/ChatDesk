@@ -141,7 +141,9 @@ class OptionBar extends JPanel {
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                bougerFenetre(e);
+                if (!resizing) {
+                    bougerFenetre(e);
+                }
             }
         });
 
@@ -329,46 +331,67 @@ class OptionBar extends JPanel {
             public void eventDispatched(AWTEvent e) {
                 if (e instanceof MouseEvent) {
                     MouseEvent me = (MouseEvent) e;
+
+                    PointerInfo pi = MouseInfo.getPointerInfo();
+                    Point cursorLocation = pi.getLocation();
+
+                    int xPos = cursorLocation.x - (int) frmPrincipale.getLocation().getX();
+                    int yPos = cursorLocation.y - (int) frmPrincipale.getLocation().getY();
+
                     if (me.getID() == MouseEvent.MOUSE_MOVED) {
-                        PointerInfo pi = MouseInfo.getPointerInfo();
-                        Point cursorLocation = pi.getLocation();
-                        int xPos = cursorLocation.x - (int) frmPrincipale.getLocation().getX();
-                        int yPos = cursorLocation.y - (int) frmPrincipale.getLocation().getY();
-                        if (xPos < 5 && xPos >= 0 && xPos > frmPrincipale.getContentPane().getWidth() - 5 && xPos <= frmPrincipale.getContentPane().getWidth()) {
+                        if (xPos <= 5 && xPos >= 0 && yPos <= 5 && yPos >= 0) {
                             me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
-                        } else if (xPos < 5 && xPos >= 0 && yPos > frmPrincipale.getContentPane().getHeight() - 5 && yPos <= frmPrincipale.getContentPane().getHeight()) {
+                        } else if (xPos <= 5 && xPos >= 0 && yPos >= frmPrincipale.getContentPane().getHeight() - 5 && yPos <= frmPrincipale.getContentPane().getHeight()) {
                             me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
-                        } else if (yPos < 5 && yPos >= 0 && xPos > frmPrincipale.getContentPane().getWidth() - 5 && xPos <= frmPrincipale.getContentPane().getWidth()) {
+                        } else if (yPos <= 5 && yPos >= 0 && xPos >= frmPrincipale.getContentPane().getWidth() - 5 && xPos <= frmPrincipale.getContentPane().getWidth()) {
                             me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
-                        } else if (xPos > frmPrincipale.getContentPane().getWidth() - 5 && xPos <= frmPrincipale.getContentPane().getWidth() &&
-                                yPos > frmPrincipale.getContentPane().getHeight() - 5 && yPos <= frmPrincipale.getContentPane().getHeight()) {
+                        } else if (xPos >= frmPrincipale.getContentPane().getWidth() - 5 && xPos <= frmPrincipale.getContentPane().getWidth() &&
+                                yPos >= frmPrincipale.getContentPane().getHeight() - 5 && yPos <= frmPrincipale.getContentPane().getHeight()) {
                             me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
-                        } else if (xPos < 5 && xPos >= 0) {
+                        } else if (xPos <= 5 && xPos >= 0) {
                             me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
-                        } else if (xPos > frmPrincipale.getContentPane().getWidth() - 5 && xPos <= frmPrincipale.getContentPane().getWidth()) {
+                        } else if (xPos >= frmPrincipale.getContentPane().getWidth() - 5 && xPos <= frmPrincipale.getContentPane().getWidth()) {
                             me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
-                        } else if (yPos < 5 && yPos >= 0) {
+                        } else if (yPos <= 5 && yPos >= 0) {
                             me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
-                        } else if (yPos > frmPrincipale.getContentPane().getHeight() - 5 && yPos <= frmPrincipale.getContentPane().getHeight()) {
+                        } else if (yPos >= frmPrincipale.getContentPane().getHeight() - 5 && yPos <= frmPrincipale.getContentPane().getHeight()) {
                             me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
                         } else {
                             me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                         }
                     } else if (me.getID() == MouseEvent.MOUSE_DRAGGED) {
                         if (resizing) {
-                            Point pt = me.getPoint();
-                            frmPrincipale.setSize(frmPrincipale.getWidth() + pt.x - point.x, frmPrincipale.getHeight());
-                            point.x = pt.x;
-                        } else if (!me.isMetaDown()) {
-                            Point p = frmPrincipale.getLocation();
-                            frmPrincipale.setLocation(p.x + me.getX() - point.x,
-                                    p.y + me.getY() - point.y);
+                            if (me.getComponent().getCursor().getType() == Cursor.NW_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() - cursorLocation.x + point.x, frmPrincipale.getHeight() - cursorLocation.y + point.y);
+                                frmPrincipale.setLocation(frmPrincipale.getLocation().x + cursorLocation.x - point.x, frmPrincipale.getLocation().y + cursorLocation.y - point.y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.SW_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() - cursorLocation.x + point.x, frmPrincipale.getHeight() + cursorLocation.y - point.y);
+                                frmPrincipale.setLocation(frmPrincipale.getLocation().x + cursorLocation.x - point.x, frmPrincipale.getLocation().y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.NE_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() + cursorLocation.x - point.x, frmPrincipale.getHeight() - cursorLocation.y + point.y);
+                                frmPrincipale.setLocation(frmPrincipale.getLocation().x, frmPrincipale.getLocation().y + cursorLocation.y - point.y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.SE_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() + cursorLocation.x - point.x, frmPrincipale.getHeight() + cursorLocation.y - point.y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.W_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() - cursorLocation.x + point.x, frmPrincipale.getHeight());
+                                frmPrincipale.setLocation(frmPrincipale.getLocation().x + cursorLocation.x - point.x, frmPrincipale.getLocation().y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.E_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() + cursorLocation.x - point.x, frmPrincipale.getHeight());
+                            } else if (me.getComponent().getCursor().getType() == Cursor.N_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth(), frmPrincipale.getHeight() - cursorLocation.y + point.y);
+                                frmPrincipale.setLocation(frmPrincipale.getLocation().x, frmPrincipale.getLocation().y + cursorLocation.y - point.y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.S_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth(), frmPrincipale.getHeight() + cursorLocation.y - point.y);
+                            }
+
+                            point.x = cursorLocation.x;
+                            point.y = cursorLocation.y;
                         }
                     } else if (me.getID() == MouseEvent.MOUSE_PRESSED) {
-                        resizing = frmPrincipale.getCursor().equals(Cursor.getDefaultCursor()) ? false : true;
+                        resizing = me.getComponent().getCursor().equals(Cursor.getDefaultCursor()) ? false : true;
                         if (!me.isMetaDown()) {
-                            point.x = me.getX();
-                            point.y = me.getY();
+                            point.x = cursorLocation.x;
+                            point.y = cursorLocation.y;
                         }
                     }
                 }
