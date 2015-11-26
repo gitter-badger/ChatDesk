@@ -180,10 +180,8 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
     }
 
     private void affichageNotification(Message message) {
-        if (message != null) {
-            FrmNotification frmNotification = new FrmNotification(facadeModele);
-            frmNotification.affichierNotification(message);
-        }
+        FrmNotification frmNotification = new FrmNotification(facadeModele);
+        frmNotification.affichierNotification(new Message(12312, "Bonjours", new Date(), false));
     }
 
     @Override
