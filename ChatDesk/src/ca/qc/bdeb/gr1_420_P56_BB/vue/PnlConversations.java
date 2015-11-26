@@ -17,11 +17,6 @@ import java.awt.event.MouseEvent;
 class PnlConversations extends JPanel {
 
     /**
-     * Image de profile vide
-     */
-    private static final ImageIcon IMAGE_CONTACT_DEFAUT = new ImageIcon("resources/images/contact_defaut.png");
-
-    /**
      * Ratio du panneau selon la fenêtre principale
      */
     private static final int LONGUEUR_SELON_FENETRE_PRINCIPALE = 7;
@@ -214,7 +209,7 @@ class PnlConversations extends JPanel {
     private void initialiserPanneauConversationImage(JPanel pnlConversation, ConversationDTO conversationDTO) {
         ImageIcon imageIcon = facadeModele.getContact(conversationDTO.getNumeroTelephone()).getImage();
         if (imageIcon == null) {
-            imageIcon = IMAGE_CONTACT_DEFAUT;
+            imageIcon = FrmChatDesk.IMAGE_CONTACT_DEFAUT;
         }
 
         JLabel lblImage = new JLabel(Formatage.arrondirImage(Formatage.redimensionnerImage(imageIcon, (int) dimLblImageContact.getWidth(),

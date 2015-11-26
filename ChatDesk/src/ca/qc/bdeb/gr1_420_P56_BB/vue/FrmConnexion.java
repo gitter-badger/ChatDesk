@@ -288,10 +288,10 @@ public class FrmConnexion extends JFrame {
             switch (facadeModele.seConnecter(champDeNomUsager.getText(), champDeMotDePasse.getText())) {
                 case VALIDE:
                     facadeModele.demanderAppareils();
-                    FenetreSelectionAppareil fenetreSelectionAppareil = new FenetreSelectionAppareil(facadeModele);
-                    /*FrmChatDesk frmChatDesk = new FrmChatDesk(facadeModele);
+                    //FenetreSelectionAppareil fenetreSelectionAppareil = new FenetreSelectionAppareil(facadeModele);
+                    FrmChatDesk frmChatDesk = new FrmChatDesk(facadeModele);
                     frmChatDesk.setVisible(true);
-                    */
+
                     FrmConnexion.this.dispose();
                     break;
                 case INVALIDE:

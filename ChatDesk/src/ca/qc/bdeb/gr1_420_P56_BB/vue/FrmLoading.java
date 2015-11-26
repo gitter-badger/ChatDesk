@@ -34,6 +34,7 @@ public class FrmLoading extends JFrame implements Runnable {
         this.setLayout(new FlowLayout());
         this.setAlwaysOnTop(true);
         this.setBackground(Color.DARK_GRAY);
+        this.setType(javax.swing.JFrame.Type.UTILITY);
 
         JLabel lblMessage = new JLabel(MESSAGE);
         lblMessage.setFont(FONT);
