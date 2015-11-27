@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.Date;
 
 /**
  * La fen�tre principale de l"application
@@ -183,6 +184,8 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
             frmNotification.affichierNotification(message);
         } else {
             System.err.print("PRQ EST-CE QUE MESSAGE EST NULL");
+            FrmNotification frmNotification = new FrmNotification(facadeModele);
+            frmNotification.affichierNotification(new Message(1241, "Bonjours comment ca vas ta journée", new Date(), false));
         }
     }
 
