@@ -4,15 +4,13 @@ import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ConversationDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Message;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.ErreursSocket;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurMessage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurMessage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.Date;
 
 /**
  * La fen�tre principale de l"application
@@ -180,8 +178,12 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
     }
 
     private void affichageNotification(Message message) {
-        FrmNotification frmNotification = new FrmNotification(facadeModele);
-        frmNotification.affichierNotification(new Message(12312, "Bonjours", new Date(), false));
+        if (message != null) {
+            FrmNotification frmNotification = new FrmNotification(facadeModele);
+            frmNotification.affichierNotification(message);
+        } else {
+            System.err.print("PRQ EST-CE QUE MESSAGE EST NULL");
+        }
     }
 
     @Override

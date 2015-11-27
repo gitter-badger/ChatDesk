@@ -132,34 +132,28 @@ public class FrmNotification extends JFrame implements Runnable {
         new Thread() {
             public void run() {
                 try {
-                    soundFile = new File("resources/notifications/notification_yo.wav");
-                } catch (
-                        Exception e
-                        ) {
+                    soundFile = new File("resources/notifications/notification_calme_1.wav");
+                } catch (Exception e) {
                     e.printStackTrace();
-                    System.exit(1);
+                    return;
                 }
                 try {
                     audioStream = AudioSystem.getAudioInputStream(soundFile);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.exit(1);
+                    return;
                 }
                 audioFormat = audioStream.getFormat();
                 DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
                 try {
                     sourceLine = (SourceDataLine) AudioSystem.getLine(info);
                     sourceLine.open(audioFormat);
-                } catch (
-                        LineUnavailableException e
-                        ) {
+                } catch (LineUnavailableException e) {
                     e.printStackTrace();
-                    System.exit(1);
-                } catch (
-                        Exception e
-                        ) {
+                    return;
+                } catch (Exception e) {
                     e.printStackTrace();
-                    System.exit(1);
+                    return;
                 }
                 sourceLine.start();
 
