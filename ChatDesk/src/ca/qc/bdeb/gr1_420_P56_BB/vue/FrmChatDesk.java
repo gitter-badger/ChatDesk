@@ -73,7 +73,7 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
         initialiserFenetre();
         this.facadeModele.ajouterObservateur(this);
         this.facadeModele.ajouterObservateurErreur(this);
-        affichageNotification(null);
+        FrmNotification notification = new FrmNotification(null,null);
         frmLoading = new FrmLoading(this);
         frmLoading.commencerChargement();
     }
@@ -182,59 +182,12 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
     public void receptionMessage(long num) {
         pnlConversation.mettreAJour(num);
         pnlConversations.mettreAJour();
-        affichageNotification(facadeModele.getContact(num).getNom());
+        FrmNotification notification = new FrmNotification(facadeModele.getContact(num).getNom(), facadeModele.getConversationDTO(num).getLastMessage().getText());
         scrollPanelConversations.mettreAJour();
     }
 
-    private void affichageNotification(String nom) {
-        String message = "Nouveau message" ;
-        if (nom != null){
-            message += " de " + nom;
-        }
-        String header = "";
-        JFrame frame = new JFrame();
-        frame.setSize(WIDTH_NOTIFICATION, HEIGHT_NOTIFICATION);
-        frame.setUndecorated(true);
-        frame.setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.weightx = 1.0f;
-        constraints.weighty = 1.0f;
-        constraints.insets = INSETS_HEADER;
-        constraints.fill = GridBagConstraints.BOTH;
-        JLabel headingLabel = new JLabel(header);
-        headingLabel.setIcon(ICON_NOTIFICATION);
-        headingLabel.setOpaque(false);
-        frame.add(headingLabel, constraints);
-        constraints.gridx++;
-        constraints.weightx = 0f;
-        constraints.weighty = 0f;
-        constraints.fill = GridBagConstraints.NONE;
-        constraints.anchor = GridBagConstraints.NORTH;
-        JButton boutonFermer = new JButton(new AbstractAction("x") {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                frame.dispose();
-            }
-        });
-        boutonFermer.setMargin(MARGIN_BOUTON_FERMER);
-        boutonFermer.setFocusable(false);
-        frame.add(boutonFermer, constraints);
-        constraints.gridx = 0;
-        constraints.gridy++;
-        constraints.weightx = 1.0f;
-        constraints.weighty = 1.0f;
-        constraints.insets = INSETS_NOTIFICATION_MESSAGE;
-        constraints.fill = GridBagConstraints.BOTH;
-        JLabel messageLabel = new JLabel("<HTML>" + message);
-        frame.add(messageLabel, constraints);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Insets toolHeight = Toolkit.getDefaultToolkit().getScreenInsets(frame.getGraphicsConfiguration());
-        frame.setLocation(scrSize.width - frame.getWidth(), scrSize.height - toolHeight.bottom - frame.getHeight());
-    }
+
+
 
     @Override
     public void finReceptionConnexionInitiale() {

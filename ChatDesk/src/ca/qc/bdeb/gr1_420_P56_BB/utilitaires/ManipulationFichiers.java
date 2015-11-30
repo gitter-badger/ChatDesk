@@ -78,9 +78,12 @@ public class ManipulationFichiers {
 
     public static String LireFichierAvecChemin(String chemin) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(new File(chemin)));
-        String retour = in.readLine();
-        while (retour != null ){
-            retour = in.readLine();
+        String ligne = in.readLine();
+        String retour = "";
+        while (ligne != null){
+            retour += ligne;
+            ligne = in.readLine();
+
         }
         in.close();
         return retour;

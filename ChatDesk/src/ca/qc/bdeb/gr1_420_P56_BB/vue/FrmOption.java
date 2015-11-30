@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
 /**
  * Created by 47 on 2015-10-31.
  */
-public class FrmOption extends JFrame{
+public class FrmOption extends JFrame {
     /**
-     *  Panneau contenant toutes les options
+     * Panneau contenant toutes les options
      */
     private JPanel panelOptions;
     /**
@@ -44,15 +44,15 @@ public class FrmOption extends JFrame{
      */
     private JLabel couleurActuelOptionRecues;
     /**
-     *Couleur des bulles envoy�es
+     * Couleur des bulles envoy�es
      */
     private JLabel couleurActuelOptionEnvoyees;
     /**
-     *  couleur des bulles envoye�s
+     * couleur des bulles envoye�s
      */
     private Color couleurBullesEnvoyes;
     /**
-     *  couleur des bulles re�ues
+     * couleur des bulles re�ues
      */
     private Color couleurBullesRecues;
     /**
@@ -108,14 +108,14 @@ public class FrmOption extends JFrame{
     @Override
     public void paintComponents(Graphics g) {
         super.paintComponents(g);
-        if (champsCouleurEnvoyeTab != null){
+        if (champsCouleurEnvoyeTab != null) {
             couleurActuelOptionEnvoyees.setBackground(
                     new Color((int) (champsCouleurEnvoyeTab[0].getValue()),
                             (int) champsCouleurEnvoyeTab[1].getValue(),
                             (int) champsCouleurEnvoyeTab[2].getValue()));
             couleurActuelOptionEnvoyees.repaint();
         }
-        if (champsCouleurRecueTab != null){
+        if (champsCouleurRecueTab != null) {
             couleurActuelOptionRecues.setBackground(
                     new Color((int) (champsCouleurRecueTab[0].getValue()),
                             (int) champsCouleurRecueTab[1].getValue(),
@@ -125,6 +125,7 @@ public class FrmOption extends JFrame{
         setColorBulleEnvoyee();
         setColorBulleRecues();
     }
+
     private void initialiserChampsDeChoixCouleur() throws IOException {
         couleurActuelOptionEnvoyees = new JLabel();
         couleurActuelOptionEnvoyees.setText("      ");
@@ -142,7 +143,7 @@ public class FrmOption extends JFrame{
         initialiserChampNumberSpinnerCouleures();
     }
 
-    private void initialiserChampNumberSpinnerCouleures(){
+    private void initialiserChampNumberSpinnerCouleures() {
         initialisationChamps();
         initialisationModeleNombre();
         champsCouleurEnvoyeTab[0].setMaximumSize(new Dimension(40, 20));
@@ -164,7 +165,7 @@ public class FrmOption extends JFrame{
         panneauConteneur.add(labelOptionCouleurEnvoye, constraints);
         constraints.gridx = 1;
         constraints.gridy = 0;
-        panneauConteneur.add(champsCouleurEnvoyeTab[0],constraints);
+        panneauConteneur.add(champsCouleurEnvoyeTab[0], constraints);
         constraints.gridx = 2;
         constraints.gridy = 0;
         panneauConteneur.add(champsCouleurEnvoyeTab[1], constraints);
@@ -175,9 +176,6 @@ public class FrmOption extends JFrame{
         constraints.gridy = 0;
         constraints.fill = GridBagConstraints.NONE;
         panneauConteneur.add(couleurActuelOptionEnvoyees, constraints);
-
-
-
 
 
         constraints.fill = GridBagConstraints.BOTH;
@@ -236,7 +234,7 @@ public class FrmOption extends JFrame{
                 paintComponents(getGraphics());
             }
         });
-        champsCouleurRecueTab= new JSpinner[3];
+        champsCouleurRecueTab = new JSpinner[3];
         champsCouleurRecueTab[0] = new JSpinner();
         champsCouleurRecueTab[1] = new JSpinner();
         champsCouleurRecueTab[2] = new JSpinner();
@@ -264,7 +262,7 @@ public class FrmOption extends JFrame{
     }
 
     private void initialisationModeleNombre() {
-        champsCouleurEnvoyeTab[0].setModel(new SpinnerNumberModel(couleurBullesEnvoyes.getRed(),0,255,1));
+        champsCouleurEnvoyeTab[0].setModel(new SpinnerNumberModel(couleurBullesEnvoyes.getRed(), 0, 255, 1));
         champsCouleurEnvoyeTab[1].setModel(new SpinnerNumberModel(couleurBullesEnvoyes.getGreen(), 0, 255, 1));
         champsCouleurEnvoyeTab[2].setModel(new SpinnerNumberModel(couleurBullesEnvoyes.getBlue(), 0, 255, 1));
         champsCouleurRecueTab[0].setModel(new SpinnerNumberModel(couleurBullesRecues.getRed(), 0, 255, 1));
@@ -272,11 +270,12 @@ public class FrmOption extends JFrame{
         champsCouleurRecueTab[2].setModel(new SpinnerNumberModel(couleurBullesRecues.getBlue(), 0, 255, 1));
     }
 
-    private void setColorBulleEnvoyee(){
+    private void setColorBulleEnvoyee() {
         fenetrePrincipale.changerCouleurBulleEnvoye(couleurActuelOptionEnvoyees.getBackground());
 
     }
-    private void setColorBulleRecues(){
+
+    private void setColorBulleRecues() {
         fenetrePrincipale.changerCouleurBulleRecue(couleurActuelOptionRecues.getBackground());
 
     }
@@ -284,24 +283,30 @@ public class FrmOption extends JFrame{
     private void sauveGarderOptions() throws IOException {
         String chemin = System.getProperty("user.home");
         chemin += "\\Documents\\optionChatDesk";
-        ManipulationFichiers.EcrireFichierAvecChemin(chemin,couleurActuelOptionRecues.getBackground()
-                + "|" + couleurActuelOptionRecues.getBackground());
+        ManipulationFichiers.EcrireFichierAvecChemin(chemin,  Integer.toHexString(couleurActuelOptionRecues.getBackground().getRGB())
+                + "|" +Integer.toHexString(couleurActuelOptionEnvoyees.getBackground().getRGB()));
     }
 
-    private void retablirOption()  {
+    private void retablirOption() {
         String chemin = System.getProperty("user.home");
         chemin += "\\Documents\\optionChatDesk";
         String valeur = null;
         try {
             valeur = ManipulationFichiers.LireFichierAvecChemin(chemin);
 
-        String regex = "(.*)[|](.*)";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(valeur);
-
-
-        couleurActuelOptionRecues.setBackground(Color.decode(matcher.group(1)));
-        couleurActuelOptionEnvoyees.setBackground(Color.decode(matcher.group(0)));
+            String regex = "(.*)\\|(.*)";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(valeur);
+            if (matcher.find()) {
+                String couleur = matcher.group(2);
+                couleur = "0x" + couleur;
+                couleur = couleur.toUpperCase();
+                couleurActuelOptionEnvoyees.setBackground(Color.getColor(couleur));
+                couleur = matcher.group(1);
+                couleur = "0x" + couleur;
+                couleur = couleur.toUpperCase();
+                couleurActuelOptionRecues.setBackground(Color.getColor(couleur));
+            }
         } catch (IOException e) {
 
         }

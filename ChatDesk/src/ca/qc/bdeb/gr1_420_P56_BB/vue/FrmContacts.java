@@ -225,7 +225,7 @@ class FrmContacts extends JPanel {
     public void initialiserContacts() {
         this.removeAll();
         contactCount = 0;
-        for (ContactDTO contactDTO : ContactsTest.asList()) {
+        for (ContactDTO contactDTO : facadeModele.getContacts()) {
             ajouterContact(contactDTO);
             contactCount++;
         }
