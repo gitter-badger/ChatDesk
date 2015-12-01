@@ -12,13 +12,14 @@ import java.awt.*;
  * Created by 1372883 on 2015-11-03.
  */
 public class FenetreSelectionAppareil extends JFrame implements ObservateurAppareils, Rappeleur {
-    private static final Insets MARGES_PANNEAU = new Insets(50, 50, 50, 50);
+    private static final Insets MARGES_PANNEAU = new Insets(50, 150, 0, 150);
+    private static final Insets MARGES_BOUTON = new Insets(15, 0, 20, 0);
     private static final String NOM_FENETRE = "Sélection d'appareils";
     private static final String MESSAGE_AUCUN_APPAREIL = "Aucun appareil";
     private static final String MESSAGE_CHARGEMENT_APPAREILS = "Chargement des appareils";
     private static final int AUCUN_APPAREIL = 0;
 
-    private final FacadeModele facadeModele;
+    private FacadeModele facadeModele;
     private PanneauMaitre panneauMaster;
     private PanneauDetail panneauDetail;
     private JButton btnRefresh;
@@ -34,7 +35,7 @@ public class FenetreSelectionAppareil extends JFrame implements ObservateurAppar
         this.setVisible(true);
     }
 
-    private void resetLayout(){
+    private void resetLayout() {
         this.setLayout(new GridBagLayout());
         this.getContentPane().removeAll();
     }
@@ -69,16 +70,16 @@ public class FenetreSelectionAppareil extends JFrame implements ObservateurAppar
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
-        constraints.gridy = 3;
+        constraints.gridy = 2;
         constraints.weightx = 1;
         constraints.weighty = 1;
-        this.add(btnRefresh);
+        constraints.insets = MARGES_BOUTON;
+        this.add(btnRefresh, constraints);
     }
 
     private void initierLien(int idAppareil) {
         facadeModele.initierLien(idAppareil);
-        FrmChatDesk frmChatDesk = new FrmChatDesk(facadeModele);
-        frmChatDesk.setVisible(true);
+        new FrmChatDesk(facadeModele);
         this.dispose();
     }
 
@@ -86,7 +87,7 @@ public class FenetreSelectionAppareil extends JFrame implements ObservateurAppar
         ajouterLabelSeul(MESSAGE_AUCUN_APPAREIL);
     }
 
-    private void ajouterLabelSeul(String message){
+    private void ajouterLabelSeul(String message) {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -100,8 +101,6 @@ public class FenetreSelectionAppareil extends JFrame implements ObservateurAppar
     private void initialiserPanneauxMaitreDetail(Appareil[] tabAppareils) {
         panneauDetail = new PanneauDetail(this);
         panneauMaster = new PanneauMaitre(tabAppareils, panneauDetail);
-
-        System.out.println(tabAppareils.length);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
@@ -129,7 +128,6 @@ public class FenetreSelectionAppareil extends JFrame implements ObservateurAppar
 
     @Override
     public void rappeler(Appareil appareil) {
-        System.out.println("fuck");
         initierLien(appareil.getId());
     }
 }
