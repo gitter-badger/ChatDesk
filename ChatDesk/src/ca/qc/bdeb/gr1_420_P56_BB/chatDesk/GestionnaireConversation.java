@@ -22,12 +22,23 @@ class GestionnaireConversation implements ObservableMessage {
 
     private boolean premiereAjout = true;
 
+    void ajouterConversation(Long numeroTelephone) {
+        Conversation conversation = getConversation(numeroTelephone);
+        if (conversation == null) {
+            conversation = new Conversation(numeroTelephone);
+            conversations.add(0, conversation);
+        } else {
+            faireMonterConversation(conversation);
+        }
+        aviserObservateursMessageRecu(numeroTelephone);
+    }
+
     void ajouterMessages(ArrayList<Message> listeMessages) {
         for (Message message : listeMessages) {
             ajouterMessage(message);
         }
 
-        if(premiereAjout){
+        if (premiereAjout) {
             aviserObservateursPremiereAjout();
             premiereAjout = false;
         }
@@ -46,7 +57,8 @@ class GestionnaireConversation implements ObservableMessage {
             conversation = conversations.get(ligne);
             ligne++;
             if (message.getNumeroTelephone() == conversation.getNumeroTelephone()) {
-                faireMonterConversation(message, conversation);
+                conversation.ajouterMessage(message);
+                faireMonterConversation(conversation);
                 trouver = true;
             }
         }
@@ -64,11 +76,9 @@ class GestionnaireConversation implements ObservableMessage {
     /**
      * Réordonne la liste de message pour mettre le plus récent en haut
      *
-     * @param message
      * @param conversation
      */
-    private void faireMonterConversation(Message message, Conversation conversation) {
-        conversation.ajouterMessage(message);
+    private void faireMonterConversation(Conversation conversation) {
         conversations.remove(conversation);
         conversations.add(0, conversation);
     }
@@ -98,6 +108,19 @@ class GestionnaireConversation implements ObservableMessage {
         return conversationDTO;
     }
 
+    private Conversation getConversation(long numeroTelephone) {
+        Conversation conversation = null;
+
+        for (int i = 0; i < conversations.size(); i++) {
+            if (conversations.get(i).getNumeroTelephone() == numeroTelephone) {
+                conversation = conversations.get(i);
+                i = conversations.size();
+            }
+        }
+
+        return conversation;
+    }
+
     @Override
     public void ajouterObservateur(ObservateurMessage ob) {
         observateurMessages.add(ob);
@@ -116,7 +139,7 @@ class GestionnaireConversation implements ObservableMessage {
     }
 
     @Override
-    public void aviserObservateursPremiereAjout(){
+    public void aviserObservateursPremiereAjout() {
         for (ObservateurMessage ob : observateurMessages) {
             ob.finReceptionConnexionInitiale();
         }
