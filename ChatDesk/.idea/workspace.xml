@@ -2,33 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="abf0a1b1-bfbc-4d8d-9162-3d55f215f48f" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\Utilisateurs\Alexandre\Desktop\ChatDesk\ChatDesk\target\classes\ca\qc\bdeb\gr1_420_P56_BB\vue\FrmContacts$1.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/Contact.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/Contact.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/FacadeModele.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/FacadeModele.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/FenetreSelectionAppareil.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/FenetreSelectionAppareil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmChatDesk$1.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmChatDesk$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmChatDesk.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmChatDesk.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmContacts.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmContacts.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireCommunication$1.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireCommunication$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireCommunication.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireCommunication.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/GestionnaireConversation.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/GestionnaireConversation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$8.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$9.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$9.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmConnexion.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmConnexion.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/main/Main.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/main/Main.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$1.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$2.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$3.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$4.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$5.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$6.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauAppareilListener.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauAppareilListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauDetail.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauDetail.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversation.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversations$1.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversations$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversations.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversations.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/FacadeModele.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/FacadeModele.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmChatDesk.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmChatDesk.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmContacts.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmContacts.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/GestionnaireConversation.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/GestionnaireConversation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChatDeskAndroid/app/src/main/java/ca/qc/bdeb/gr1_420_p56_bb/connexion/GestionnaireSocket.java" afterPath="$PROJECT_DIR$/../ChatDeskAndroid/app/src/main/java/ca/qc/bdeb/gr1_420_p56_bb/connexion/GestionnaireSocket.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChatDeskAndroid/ChatDeskAndroid.iml" afterPath="$PROJECT_DIR$/../ChatDeskAndroid/ChatDeskAndroid.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversations.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversations.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/ScrollPanel.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/ScrollPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChatDeskAndroid/app/app.iml" afterPath="$PROJECT_DIR$/../ChatDeskAndroid/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/gradle.xml" afterPath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/vcs.xml" afterPath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/compiler.xml" afterPath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/encodings.xml" afterPath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/misc.xml" afterPath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/modules.xml" afterPath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/runConfigurations.xml" afterPath="$PROJECT_DIR$/../ChatDeskAndroid/.idea/runConfigurations.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ChatDesk.iws" />
@@ -53,31 +46,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="FrmChatDesk.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmChatDesk.java">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="143" column="34" selection-start-line="143" selection-start-column="34" selection-end-line="143" selection-end-column="34" />
+              <caret line="17" column="48" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PnlConversation.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversation.java">
+      <file leaf-file-name="OptionBar.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.8487487">
-              <caret line="117" column="40" selection-start-line="117" selection-start-column="17" selection-end-line="117" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PnlConversations.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversations.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="124" column="27" selection-start-line="124" selection-start-column="27" selection-end-line="124" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.018498369">
+              <caret line="234" column="53" selection-start-line="234" selection-start-column="53" selection-end-line="234" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -123,7 +106,6 @@
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmContacts2.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireSocket.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmConnexion.java" />
-        <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/connexion/FacadeConnexion.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauMaitre.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauDetail.java" />
@@ -131,13 +113,14 @@
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/FenetreSelectionAppareil.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/Contact.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/FacadeModele.java" />
-        <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/GestionnaireConversation.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmContacts.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/ScrollPanel.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmChatDesk.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversations.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversation.java" />
+        <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java" />
+        <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java" />
       </list>
     </option>
   </component>
@@ -189,9 +172,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -322,6 +302,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -686,6 +669,7 @@
       <workItem from="1448517372154" duration="2835000" />
       <workItem from="1448634684097" duration="1688000" />
       <workItem from="1448926046598" duration="13088000" />
+      <workItem from="1448939234521" duration="276000" />
     </task>
     <task id="LOCAL-00001" summary="Commencement du resizable de l'écran principale">
       <created>1448477617961</created>
@@ -711,14 +695,20 @@
       <option name="project" value="LOCAL" />
       <updated>1448933093784</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Merge branch 'master' of https://github.com/Al3xandr3GitHub/ChatDesk&#10;&#10;# Conflicts:&#10;#&#9;ChatDesk/.idea/workspace.xml&#10;#&#9;ChatDesk/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java&#10;#&#9;ChatDesk/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$8.class&#10;#&#9;ChatDesk/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.class&#10;#&#9;ChatDesk/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/FenetreSelectionAppareil.class&#10;">
+      <created>1448939488258</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1448939488258</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53321000" />
+    <option name="totallyTimeSpent" value="53597000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -732,9 +722,8 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36325237" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16666667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23802084" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3284055" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -745,6 +734,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3284055" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -762,7 +752,8 @@
     <MESSAGE value="Commencement du resizable de l'écran principale" />
     <MESSAGE value="Truc que j'arrivais pas a push avec mon pc de maison. &#10;&#10;Son pour notification&#10;Fenetre de loading dans en tant que internalframe" />
     <MESSAGE value="Modification de chose trop cool" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modification de chose trop cool" />
+    <MESSAGE value="Merge branch 'master' of https://github.com/Al3xandr3GitHub/ChatDesk&#10;&#10;# Conflicts:&#10;#&#9;ChatDesk/.idea/workspace.xml&#10;#&#9;ChatDesk/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java&#10;#&#9;ChatDesk/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$8.class&#10;#&#9;ChatDesk/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.class&#10;#&#9;ChatDesk/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/FenetreSelectionAppareil.class&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/Al3xandr3GitHub/ChatDesk&#10;&#10;# Conflicts:&#10;#&#9;ChatDesk/.idea/workspace.xml&#10;#&#9;ChatDesk/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java&#10;#&#9;ChatDesk/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$8.class&#10;#&#9;ChatDesk/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.class&#10;#&#9;ChatDesk/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/FenetreSelectionAppareil.class&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -888,14 +879,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmOption.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="269" column="11" selection-start-line="269" selection-start-column="11" selection-end-line="269" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/utilitaires/Encryptage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -940,7 +923,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.12948857">
           <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -956,15 +938,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.39443156">
           <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="48" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -988,7 +961,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.04047619">
           <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="10" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1008,19 +980,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/ContactsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12948857">
-          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/ContactDTO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.20348205">
           <caret line="12" column="48" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1060,7 +1023,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5179543">
           <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1068,14 +1030,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="291" column="78" selection-start-line="291" selection-start-column="78" selection-end-line="291" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61479867">
-          <caret line="271" column="16" selection-start-line="271" selection-start-column="16" selection-end-line="271" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -1138,10 +1092,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversations.java">
+    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="124" column="27" selection-start-line="124" selection-start-column="27" selection-end-line="124" selection-end-column="27" />
+          <caret line="117" column="40" selection-start-line="117" selection-start-column="17" selection-end-line="117" selection-end-column="40" />
           <folding />
         </state>
       </provider>
@@ -1154,10 +1108,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversation.java">
+    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/PnlConversations.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.8487487">
-          <caret line="117" column="40" selection-start-line="117" selection-start-column="17" selection-end-line="117" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="124" column="27" selection-start-line="124" selection-start-column="27" selection-end-line="124" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chatdesk.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.312296">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module_chatdesk_Mon_Nov_30_19-27-39_EST_2015.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.1458107">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="48" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.018498369">
+          <caret line="234" column="53" selection-start-line="234" selection-start-column="53" selection-end-line="234" selection-end-column="53" />
           <folding />
         </state>
       </provider>
