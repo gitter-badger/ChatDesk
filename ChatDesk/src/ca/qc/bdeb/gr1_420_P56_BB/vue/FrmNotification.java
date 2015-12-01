@@ -18,35 +18,27 @@ import java.io.IOException;
 public class FrmNotification extends JFrame implements Runnable {
 
     private static final int TEMPS_ATTENTE_SEC_MAX = 15;
-
     private static final int SECONDE_EN_MILLI_SEC = 1000;
-
     private static final int NOMBRE_PIXEL_TOMBER_FENETRE = 10;
-
     private static final int VITESSE_TOMBER_FENETRE_MILLI_SEC = 18;
-
     private static final String TEXTE_VIDE = "";
-
     private static final int SIZE_IMAGE_CARREE = 40;
-
     private static final int WIDTH_NOTIFICATION = 300;
-
     private static final int HEIGHT_NOTIFICATION = 125;
-
     private static final int INSETS_NOTIFICATION_HEADER = 5;
-
     private static final Insets INSETS_NOTIFICATION_MESSAGE = new Insets(INSETS_NOTIFICATION_HEADER,
             INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER);
-
     private static final Insets INSETS_HEADER = new Insets(INSETS_NOTIFICATION_HEADER,
             INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER);
-
     private static final Insets MARGIN_BOUTON_FERMER = new Insets(1, 4, 1, 4);
+    private static final int BUFFER_SIZE = 128000;
 
+    private File soundFile;
+    private AudioInputStream audioStream;
+    private AudioFormat audioFormat;
+    private SourceDataLine sourceLine;
     private FacadeModele facadeModele;
-
     private JLabel lblImage;
-
     private JLabel lblTexte;
 
     public FrmNotification(FacadeModele facadeModele) {
@@ -114,21 +106,14 @@ public class FrmNotification extends JFrame implements Runnable {
         lblTexte.setText(message.getText());
 
         this.setVisible(true);
-        faireUnSon();
+        jouerUnSon();
         new Thread(this).start();
     }
-
-    private final int BUFFER_SIZE = 128000;
-    private File soundFile;
-    private AudioInputStream audioStream;
-    private AudioFormat audioFormat;
-    private SourceDataLine sourceLine;
-
 
     /**
      * http://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java
      */
-    private void faireUnSon() {
+    private void jouerUnSon() {
         new Thread() {
             public void run() {
                 try {
