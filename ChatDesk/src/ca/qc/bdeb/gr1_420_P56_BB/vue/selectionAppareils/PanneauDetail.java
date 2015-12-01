@@ -4,6 +4,8 @@ import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by 1372883 on 2015-11-03.
@@ -12,8 +14,9 @@ public class PanneauDetail extends JPanel implements Rappeleur {
 
     private static final Insets INSETS_LABELS_INVITE = new Insets(5, 5, 15, 15);
     private static final GridBagConstraints CONSTRAINTS = new GridBagConstraints();
+
     /**
-     * Affectation des valeurs de la constante de contraintes de facon statique puisqu'ils ne peuvent etre tous passé
+     * Affectation des valeurs de la constante de contraintes de facon statique puisqu'ils ne peuvent etre tous passï¿½
      * dans un constructeur
      */
     static {
@@ -24,6 +27,7 @@ public class PanneauDetail extends JPanel implements Rappeleur {
         CONSTRAINTS.anchor = GridBagConstraints.WEST;
         CONSTRAINTS.insets = INSETS_LABELS_INVITE;
     }
+
     private static final String INVITE_NOM = "Nom :";
     private static final String INVITE_ID = "Identifiant :";
     private static final String INVITE_IP = "Adresse IP :";
@@ -43,7 +47,11 @@ public class PanneauDetail extends JPanel implements Rappeleur {
     private JPanel pnlValeurs;
     private JButton btnConnecter;
 
-    public PanneauDetail() {
+    private Rappeleur rappeleur;
+
+    public PanneauDetail(Rappeleur rappeleur) {
+        this.rappeleur = rappeleur;
+
         this.setLayout(new GridBagLayout());
 
         this.lblNom = new JLabel();
@@ -72,6 +80,13 @@ public class PanneauDetail extends JPanel implements Rappeleur {
         constraints.weighty = 1;
         constraints.gridwidth = 2;
         constraints.insets = INSETS_LABELS_INVITE;
+
+        btnConnecter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                rappeleur.rappeler(appareil);
+            }
+        });
 
         this.add(btnConnecter, constraints);
     }

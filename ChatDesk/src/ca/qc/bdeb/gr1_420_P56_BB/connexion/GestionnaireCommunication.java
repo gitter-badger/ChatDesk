@@ -54,6 +54,7 @@ class GestionnaireCommunication implements ObservableAppareils {
                     //echangerClePremiereFois();
                     break;
                 case REQUETE_LIENS:
+                    System.out.println(messageRecu);
                     EnveloppeBalisesCommServeur[] tabAppareils = xmlReaderServeur.lireContenu();
                     lireAppareils(tabAppareils);
                     break;

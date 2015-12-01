@@ -68,6 +68,8 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
         affichageNotification(null);
         frmLoading = new FrmLoading(this);
         frmLoading.commencerChargement();
+
+        this.setVisible(true);
     }
 
     /**
@@ -184,8 +186,6 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
             frmNotification.affichierNotification(message);
         } else {
             System.err.print("PRQ EST-CE QUE MESSAGE EST NULL");
-            FrmNotification frmNotification = new FrmNotification(facadeModele);
-            frmNotification.affichierNotification(new Message(1241, "Bonjours comment ca vas ta journée", new Date(), false));
         }
     }
 

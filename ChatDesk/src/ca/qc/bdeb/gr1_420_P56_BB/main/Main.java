@@ -12,7 +12,7 @@ class Main {
     private static final int DEROULEMENT_NORMAL = 3;
 
     public static void main(String[] args) {
-        final int SELECTION = FENETRE_PRINCIPAL;
+        final int SELECTION = DEROULEMENT_NORMAL;
 
         switch (SELECTION){
             case FENETRE_PRINCIPAL:

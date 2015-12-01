@@ -1,6 +1,8 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.FacadeConnexion;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.ResultatsConnexion;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservableAppareils;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurAppareils;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurMessage;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
@@ -112,5 +114,9 @@ public class FacadeModele {
 
     public Appareil[] getAppareils(){
         return gestionnaireAppareils.getAppareils();
+    }
+
+    public void ajouterObservateurAppareil(ObservateurAppareils observateurAppareils){
+        facadeConnexion.ajouterObservateurAppareil(observateurAppareils);
     }
 }

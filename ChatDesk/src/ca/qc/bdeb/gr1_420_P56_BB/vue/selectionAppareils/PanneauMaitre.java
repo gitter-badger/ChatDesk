@@ -26,8 +26,6 @@ public class PanneauMaitre extends JPanel {
         this.rappeleur = rappeleur;
 
         initialiserListeAppareil();
-
-        sendCallback(1);
     }
 
     private void initialiserListeAppareil() {
@@ -68,9 +66,5 @@ public class PanneauMaitre extends JPanel {
         constraints.weightx = 1;
         constraints.weighty = 1;
         panel.add(new JLabel(nom), constraints);
-    }
-
-    private void sendCallback(int indice) {
-        rappeleur.rappeler(tabAppareils[indice]);
     }
 }
