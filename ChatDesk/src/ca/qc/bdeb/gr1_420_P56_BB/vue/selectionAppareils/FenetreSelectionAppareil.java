@@ -129,7 +129,6 @@ public class FenetreSelectionAppareil extends JFrame implements ObservateurAppar
 
     @Override
     public void rappeler(Appareil appareil) {
-        System.out.println("fuck");
         initierLien(appareil.getId());
     }
 }
