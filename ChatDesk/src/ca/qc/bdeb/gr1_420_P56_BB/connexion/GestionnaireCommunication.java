@@ -231,7 +231,7 @@ class GestionnaireCommunication implements ObservableAppareils {
 
     @Override
     public void aviserObservateurs() {
-        for (ObservateurAppareils ob : LISTE_OBSERVATEURS){
+        for (ObservateurAppareils ob : LISTE_OBSERVATEURS) {
             ob.aviserAppareils();
         }
     }

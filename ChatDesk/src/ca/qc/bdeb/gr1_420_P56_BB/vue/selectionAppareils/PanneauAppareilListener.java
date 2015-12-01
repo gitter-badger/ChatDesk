@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
  * Created by Louis-Simon on 23/11/2015.
  */
 public class PanneauAppareilListener extends MouseAdapter {
+    private static final int DOUBLE_CLICK_COUNT = 2;
 
     private final Rappeleur rappeleur;
     private final Appareil appareil;
@@ -20,6 +21,11 @@ public class PanneauAppareilListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        rappeleur.rappeler(appareil);
+        if (e.getClickCount() == DOUBLE_CLICK_COUNT) {
+            rappeleur.rappeler(appareil);
+            rappeleur.rappeler(null);
+        }else{
+            rappeleur.rappeler(appareil);
+        }
     }
 }

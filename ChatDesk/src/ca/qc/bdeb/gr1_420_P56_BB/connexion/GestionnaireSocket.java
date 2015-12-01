@@ -27,7 +27,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
     /**
      * Host names auquel se connecté si le serveur est distant
      */
-    private final static String HOST_NAME = "chatdesk.ddns.net";
+    private final static String HOST_NAME = "96.23.169.193";
 
     /**
      * Temps d'attente maximal lors d'une lecture obligatoire

@@ -4,6 +4,7 @@ import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Contact;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Message;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurAppareils;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
 
 import java.util.ArrayList;
@@ -67,5 +68,9 @@ public class FacadeConnexion {
 
     public FacadeModele getFacadeModele() {
         return this.facadeModele;
+    }
+
+    public void ajouterObservateurAppareil(ObservateurAppareils observateurAppareils) {
+        gestionnaireCommunication.ajouterObservateur(observateurAppareils);
     }
 }

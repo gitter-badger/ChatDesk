@@ -240,7 +240,7 @@ class OptionBar extends JPanel {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 try {
-                    FrmOption frmOption = new FrmOption(frmPrincipale.getHeight(), frmPrincipale.getWidth(),
+                    FrmOptions frmOptions = new FrmOptions(frmPrincipale.getHeight(), frmPrincipale.getWidth(),
                             frmPrincipale.getPnlConversation().getPnlBulles().getCouleurBullesEnvoyees(),
                             frmPrincipale.getPnlConversation().getPnlBulles().getCouleurBullesRecues(), frmPrincipale);
                 } catch (IOException e) {

@@ -4,6 +4,8 @@ import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Appareil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by 1372883 on 2015-11-03.
@@ -12,8 +14,9 @@ public class PanneauDetail extends JPanel implements Rappeleur {
 
     private static final Insets INSETS_LABELS_INVITE = new Insets(5, 5, 15, 15);
     private static final GridBagConstraints CONSTRAINTS = new GridBagConstraints();
+
     /**
-     * Affectation des valeurs de la constante de contraintes de facon statique puisqu'ils ne peuvent etre tous passé
+     * Affectation des valeurs de la constante de contraintes de facon statique puisqu'ils ne peuvent etre tous passï¿½
      * dans un constructeur
      */
     static {
@@ -24,11 +27,13 @@ public class PanneauDetail extends JPanel implements Rappeleur {
         CONSTRAINTS.anchor = GridBagConstraints.WEST;
         CONSTRAINTS.insets = INSETS_LABELS_INVITE;
     }
+
     private static final String INVITE_NOM = "Nom :";
     private static final String INVITE_ID = "Identifiant :";
     private static final String INVITE_IP = "Adresse IP :";
     private static final String INVITE_LOCATION = "Emplacement :";
     private static final String STRING_BOUTON_CONNECTER = "Se connecter";
+    private static final String STRING_LABELS_DEFAUT = "                                        ";
 
     private Appareil appareil;
     private JLabel lblNom;
@@ -43,13 +48,21 @@ public class PanneauDetail extends JPanel implements Rappeleur {
     private JPanel pnlValeurs;
     private JButton btnConnecter;
 
-    public PanneauDetail() {
+    private Rappeleur rappeleur;
+
+    public PanneauDetail(Rappeleur rappeleur) {
+        this.rappeleur = rappeleur;
+
         this.setLayout(new GridBagLayout());
 
         this.lblNom = new JLabel();
         this.lblIp = new JLabel();
         this.lblId = new JLabel();
         this.lblLocation = new JLabel();
+        lblNom.setText(STRING_LABELS_DEFAUT);
+        lblIp.setText(STRING_LABELS_DEFAUT);
+        lblId.setText(STRING_LABELS_DEFAUT);
+        lblLocation.setText(STRING_LABELS_DEFAUT);
 
         this.lblInviteLocation = new JLabel(INVITE_LOCATION);
         this.lblInviteIp = new JLabel(INVITE_IP);
@@ -73,6 +86,8 @@ public class PanneauDetail extends JPanel implements Rappeleur {
         constraints.gridwidth = 2;
         constraints.insets = INSETS_LABELS_INVITE;
 
+        btnConnecter.addActionListener(actionEvent -> rappeleur.rappeler(appareil));
+
         this.add(btnConnecter, constraints);
     }
 
@@ -86,6 +101,7 @@ public class PanneauDetail extends JPanel implements Rappeleur {
         constraints.gridy = 0;
         constraints.weightx = 1;
         constraints.weighty = 1;
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = INSETS_LABELS_INVITE;
 
         this.add(pnlInvite, constraints);
@@ -101,6 +117,7 @@ public class PanneauDetail extends JPanel implements Rappeleur {
         constraints.gridy = 0;
         constraints.weightx = 1;
         constraints.weighty = 1;
+        constraints.anchor = GridBagConstraints.EAST;
         constraints.insets = INSETS_LABELS_INVITE;
 
         this.add(pnlValeurs, constraints);
@@ -116,7 +133,11 @@ public class PanneauDetail extends JPanel implements Rappeleur {
 
     @Override
     public void rappeler(Appareil appareil) {
-        this.appareil = appareil;
+        if (appareil == null){
+            rappeleur.rappeler(appareil);
+        }else {
+            this.appareil = appareil;
+        }
         mettreElementsAJour();
     }
 
