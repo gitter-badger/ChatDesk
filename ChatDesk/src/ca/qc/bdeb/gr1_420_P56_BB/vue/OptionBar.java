@@ -7,6 +7,7 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -157,13 +158,16 @@ class OptionBar extends JPanel {
      * Initialise tous les boutons
      */
     private void initialiserBoutons() {
-        initialiserBoutonFermer();
-        initialiserBoutonGrandir();
-        initialiserBoutonMinimiser();
-        initialiserBoutonAjoutConversation();
-        initialiserBoutonOptions();
-        initialiserBoutonProfile();
+        try {
+            initialiserBoutonFermer();
+            initialiserBoutonGrandir();
+            initialiserBoutonMinimiser();
+            initialiserBoutonAjoutConversation();
+            initialiserBoutonOptions();
+            initialiserBoutonProfile();
+        } catch (Exception e){
 
+        }
     }
 
     /**
