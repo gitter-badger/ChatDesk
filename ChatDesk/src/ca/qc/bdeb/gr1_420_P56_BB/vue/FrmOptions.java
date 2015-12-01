@@ -8,7 +8,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.ColorModel;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +15,14 @@ import java.util.regex.Pattern;
 /**
  * Created by 47 on 2015-10-31.
  */
-public class FrmOption extends JFrame {
+public class FrmOptions extends JFrame {
+    private static final String STRING_BOUTON_APPLIQUER = "Appliquer";
+    private static final String CHEMIN_PROPERTY = "user.home";
+    private static final String CHEMING_PROJET = "\\Documents\\optionChatDesk";
+    private static final String CARACTERE_SEPARATION = "|";
+    private static final String STRING_LBL_COULEUR_ENVOYE = "Couleur des bulles envoyées";
+    private static final String STRING_LBL_COULEUR_RECU = "Couleur des bulles reçues     ";
+    private static final String STRING_DEFAULT_COULEURS_ENVOYES = "      ";
     /**
      * Panneau contenant toutes les options
      */
@@ -30,15 +36,6 @@ public class FrmOption extends JFrame {
      */
     private JLabel labelOptionCouleurRecu;
 
-    /**
-     * Dimensions de la fenetre principale
-     */
-    private int dimensionLargeurFenetre;
-
-    /**
-     * Dimensions de la fenetre principale
-     */
-    private int dimensionHauteurFenetre;
     /**
      * Couleur des bulles recues
      */
@@ -74,17 +71,15 @@ public class FrmOption extends JFrame {
 
     private GridBagLayout layoutFenetre;
 
-    public FrmOption(int dimensionHauteurFenetre, int dimensionLargeurFenetre, Color couleurBullesEnvoye, Color couleurBullesRecues, FrmChatDesk fenetrePrinciple) throws HeadlessException, IOException {
+    public FrmOptions(int dimensionHauteurFenetre, int dimensionLargeurFenetre, Color couleurBullesEnvoye, Color couleurBullesRecues, FrmChatDesk fenetrePrinciple) throws HeadlessException, IOException {
         panneauConteneur = new JPanel();
         layoutFenetre = new GridBagLayout();
 
         panneauConteneur.setLayout(layoutFenetre);
         this.fenetrePrincipale = fenetrePrinciple;
-        this.dimensionHauteurFenetre = dimensionHauteurFenetre;
-        this.dimensionLargeurFenetre = dimensionLargeurFenetre;
         this.couleurBullesEnvoyes = couleurBullesEnvoye;
         this.couleurBullesRecues = couleurBullesRecues;
-        this.boutonAppliquer = new JButton("Appliquer");
+        this.boutonAppliquer = new JButton(STRING_BOUTON_APPLIQUER);
         panneauConteneur.setMinimumSize(new Dimension(dimensionLargeurFenetre / 6, dimensionHauteurFenetre / 6));
         this.setMinimumSize(new Dimension(dimensionLargeurFenetre / 3, dimensionHauteurFenetre / 3));
         boutonAppliquer.addMouseListener(new MouseInputAdapter() {
@@ -129,17 +124,17 @@ public class FrmOption extends JFrame {
 
     private void initialiserChampsDeChoixCouleur() throws IOException {
         couleurActuelOptionEnvoyees = new JLabel();
-        couleurActuelOptionEnvoyees.setText("      ");
+        couleurActuelOptionEnvoyees.setText(STRING_DEFAULT_COULEURS_ENVOYES);
         couleurActuelOptionEnvoyees.setBackground(couleurBullesEnvoyes);
         couleurActuelOptionEnvoyees.setOpaque(true);
         couleurActuelOptionRecues = new JLabel();
-        couleurActuelOptionRecues.setText("      ");
+        couleurActuelOptionRecues.setText(STRING_DEFAULT_COULEURS_ENVOYES);
         couleurActuelOptionRecues.setBackground(couleurBullesRecues);
         couleurActuelOptionRecues.setOpaque(true);
         labelOptionCouleurEnvoye = new JLabel();
         labelOptionCouleurRecu = new JLabel();
-        labelOptionCouleurEnvoye.setText("Couleur des bulles envoyées");
-        labelOptionCouleurRecu.setText("Couleur des bulles reçues     ");
+        labelOptionCouleurEnvoye.setText(STRING_LBL_COULEUR_ENVOYE);
+        labelOptionCouleurRecu.setText(STRING_LBL_COULEUR_RECU);
         retablirOption();
         initialiserChampNumberSpinnerCouleures();
     }
@@ -202,64 +197,22 @@ public class FrmOption extends JFrame {
         this.add(panneauConteneur);
     }
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-
-    }
-
     private void initialisationChamps() {
         champsCouleurEnvoyeTab = new JSpinner[3];
         champsCouleurEnvoyeTab[0] = new JSpinner();
         champsCouleurEnvoyeTab[1] = new JSpinner();
         champsCouleurEnvoyeTab[2] = new JSpinner();
 
-        champsCouleurEnvoyeTab[0].addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-
-                paintComponents(getGraphics());
-            }
-        });
-        champsCouleurEnvoyeTab[1].addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-
-                paintComponents(getGraphics());
-            }
-        });
-        champsCouleurEnvoyeTab[2].addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-
-                paintComponents(getGraphics());
-            }
-        });
+        champsCouleurEnvoyeTab[0].addChangeListener(e -> paintComponents(getGraphics()));
+        champsCouleurEnvoyeTab[1].addChangeListener(e -> paintComponents(getGraphics()));
+        champsCouleurEnvoyeTab[2].addChangeListener(e -> paintComponents(getGraphics()));
         champsCouleurRecueTab = new JSpinner[3];
         champsCouleurRecueTab[0] = new JSpinner();
         champsCouleurRecueTab[1] = new JSpinner();
         champsCouleurRecueTab[2] = new JSpinner();
-        champsCouleurRecueTab[0].addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-
-                paintComponents(getGraphics());
-            }
-        });
-        champsCouleurRecueTab[1].addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-
-                paintComponents(getGraphics());
-            }
-        });
-        champsCouleurRecueTab[2].addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-
-                paintComponents(getGraphics());
-            }
-        });
+        champsCouleurRecueTab[0].addChangeListener(e -> paintComponents(getGraphics()));
+        champsCouleurRecueTab[1].addChangeListener(e -> paintComponents(getGraphics()));
+        champsCouleurRecueTab[2].addChangeListener(e -> paintComponents(getGraphics()));
     }
 
     private void initialisationModeleNombre() {
@@ -273,38 +226,31 @@ public class FrmOption extends JFrame {
 
     private void setColorBulleEnvoyee() {
         fenetrePrincipale.changerCouleurBulleEnvoye(couleurActuelOptionEnvoyees.getBackground());
-
     }
 
     private void setColorBulleRecues() {
         fenetrePrincipale.changerCouleurBulleRecue(couleurActuelOptionRecues.getBackground());
-
     }
 
     private void sauveGarderOptions() throws IOException {
-        String chemin = System.getProperty("user.home");
-        chemin += "\\Documents\\optionChatDesk";
+        String chemin = System.getProperty(CHEMIN_PROPERTY) + CHEMING_PROJET;
         ManipulationFichiers.EcrireFichierAvecChemin(chemin, couleurActuelOptionRecues.getBackground()
-                + "|" + couleurActuelOptionRecues.getBackground());
+                + CARACTERE_SEPARATION + couleurActuelOptionRecues.getBackground());
     }
 
     private void retablirOption() {
-        String chemin = System.getProperty("user.home");
-        chemin += "\\Documents\\optionChatDesk";
-        String valeur = null;
+        String chemin = System.getProperty(CHEMIN_PROPERTY) + CHEMING_PROJET;
         try {
-            valeur = ManipulationFichiers.LireFichierAvecChemin(chemin);
+            String valeur = ManipulationFichiers.LireFichierAvecChemin(chemin);
 
             String regex = "(.*)[|](.*)";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(valeur);
-
 
             couleurActuelOptionRecues.setBackground(Color.decode(matcher.group(1)));
             couleurActuelOptionEnvoyees.setBackground(Color.decode(matcher.group(0)));
         } catch (IOException e) {
 
         }
-
     }
 }

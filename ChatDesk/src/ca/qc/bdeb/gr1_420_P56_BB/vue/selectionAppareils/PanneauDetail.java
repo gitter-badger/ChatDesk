@@ -33,6 +33,7 @@ public class PanneauDetail extends JPanel implements Rappeleur {
     private static final String INVITE_IP = "Adresse IP :";
     private static final String INVITE_LOCATION = "Emplacement :";
     private static final String STRING_BOUTON_CONNECTER = "Se connecter";
+    private static final String STRING_LABELS_DEFAUT = "                                        ";
 
     private Appareil appareil;
     private JLabel lblNom;
@@ -58,6 +59,10 @@ public class PanneauDetail extends JPanel implements Rappeleur {
         this.lblIp = new JLabel();
         this.lblId = new JLabel();
         this.lblLocation = new JLabel();
+        lblNom.setText(STRING_LABELS_DEFAUT);
+        lblIp.setText(STRING_LABELS_DEFAUT);
+        lblId.setText(STRING_LABELS_DEFAUT);
+        lblLocation.setText(STRING_LABELS_DEFAUT);
 
         this.lblInviteLocation = new JLabel(INVITE_LOCATION);
         this.lblInviteIp = new JLabel(INVITE_IP);
@@ -81,12 +86,7 @@ public class PanneauDetail extends JPanel implements Rappeleur {
         constraints.gridwidth = 2;
         constraints.insets = INSETS_LABELS_INVITE;
 
-        btnConnecter.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                rappeleur.rappeler(appareil);
-            }
-        });
+        btnConnecter.addActionListener(actionEvent -> rappeleur.rappeler(appareil));
 
         this.add(btnConnecter, constraints);
     }
@@ -101,6 +101,7 @@ public class PanneauDetail extends JPanel implements Rappeleur {
         constraints.gridy = 0;
         constraints.weightx = 1;
         constraints.weighty = 1;
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = INSETS_LABELS_INVITE;
 
         this.add(pnlInvite, constraints);
@@ -116,6 +117,7 @@ public class PanneauDetail extends JPanel implements Rappeleur {
         constraints.gridy = 0;
         constraints.weightx = 1;
         constraints.weighty = 1;
+        constraints.anchor = GridBagConstraints.EAST;
         constraints.insets = INSETS_LABELS_INVITE;
 
         this.add(pnlValeurs, constraints);
@@ -131,7 +133,11 @@ public class PanneauDetail extends JPanel implements Rappeleur {
 
     @Override
     public void rappeler(Appareil appareil) {
-        this.appareil = appareil;
+        if (appareil == null){
+            rappeleur.rappeler(appareil);
+        }else {
+            this.appareil = appareil;
+        }
         mettreElementsAJour();
     }
 
