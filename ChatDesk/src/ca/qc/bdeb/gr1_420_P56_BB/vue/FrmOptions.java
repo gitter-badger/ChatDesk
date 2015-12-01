@@ -22,6 +22,7 @@ public class FrmOptions extends JFrame {
     private static final String CARACTERE_SEPARATION = "|";
     private static final String STRING_LBL_COULEUR_ENVOYE = "Couleur des bulles envoyées";
     private static final String STRING_LBL_COULEUR_RECU = "Couleur des bulles reçues     ";
+    private static final String STRING_DEFAULT_COULEURS_ENVOYES = "      ";
     /**
      * Panneau contenant toutes les options
      */
@@ -123,11 +124,11 @@ public class FrmOptions extends JFrame {
 
     private void initialiserChampsDeChoixCouleur() throws IOException {
         couleurActuelOptionEnvoyees = new JLabel();
-        couleurActuelOptionEnvoyees.setText("      ");
+        couleurActuelOptionEnvoyees.setText(STRING_DEFAULT_COULEURS_ENVOYES);
         couleurActuelOptionEnvoyees.setBackground(couleurBullesEnvoyes);
         couleurActuelOptionEnvoyees.setOpaque(true);
         couleurActuelOptionRecues = new JLabel();
-        couleurActuelOptionRecues.setText("      ");
+        couleurActuelOptionRecues.setText(STRING_DEFAULT_COULEURS_ENVOYES);
         couleurActuelOptionRecues.setBackground(couleurBullesRecues);
         couleurActuelOptionRecues.setOpaque(true);
         labelOptionCouleurEnvoye = new JLabel();

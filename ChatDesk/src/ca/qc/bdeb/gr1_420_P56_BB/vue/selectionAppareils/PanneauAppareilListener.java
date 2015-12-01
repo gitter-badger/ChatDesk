@@ -22,6 +22,7 @@ public class PanneauAppareilListener extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == DOUBLE_CLICK_COUNT) {
+            rappeleur.rappeler(appareil);
             rappeleur.rappeler(null);
         }else{
             rappeleur.rappeler(appareil);

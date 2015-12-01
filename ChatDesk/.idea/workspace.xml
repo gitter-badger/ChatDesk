@@ -2,34 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="abf0a1b1-bfbc-4d8d-9162-3d55f215f48f" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\Ecole\Genie\ChatDesk\ChatDesk\ChatDesk\target\classes\ca\qc\bdeb\gr1_420_P56_BB\chatDesk\ContactsTest.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\Ecole\Genie\ChatDesk\ChatDesk\ChatDesk\target\classes\ca\qc\bdeb\gr1_420_P56_BB\vue\FrmOption$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\Ecole\Genie\ChatDesk\ChatDesk\ChatDesk\target\classes\ca\qc\bdeb\gr1_420_P56_BB\vue\FrmOption$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\Ecole\Genie\ChatDesk\ChatDesk\ChatDesk\target\classes\ca\qc\bdeb\gr1_420_P56_BB\vue\FrmOption$3.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\Ecole\Genie\ChatDesk\ChatDesk\ChatDesk\target\classes\ca\qc\bdeb\gr1_420_P56_BB\vue\FrmOption$4.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\Ecole\Genie\ChatDesk\ChatDesk\ChatDesk\target\classes\ca\qc\bdeb\gr1_420_P56_BB\vue\FrmOption$5.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\Ecole\Genie\ChatDesk\ChatDesk\ChatDesk\target\classes\ca\qc\bdeb\gr1_420_P56_BB\vue\FrmOption$6.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\Ecole\Genie\ChatDesk\ChatDesk\ChatDesk\target\classes\ca\qc\bdeb\gr1_420_P56_BB\vue\FrmOption$7.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\Ecole\Genie\ChatDesk\ChatDesk\ChatDesk\target\classes\ca\qc\bdeb\gr1_420_P56_BB\vue\FrmOption.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/connexion/FacadeConnexion.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/connexion/FacadeConnexion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/FacadeModele.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/FacadeModele.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/FenetreSelectionAppareil.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/FenetreSelectionAppareil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmConnexion.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmConnexion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmCreationCompte.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmCreationCompte.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireCommunication$1.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireCommunication$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireCommunication.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/connexion/GestionnaireCommunication.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/main/Main.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/main/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$7.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauDetail.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauDetail.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauMaitre.class" afterPath="$PROJECT_DIR$/target/classes/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauMaitre.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/FenetreSelectionAppareil.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/FenetreSelectionAppareil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/OptionBar.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmOptions.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmOptions.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauAppareilListener.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauAppareilListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauDetail.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauDetail.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\Ecole\Genie\ChatDesk\ChatDesk\ChatDesk\src\ca\qc\bdeb\gr1_420_P56_BB\chatDesk\ContactsTest.java" afterPath="$PROJECT_DIR$/tests/ca/qc/bdeb/gr1_420_P56_BB/chatDesk/ContactsTest.java" />
-      <change type="MOVED" beforePath="D:\Ecole\Genie\ChatDesk\ChatDesk\ChatDesk\src\ca\qc\bdeb\gr1_420_P56_BB\vue\FrmOption.java" afterPath="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmOptions.java" />
     </list>
     <ignored path="ChatDesk.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,7 +32,7 @@
         <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmOptions.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="128" column="49" selection-start-line="128" selection-start-column="49" selection-end-line="128" selection-end-column="49" />
+              <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -119,9 +94,9 @@
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/main/Main.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmOption.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/FenetreSelectionAppareil.java" />
+        <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauDetail.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmOptions.java" />
         <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauAppareilListener.java" />
-        <option value="$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauDetail.java" />
       </list>
     </option>
   </component>
@@ -626,7 +601,7 @@
       <workItem from="1448511964675" duration="5376000" />
       <workItem from="1448517372154" duration="2835000" />
       <workItem from="1448634684097" duration="1688000" />
-      <workItem from="1448932967611" duration="2629000" />
+      <workItem from="1448932967611" duration="2817000" />
     </task>
     <task id="LOCAL-00001" summary="Commencement du resizable de l'écran principale">
       <created>1448477617961</created>
@@ -640,11 +615,23 @@
       <option name="project" value="LOCAL" />
       <updated>1448634937222</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Finalisation de la fenetre de selection d'appareils">
+      <created>1448935632042</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1448935632042</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Leger ajustement de rien du tout">
+      <created>1448935696689</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1448935696689</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42862000" />
+    <option name="totallyTimeSpent" value="43050000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
@@ -690,7 +677,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Commencement du resizable de l'écran principale" />
     <MESSAGE value="Truc que j'arrivais pas a push avec mon pc de maison. &#10;&#10;Son pour notification&#10;Fenetre de loading dans en tant que internalframe" />
-    <option name="LAST_COMMIT_MESSAGE" value="Truc que j'arrivais pas a push avec mon pc de maison. &#10;&#10;Son pour notification&#10;Fenetre de loading dans en tant que internalframe" />
+    <MESSAGE value="Finalisation de la fenetre de selection d'appareils" />
+    <MESSAGE value="Leger ajustement de rien du tout" />
+    <option name="LAST_COMMIT_MESSAGE" value="Leger ajustement de rien du tout" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1033,14 +1022,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmOptions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="128" column="49" selection-start-line="128" selection-start-column="49" selection-end-line="128" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/selectionAppareils/PanneauDetail.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.38950276">
@@ -1061,6 +1042,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.32872927">
           <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ca/qc/bdeb/gr1_420_P56_BB/vue/FrmOptions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
           <folding />
         </state>
       </provider>
