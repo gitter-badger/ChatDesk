@@ -33,10 +33,6 @@ public class Contact {
      */
     public Contact(ArrayList<Long> listeNumerosTelephone, String nom, ImageIcon image) {
         this.listeNumerosTelephone = listeNumerosTelephone;
-        System.out.println(nom + " : ");
-        for(long numero : listeNumerosTelephone){
-            System.out.println(numero);
-        }
         this.nom = nom;
         this.image = image;
     }
