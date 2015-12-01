@@ -2,37 +2,29 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue;
 
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.ConversationDTO;
 import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
-import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurMessage;
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Message;
+import ca.qc.bdeb.gr1_420_P56_BB.connexion.ErreursSocket;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurErreur;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservateurMessage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.Date;
 
 /**
  * La fen�tre principale de l"application
  */
 public class FrmChatDesk extends JFrame implements ObservateurMessage, ObservateurErreur {
 
+    /**
+     * Image de profile vide
+     */
+    public static final ImageIcon IMAGE_CONTACT_DEFAUT = new ImageIcon("resources/images/contact_defaut.png");
+
     private static final String MESSAGE_ERREUR_CONNEXION_INTERROMPUE = "La connexion avec le serveur a été interrompue";
 
-    public static final int WIDTH_NOTIFICATION = 300;
-
-    public static final int HEIGHT_NOTIFICATION = 125;
-
-    public static final int INSETS_NOTIFICATION_HEADER = 5;
-
-    public static final Insets INSETS_NOTIFICATION_MESSAGE = new Insets(INSETS_NOTIFICATION_HEADER,
-            INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER);
-
-    public static final Insets INSETS_HEADER = new Insets(INSETS_NOTIFICATION_HEADER,
-            INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER);
-
-    public static final Insets MARGIN_BOUTON_FERMER = new Insets(1, 4, 1, 4);
-
-    public static final ImageIcon ICON_NOTIFICATION = new ImageIcon("resources\\images\\chat_desk_icon_mini.png");
     /**
      * Le panneau qui affiche la conversation en cours
      */
@@ -73,7 +65,7 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
         initialiserFenetre();
         this.facadeModele.ajouterObservateur(this);
         this.facadeModele.ajouterObservateurErreur(this);
-        FrmNotification notification = new FrmNotification(null,null);
+        affichageNotification(null);
         frmLoading = new FrmLoading(this);
         frmLoading.commencerChargement();
     }
@@ -182,12 +174,20 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
     public void receptionMessage(long num) {
         pnlConversation.mettreAJour(num);
         pnlConversations.mettreAJour();
-        FrmNotification notification = new FrmNotification(facadeModele.getContact(num).getNom(), facadeModele.getConversationDTO(num).getLastMessage().getText());
+        affichageNotification(facadeModele.getConversationDTO(num).getLastMessage());
         scrollPanelConversations.mettreAJour();
     }
 
-
-
+    private void affichageNotification(Message message) {
+        if (message != null) {
+            FrmNotification frmNotification = new FrmNotification(facadeModele);
+            frmNotification.affichierNotification(message);
+        } else {
+            System.err.print("PRQ EST-CE QUE MESSAGE EST NULL");
+            FrmNotification frmNotification = new FrmNotification(facadeModele);
+            frmNotification.affichierNotification(new Message(1241, "Bonjours comment ca vas ta journée", new Date(), false));
+        }
+    }
 
     @Override
     public void finReceptionConnexionInitiale() {
@@ -196,10 +196,10 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
     }
 
     @Override
-    public void aviserErreur() {
+    public void aviserErreur(ErreursSocket erreursSocket) {
         new FrmConnexion();
         this.dispose();
-        JOptionPane.showMessageDialog(this, MESSAGE_ERREUR_CONNEXION_INTERROMPUE);
+        JOptionPane.showMessageDialog(this, erreursSocket.getMessage(), MESSAGE_ERREUR_CONNEXION_INTERROMPUE, JOptionPane.ERROR_MESSAGE);
     }
 
     public void changerCouleurBulleRecue(Color background) {

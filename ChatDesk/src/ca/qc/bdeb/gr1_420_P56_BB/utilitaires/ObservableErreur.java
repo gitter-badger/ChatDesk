@@ -1,5 +1,7 @@
 package ca.qc.bdeb.gr1_420_P56_BB.utilitaires;
 
+import ca.qc.bdeb.gr1_420_P56_BB.connexion.ErreursSocket;
+
 /**
  * Un élément qui est observé
  */
@@ -29,13 +31,13 @@ public interface ObservableErreur {
     /**
      * Aviser tous les observateurs
      */
-    void aviserObservateurs();
+    void aviserObservateurs(ErreursSocket erreursSocket);
 
     /**
      * Avise l'observateur à une certaine position
      *
      * @param indice La position
      */
-    void aviserObservateur(int indice);
+    void aviserObservateur(int indice, ErreursSocket erreursSocket);
 
 }

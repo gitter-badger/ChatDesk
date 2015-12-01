@@ -1,44 +1,63 @@
 package ca.qc.bdeb.gr1_420_P56_BB.vue;
 
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Contact;
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.FacadeModele;
+import ca.qc.bdeb.gr1_420_P56_BB.chatDesk.Message;
+import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.Formatage;
+
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 
 /**
- * Created by 47 on 2015-11-25.
+ * Created by Alexandre on 2015-11-25.
  */
-public class FrmNotification {
-    public static final int WIDTH_NOTIFICATION = 300;
+public class FrmNotification extends JFrame implements Runnable {
 
-    public static final int HEIGHT_NOTIFICATION = 125;
+    private static final int TEMPS_ATTENTE_SEC_MAX = 15;
 
-    public static final int INSETS_NOTIFICATION_HEADER = 5;
+    private static final int SECONDE_EN_MILLI_SEC = 1000;
 
-    public static final Insets INSETS_NOTIFICATION_MESSAGE = new Insets(INSETS_NOTIFICATION_HEADER,
+    private static final int NOMBRE_PIXEL_TOMBER_FENETRE = 10;
+
+    private static final int VITESSE_TOMBER_FENETRE_MILLI_SEC = 18;
+
+    private static final String TEXTE_VIDE = "";
+
+    private static final int SIZE_IMAGE_CARREE = 40;
+
+    private static final int WIDTH_NOTIFICATION = 300;
+
+    private static final int HEIGHT_NOTIFICATION = 125;
+
+    private static final int INSETS_NOTIFICATION_HEADER = 5;
+
+    private static final Insets INSETS_NOTIFICATION_MESSAGE = new Insets(INSETS_NOTIFICATION_HEADER,
             INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER);
 
-    public static final Insets INSETS_HEADER = new Insets(INSETS_NOTIFICATION_HEADER,
+    private static final Insets INSETS_HEADER = new Insets(INSETS_NOTIFICATION_HEADER,
             INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER, INSETS_NOTIFICATION_HEADER);
 
-    public static final Insets MARGIN_BOUTON_FERMER = new Insets(1, 4, 1, 4);
+    private static final Insets MARGIN_BOUTON_FERMER = new Insets(1, 4, 1, 4);
 
-    public static final ImageIcon ICON_NOTIFICATION = new ImageIcon("resources\\images\\chat_desk_icon_mini.png");
-    String nom;
-    String recumessage;
-    public FrmNotification(String nom, String messageRecu) {
-        this.nom = nom;
-        String message = "Nouveau message" ;
-        if (nom != null){
-            message += " de " + nom;
-        }
-        String header = "";
-        if (messageRecu != null){
-            header = messageRecu;
-        }
-        JFrame frame = new JFrame();
-        frame.setSize(WIDTH_NOTIFICATION, HEIGHT_NOTIFICATION);
-        frame.setUndecorated(true);
-        frame.setLayout(new GridBagLayout());
+    private FacadeModele facadeModele;
+
+    private JLabel lblImage;
+
+    private JLabel lblTexte;
+
+    public FrmNotification(FacadeModele facadeModele) {
+        this.facadeModele = facadeModele;
+        this.setType(javax.swing.JFrame.Type.UTILITY);
+        this.setSize(WIDTH_NOTIFICATION, HEIGHT_NOTIFICATION);
+        this.setUndecorated(true);
+        this.setLayout(new GridBagLayout());
+        this.setAlwaysOnTop(true);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -46,36 +65,139 @@ public class FrmNotification {
         constraints.weighty = 1.0f;
         constraints.insets = INSETS_HEADER;
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel headingLabel = new JLabel(header);
-        headingLabel.setIcon(ICON_NOTIFICATION);
-        headingLabel.setOpaque(false);
-        frame.add(headingLabel, constraints);
+
+        lblImage = new JLabel();
+
+        this.add(lblImage, constraints);
         constraints.gridx++;
-        constraints.weightx = 0f;
-        constraints.weighty = 0f;
+        constraints.weightx = 0;
+        constraints.weighty = 0;
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.NORTH;
         JButton boutonFermer = new JButton(new AbstractAction("x") {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                frame.dispose();
+                FrmNotification.this.closingEffect();
             }
         });
         boutonFermer.setMargin(MARGIN_BOUTON_FERMER);
         boutonFermer.setFocusable(false);
-        frame.add(boutonFermer, constraints);
+        this.add(boutonFermer, constraints);
+
         constraints.gridx = 0;
         constraints.gridy++;
-        constraints.weightx = 1.0f;
-        constraints.weighty = 1.0f;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
         constraints.insets = INSETS_NOTIFICATION_MESSAGE;
         constraints.fill = GridBagConstraints.BOTH;
-        JLabel messageLabel = new JLabel("<HTML>" + message);
-        frame.add(messageLabel, constraints);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        lblTexte = new JLabel();
+        this.add(lblTexte, constraints);
+
         Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Insets toolHeight = Toolkit.getDefaultToolkit().getScreenInsets(frame.getGraphicsConfiguration());
-        frame.setLocation(scrSize.width - frame.getWidth(), scrSize.height - toolHeight.bottom - frame.getHeight());
+        Insets toolHeight = Toolkit.getDefaultToolkit().getScreenInsets(this.getGraphicsConfiguration());
+        this.setLocation(scrSize.width - this.getWidth(), scrSize.height - toolHeight.bottom - this.getHeight());
+    }
+
+    public void affichierNotification(Message message) {
+        Contact contact = facadeModele.getContact(message.getNumeroTelephone());
+        if (contact.getNom() != TEXTE_VIDE) {
+            lblImage.setText(contact.getNom());
+        } else {
+            lblImage.setText(Long.toString(message.getNumeroTelephone()));
+        }
+        if (contact.getImage() != null) {
+            lblImage.setIcon(Formatage.redimensionnerImage(contact.getImage(), SIZE_IMAGE_CARREE, SIZE_IMAGE_CARREE));
+        } else {
+            lblImage.setIcon(Formatage.redimensionnerImage(FrmChatDesk.IMAGE_CONTACT_DEFAUT, SIZE_IMAGE_CARREE, SIZE_IMAGE_CARREE));
+        }
+
+        lblTexte.setText(message.getText());
+
+        this.setVisible(true);
+        faireUnSon();
+        new Thread(this).start();
+    }
+
+    private final int BUFFER_SIZE = 128000;
+    private File soundFile;
+    private AudioInputStream audioStream;
+    private AudioFormat audioFormat;
+    private SourceDataLine sourceLine;
+
+
+    /**
+     * http://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java
+     */
+    private void faireUnSon() {
+        new Thread() {
+            public void run() {
+                try {
+                    soundFile = new File("resources/notifications/notification_calme_1.wav");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+                try {
+                    audioStream = AudioSystem.getAudioInputStream(soundFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+                audioFormat = audioStream.getFormat();
+                DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
+                try {
+                    sourceLine = (SourceDataLine) AudioSystem.getLine(info);
+                    sourceLine.open(audioFormat);
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                    return;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+                sourceLine.start();
+
+                int nBytesRead = 0;
+                byte[] abData = new byte[BUFFER_SIZE];
+                while (nBytesRead != -1) {
+                    try {
+                        nBytesRead = audioStream.read(abData, 0, abData.length);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (nBytesRead >= 0) {
+                        @SuppressWarnings("unused")
+                        int nBytesWritten = sourceLine.write(abData, 0, nBytesRead);
+                    }
+                }
+
+                sourceLine.drain();
+                sourceLine.close();
+            }
+        }.start();
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i < TEMPS_ATTENTE_SEC_MAX; i++) {
+            try {
+                Thread.sleep(SECONDE_EN_MILLI_SEC);
+            } catch (InterruptedException e) {
+            }
+        }
+        closingEffect();
+    }
+
+    private void closingEffect() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double height = screenSize.getHeight();
+        while (this.getLocation().y <= height) {
+            this.setLocation(this.getLocation().x, this.getLocation().y + NOMBRE_PIXEL_TOMBER_FENETRE);
+            try {
+                Thread.sleep(VITESSE_TOMBER_FENETRE_MILLI_SEC);
+            } catch (InterruptedException e) {
+            }
+        }
+        this.dispose();
     }
 }

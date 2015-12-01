@@ -102,6 +102,7 @@ public class FrmOption extends JFrame {
         initialiserChampsDeChoixCouleur();
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
     }
 
 
@@ -283,8 +284,8 @@ public class FrmOption extends JFrame {
     private void sauveGarderOptions() throws IOException {
         String chemin = System.getProperty("user.home");
         chemin += "\\Documents\\optionChatDesk";
-        ManipulationFichiers.EcrireFichierAvecChemin(chemin,  Integer.toHexString(couleurActuelOptionRecues.getBackground().getRGB())
-                + "|" +Integer.toHexString(couleurActuelOptionEnvoyees.getBackground().getRGB()));
+        ManipulationFichiers.EcrireFichierAvecChemin(chemin, couleurActuelOptionRecues.getBackground()
+                + "|" + couleurActuelOptionRecues.getBackground());
     }
 
     private void retablirOption() {
@@ -294,19 +295,13 @@ public class FrmOption extends JFrame {
         try {
             valeur = ManipulationFichiers.LireFichierAvecChemin(chemin);
 
-            String regex = "(.*)\\|(.*)";
+            String regex = "(.*)[|](.*)";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(valeur);
-            if (matcher.find()) {
-                String couleur = matcher.group(2);
-                couleur = "0x" + couleur;
-                couleur = couleur.toUpperCase();
-                couleurActuelOptionEnvoyees.setBackground(Color.getColor(couleur));
-                couleur = matcher.group(1);
-                couleur = "0x" + couleur;
-                couleur = couleur.toUpperCase();
-                couleurActuelOptionRecues.setBackground(Color.getColor(couleur));
-            }
+
+
+            couleurActuelOptionRecues.setBackground(Color.decode(matcher.group(1)));
+            couleurActuelOptionEnvoyees.setBackground(Color.decode(matcher.group(0)));
         } catch (IOException e) {
 
         }

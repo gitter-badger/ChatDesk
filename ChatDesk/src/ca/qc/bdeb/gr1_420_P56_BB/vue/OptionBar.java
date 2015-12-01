@@ -3,6 +3,7 @@ package ca.qc.bdeb.gr1_420_P56_BB.vue;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
+import java.awt.event.AWTEventListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -105,15 +106,19 @@ class OptionBar extends JPanel {
     /**
      * Pointeur sur la fenetre
      */
-    private final FrmChatDesk fenetrePrincipale;
+    private final FrmChatDesk frmPrincipale;
+
+    private Point point = new Point();
+
+    private boolean resizing = false;
 
     /**
      * Construit la bar d'option de l'application
      *
-     * @param fenetrePrincipale La fen�tre principale du programme
+     * @param frmPrincipale La fen�tre principale du programme
      */
-    public OptionBar(FrmChatDesk fenetrePrincipale) {
-        this.fenetrePrincipale = fenetrePrincipale;
+    public OptionBar(FrmChatDesk frmPrincipale) {
+        this.frmPrincipale = frmPrincipale;
         this.setLocation(0, 0);
         this.setLayout(null);
 
@@ -136,13 +141,16 @@ class OptionBar extends JPanel {
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                bougerFenetre(e);
+                if (!resizing) {
+                    bougerFenetre(e);
+                }
             }
         });
 
         isFullScreen = false;
         initialiserBoutons();
         initialiserPanel();
+        initialiserResizable();
     }
 
     /**
@@ -167,7 +175,7 @@ class OptionBar extends JPanel {
         fermer.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                fenetrePrincipale.arreterProgramme();
+                frmPrincipale.arreterProgramme();
             }
         });
         this.add(fermer);
@@ -176,17 +184,18 @@ class OptionBar extends JPanel {
     /**
      * initialise le bouton pour ajouter une conversation à partir d'un numéro de téléphone
      */
-    private void initialiserBoutonAjoutConversation(){
+    private void initialiserBoutonAjoutConversation() {
         ajoutConversation = new JLabel(IMAGE_AJOUT_CONVO);
         ajoutConversation.setSize(IMAGE_AJOUT_CONVO.getIconWidth(), IMAGE_AJOUT_CONVO.getIconHeight());
         ajoutConversation.addMouseListener(new MouseInputAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                fenetrePrincipale.ajouterConversation();
+                frmPrincipale.ajouterConversation();
             }
         });
         this.add(ajoutConversation);
     }
+
     /**
      * Initialise le bouton grandir
      */
@@ -211,7 +220,7 @@ class OptionBar extends JPanel {
         minimiser.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                fenetrePrincipale.setState(JFrame.ICONIFIED);
+                frmPrincipale.setState(JFrame.ICONIFIED);
             }
         });
         this.add(minimiser);
@@ -227,9 +236,9 @@ class OptionBar extends JPanel {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 try {
-                    FrmOption frmOption = new FrmOption(fenetrePrincipale.getHeight(), fenetrePrincipale.getWidth(),
-                            fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesEnvoyees(),
-                            fenetrePrincipale.getPnlConversation().getPnlBulles().getCouleurBullesRecues(), fenetrePrincipale);
+                    FrmOption frmOption = new FrmOption(frmPrincipale.getHeight(), frmPrincipale.getWidth(),
+                            frmPrincipale.getPnlConversation().getPnlBulles().getCouleurBullesEnvoyees(),
+                            frmPrincipale.getPnlConversation().getPnlBulles().getCouleurBullesRecues(), frmPrincipale);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -248,14 +257,15 @@ class OptionBar extends JPanel {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
 
-                 JFrame jFrameContacts = new JFrame();
-                FrmContacts frmContacts = new FrmContacts(fenetrePrincipale, fenetrePrincipale.getFacadeModele(), jFrameContacts);
+                JFrame jFrameContacts = new JFrame();
+                FrmContacts frmContacts = new FrmContacts(frmPrincipale, frmPrincipale.getFacadeModele(), jFrameContacts);
                 jFrameContacts.setLayout(null);
                 jFrameContacts.setBounds(frmContacts.getBounds());
                 jFrameContacts.setMinimumSize(frmContacts.getSize());
                 jFrameContacts.add(frmContacts);
-                jFrameContacts.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 jFrameContacts.setVisible(true);
+                jFrameContacts.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                jFrameContacts.setLocationRelativeTo(null);
 
             }
         });
@@ -268,17 +278,17 @@ class OptionBar extends JPanel {
     private void changerScreenSize() {
         if (!isFullScreen) {
             agrandir.setIcon(IMAGE_DIMINUER);
-            derniereLongueur = fenetrePrincipale.getWidth();
-            derniereHauteur = fenetrePrincipale.getHeight();
-            dernierePositionX = fenetrePrincipale.getLocation().x;
-            dernierePositionY = fenetrePrincipale.getLocation().y;
-            fenetrePrincipale.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            derniereLongueur = frmPrincipale.getWidth();
+            derniereHauteur = frmPrincipale.getHeight();
+            dernierePositionX = frmPrincipale.getLocation().x;
+            dernierePositionY = frmPrincipale.getLocation().y;
+            frmPrincipale.setExtendedState(JFrame.MAXIMIZED_BOTH);
             isFullScreen = true;
 
         } else {
             agrandir.setIcon(IMAGE_AGRANDIR);
-            fenetrePrincipale.setSize(derniereLongueur, derniereHauteur);
-            fenetrePrincipale.setLocation(dernierePositionX, dernierePositionY);
+            frmPrincipale.setSize(derniereLongueur, derniereHauteur);
+            frmPrincipale.setLocation(dernierePositionX, dernierePositionY);
             isFullScreen = false;
         }
     }
@@ -289,30 +299,104 @@ class OptionBar extends JPanel {
      * @param e Le mouse event
      */
     private void bougerFenetre(MouseEvent e) {
-        int locationFenetreX = (int)fenetrePrincipale.getLocation().getX();
-        int locationFenetreY = (int)fenetrePrincipale.getLocation().getY();
-        int x = locationFenetreX + (locationFenetreX + e.getX()) - (locationFenetreX + (int)clickInitial.getX());
-        int y = locationFenetreY + (locationFenetreY + e.getY()) - (locationFenetreY + (int)clickInitial.getY());
+        int locationFenetreX = (int) frmPrincipale.getLocation().getX();
+        int locationFenetreY = (int) frmPrincipale.getLocation().getY();
+        int x = locationFenetreX + (locationFenetreX + e.getX()) - (locationFenetreX + (int) clickInitial.getX());
+        int y = locationFenetreY + (locationFenetreY + e.getY()) - (locationFenetreY + (int) clickInitial.getY());
 
         if (isFullScreen) {
             changerScreenSize();
         }
 
-        fenetrePrincipale.setLocation(x, y);
+        frmPrincipale.setLocation(x, y);
     }
 
     /**
      * Initialise le panneau avec les composants au bon endroit.
      */
     public void initialiserPanel() {
-        this.setSize(fenetrePrincipale.getWidth(), IMAGE_FERMER.getIconHeight() + IMAGE_FERMER.getIconHeight() / 2);
+        this.setSize(frmPrincipale.getWidth(), IMAGE_FERMER.getIconHeight() + IMAGE_FERMER.getIconHeight() / 2);
         fermer.setLocation(this.getWidth() - fermer.getWidth() - 10, this.getHeight() / 2 - fermer.getHeight() / 2);
-        agrandir.setLocation((int)fermer.getLocation().getX() - agrandir.getWidth() - 10, this.getHeight() / 2
+        agrandir.setLocation((int) fermer.getLocation().getX() - agrandir.getWidth() - 10, this.getHeight() / 2
                 - agrandir.getHeight() / 2);
-        minimiser.setLocation((int)agrandir.getLocation().getX() - minimiser.getWidth() - 10,
+        minimiser.setLocation((int) agrandir.getLocation().getX() - minimiser.getWidth() - 10,
                 this.getHeight() / 2 - minimiser.getHeight() / 2);
         options.setLocation(10, this.getHeight() / 2 - options.getHeight() / 2);
         profile.setLocation(options.getWidth() + 20, this.getHeight() / 2 - profile.getHeight() / 2);
         ajoutConversation.setLocation(minimiser.getLocation().x - ajoutConversation.getWidth() - 10, this.getHeight() / 2 - ajoutConversation.getHeight() / 2);
+    }
+
+    public void initialiserResizable() {
+        long eventMask = AWTEvent.MOUSE_MOTION_EVENT_MASK + AWTEvent.MOUSE_EVENT_MASK;
+        Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+            public void eventDispatched(AWTEvent e) {
+                if (e instanceof MouseEvent) {
+                    MouseEvent me = (MouseEvent) e;
+
+                    PointerInfo pi = MouseInfo.getPointerInfo();
+                    Point cursorLocation = pi.getLocation();
+
+                    int xPos = cursorLocation.x - (int) frmPrincipale.getLocation().getX();
+                    int yPos = cursorLocation.y - (int) frmPrincipale.getLocation().getY();
+
+                    if (me.getID() == MouseEvent.MOUSE_MOVED) {
+                        if (xPos <= 5 && xPos >= 0 && yPos <= 5 && yPos >= 0) {
+                            me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
+                        } else if (xPos <= 5 && xPos >= 0 && yPos >= frmPrincipale.getContentPane().getHeight() - 5 && yPos <= frmPrincipale.getContentPane().getHeight()) {
+                            me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
+                        } else if (yPos <= 5 && yPos >= 0 && xPos >= frmPrincipale.getContentPane().getWidth() - 5 && xPos <= frmPrincipale.getContentPane().getWidth()) {
+                            me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
+                        } else if (xPos >= frmPrincipale.getContentPane().getWidth() - 5 && xPos <= frmPrincipale.getContentPane().getWidth() &&
+                                yPos >= frmPrincipale.getContentPane().getHeight() - 5 && yPos <= frmPrincipale.getContentPane().getHeight()) {
+                            me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
+                        } else if (xPos <= 5 && xPos >= 0) {
+                            me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
+                        } else if (xPos >= frmPrincipale.getContentPane().getWidth() - 5 && xPos <= frmPrincipale.getContentPane().getWidth()) {
+                            me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+                        } else if (yPos <= 5 && yPos >= 0) {
+                            me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
+                        } else if (yPos >= frmPrincipale.getContentPane().getHeight() - 5 && yPos <= frmPrincipale.getContentPane().getHeight()) {
+                            me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
+                        } else {
+                            me.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                        }
+                    } else if (me.getID() == MouseEvent.MOUSE_DRAGGED) {
+                        if (resizing) {
+                            if (me.getComponent().getCursor().getType() == Cursor.NW_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() - cursorLocation.x + point.x, frmPrincipale.getHeight() - cursorLocation.y + point.y);
+                                frmPrincipale.setLocation(frmPrincipale.getLocation().x + cursorLocation.x - point.x, frmPrincipale.getLocation().y + cursorLocation.y - point.y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.SW_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() - cursorLocation.x + point.x, frmPrincipale.getHeight() + cursorLocation.y - point.y);
+                                frmPrincipale.setLocation(frmPrincipale.getLocation().x + cursorLocation.x - point.x, frmPrincipale.getLocation().y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.NE_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() + cursorLocation.x - point.x, frmPrincipale.getHeight() - cursorLocation.y + point.y);
+                                frmPrincipale.setLocation(frmPrincipale.getLocation().x, frmPrincipale.getLocation().y + cursorLocation.y - point.y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.SE_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() + cursorLocation.x - point.x, frmPrincipale.getHeight() + cursorLocation.y - point.y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.W_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() - cursorLocation.x + point.x, frmPrincipale.getHeight());
+                                frmPrincipale.setLocation(frmPrincipale.getLocation().x + cursorLocation.x - point.x, frmPrincipale.getLocation().y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.E_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth() + cursorLocation.x - point.x, frmPrincipale.getHeight());
+                            } else if (me.getComponent().getCursor().getType() == Cursor.N_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth(), frmPrincipale.getHeight() - cursorLocation.y + point.y);
+                                frmPrincipale.setLocation(frmPrincipale.getLocation().x, frmPrincipale.getLocation().y + cursorLocation.y - point.y);
+                            } else if (me.getComponent().getCursor().getType() == Cursor.S_RESIZE_CURSOR) {
+                                frmPrincipale.setSize(frmPrincipale.getWidth(), frmPrincipale.getHeight() + cursorLocation.y - point.y);
+                            }
+
+                            point.x = cursorLocation.x;
+                            point.y = cursorLocation.y;
+                        }
+                    } else if (me.getID() == MouseEvent.MOUSE_PRESSED) {
+                        resizing = me.getComponent().getCursor().equals(Cursor.getDefaultCursor()) ? false : true;
+                        if (!me.isMetaDown()) {
+                            point.x = cursorLocation.x;
+                            point.y = cursorLocation.y;
+                        }
+                    }
+                }
+            }
+        }, eventMask);
     }
 }

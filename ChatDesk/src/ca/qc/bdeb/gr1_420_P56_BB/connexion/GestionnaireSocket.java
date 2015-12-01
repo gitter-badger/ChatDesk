@@ -127,7 +127,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
             this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
             contenu = readAllLines();
         } catch (SocketException e) {
-            e.printStackTrace();
+            aviserObservateurs(ErreursSocket.ERREUR_RECEPTION_REPONSE);
         }
         return contenu;
     }
@@ -150,7 +150,7 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
             try {
                 this.socket.setSoTimeout(TEMPS_ATTENTE_LECTURE);
             } catch (SocketException e) {
-                e.printStackTrace();
+                aviserObservateurs(ErreursSocket.ERREUR_AFFECTATION_TIMEOUT);
             }
 
             contenu = readAllLines();
@@ -170,16 +170,14 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
 
         try {
             this.socket.setSoTimeout(TEMPS_REPONSE_INFINI);
-
             do {
                 inputLine = in.readLine();
                 contenu += inputLine;
             } while (inputLine.toCharArray()[inputLine.length() - 1] != CARAC_FIN_MESSAGE);
 
             contenu = contenu.substring(0, contenu.length() - 1);
-
         } catch (IOException e) {
-            aviserObservateurs();
+            aviserObservateurs(ErreursSocket.ERREUR_LECTURE_SOCKET);
         }
 
         return contenu;
@@ -225,14 +223,14 @@ class GestionnaireSocket implements Runnable, ObservableErreur {
     }
 
     @Override
-    public void aviserObservateurs() {
+    public void aviserObservateurs(ErreursSocket erreursSocket) {
         for (ObservateurErreur observateurErreur : listeObservableErreurs) {
-            observateurErreur.aviserErreur();
+            observateurErreur.aviserErreur(erreursSocket);
         }
     }
 
     @Override
-    public void aviserObservateur(int indice) {
-        listeObservableErreurs.get(indice).aviserErreur();
+    public void aviserObservateur(int indice, ErreursSocket erreursSocket) {
+        listeObservableErreurs.get(indice).aviserErreur(erreursSocket);
     }
 }
