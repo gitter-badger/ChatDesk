@@ -1,4 +1,5 @@
 package ca.qc.bdeb.gr1_420_P56_BB.chatDesk;
+
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.FacadeConnexion;
 import ca.qc.bdeb.gr1_420_P56_BB.connexion.ResultatsConnexion;
 import ca.qc.bdeb.gr1_420_P56_BB.utilitaires.ObservableAppareils;
@@ -31,15 +32,18 @@ public class FacadeModele {
     public GestionnaireContacts getGestionnaireContacts() {
         return gestionnaireContacts;
     }
-    public ArrayList<ContactDTO> getContacts(){
+
+    public ArrayList<ContactDTO> getContacts() {
         return gestionnaireContacts.getContactsDTO();
     }
+
     public void ajouterMessages(ArrayList<Message> listeMessages) {
         gestionnaireConversation.ajouterMessages(listeMessages);
     }
 
     /**
      * Ajout le message aux converstions de l'application et l'envoi au téléphone
+     *
      * @param message Le contenu du message
      */
     public void envoyerMessage(Message message) {
@@ -55,15 +59,15 @@ public class FacadeModele {
         return this.facadeConnexion.seConnecter(nom, pass);
     }
 
-    public boolean sinscrire(String nom, String pass){
+    public boolean sinscrire(String nom, String pass) {
         return facadeConnexion.sinscrire(nom, pass);
     }
 
-    public void demanderAppareils(){
+    public void demanderAppareils() {
         this.facadeConnexion.demanderAppareils();
     }
 
-    public void initierLien(int idAppareil){
+    public void initierLien(int idAppareil) {
         facadeConnexion.initierLien(idAppareil);
     }
 
@@ -112,11 +116,15 @@ public class FacadeModele {
         return gestionnaireAppareils;
     }
 
-    public Appareil[] getAppareils(){
+    public Appareil[] getAppareils() {
         return gestionnaireAppareils.getAppareils();
     }
 
-    public void ajouterObservateurAppareil(ObservateurAppareils observateurAppareils){
+    public void ajouterObservateurAppareil(ObservateurAppareils observateurAppareils) {
         facadeConnexion.ajouterObservateurAppareil(observateurAppareils);
+    }
+
+    public void ajouterConversation(Long numeroTelephone) {
+        gestionnaireConversation.ajouterConversation(numeroTelephone);
     }
 }

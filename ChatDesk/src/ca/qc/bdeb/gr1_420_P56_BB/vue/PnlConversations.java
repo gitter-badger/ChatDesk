@@ -163,7 +163,6 @@ class PnlConversations extends JPanel {
         dimLblDernierMessage = new Dimension((int) (longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DERNIER_MSG),
                 (int) (hauteurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DERNIER_MSG));
 
-
         dimLblDate = new Dimension((int) (longueurPnlConversationX * POURCENTAGE_LONGUEUR_LBL_DATE),
                 (int) (hauteurPnlConversationY * POURCENTAGE_HAUTEUR_LBL_DATE));
 
@@ -266,7 +265,13 @@ class PnlConversations extends JPanel {
      * @param conversationDTO Une conversation
      */
     private void initialiserPanneauConversationDate(JPanel pnlConversation, ConversationDTO conversationDTO) {
-        JLabel dateMsg = new JLabel(Formatage.formatageDate(conversationDTO.getLastMessage().getDate()));
+        String texteDateDernierMessage = "";
+
+        if (conversationDTO.getLastMessage() != null) {
+            texteDateDernierMessage = Formatage.formatageDate(conversationDTO.getLastMessage().getDate());
+        }
+
+        JLabel dateMsg = new JLabel(texteDateDernierMessage);
         dateMsg.setFont(new Font(dateMsg.getFont().getFontName(), Font.PLAIN, (int) dimLblDate.getHeight()));
         dateMsg.setSize(dimLblDate);
         dateMsg.setLocation(pnlConversation.getWidth() - dateMsg.getWidth() - borderVideSize,

@@ -33,5 +33,4 @@ class ScrollPanel extends JPanel {
         this.revalidate();
         this.repaint();
     }
-
 }

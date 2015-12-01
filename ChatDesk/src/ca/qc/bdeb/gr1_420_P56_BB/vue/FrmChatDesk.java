@@ -25,6 +25,12 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
 
     private static final String MESSAGE_ERREUR_CONNEXION_INTERROMPUE = "La connexion avec le serveur a été interrompue";
 
+    private static final double POURCENTAGE_ECRAN_GRANDEUR_PNL_CONVERSATION = 0.3;
+
+    private static final double POURCENTAGE_ECRAN_GRANDEUR_FENETRE = 0.8;
+
+    private static final int LARGEUR_SEPARATEUR = 1;
+
     /**
      * Le panneau qui affiche la conversation en cours
      */
@@ -80,7 +86,6 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
         this.setUndecorated(true);
 
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        double POURCENTAGE_ECRAN_GRANDEUR_FENETRE = 0.8;
         int dimensionAppX = (int) (dimension.width * POURCENTAGE_ECRAN_GRANDEUR_FENETRE);
         int dimensionAppY = (int) (dimension.height * POURCENTAGE_ECRAN_GRANDEUR_FENETRE);
 
@@ -92,7 +97,6 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
         optionBar = new OptionBar(this);
 
         pnlConversations = new PnlConversations(this, facadeModele);
-        double POURCENTAGE_ECRAN_GRANDEUR_PNL_CONVERSATION = 0.3;
         scrollPanelConversations = new ScrollPanel(pnlConversations,
                 (int) (this.getWidth() * POURCENTAGE_ECRAN_GRANDEUR_PNL_CONVERSATION),
                 this.getHeight() - optionBar.getHeight());
@@ -128,7 +132,9 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
         optionBar.initialiserPanel();
         pnlConversations.initialiserPanel();
 
-        int LARGEUR_SEPARATEUR = 1;
+        scrollPanelConversations.setSize((int) (this.getWidth() * POURCENTAGE_ECRAN_GRANDEUR_PNL_CONVERSATION),
+                this.getHeight() - optionBar.getHeight());
+
         separateurVertical.setSize(LARGEUR_SEPARATEUR, this.getHeight());
         separateurVertical.setLocation(scrollPanelConversations.getWidth(), optionBar.getHeight());
 
@@ -181,7 +187,7 @@ public class FrmChatDesk extends JFrame implements ObservateurMessage, Observate
     }
 
     private void affichageNotification(Message message) {
-        if (message != null) {
+        if (message != null && !message.isEnvoyer()) {
             FrmNotification frmNotification = new FrmNotification(facadeModele);
             frmNotification.affichierNotification(message);
         } else {
